@@ -55,6 +55,25 @@ python main.py
 
 MIT License. See [`LICENSE.md`](LICENSE.md).
 
+## Work Packages
+- [x]  01-App
+  - [x] Android APP User Interface
+- [x]  02-Server
+  - [x] Config the cloud server
+- [x]  03-Web Page
+  - [x] A well designed web-page with HTML CSS and JavaScript
+- [x]  04-Database
+  - [x] Table users
+  - [x] Table pets
+  - [x] Table doctors
+  - [x] Table appoinments  
+- [x]  05-Connection
+  - [x] Connecting Navigaor or Android APP to our server
+- [x]  06-Authorisation
+  - [x] Defend the attacks
+- [x]  07-Online Chatting
+  - [x] Users could chat with others in our system
+
 <hr>
 <h2>Design patterns  that we use:</h2>
 <h3>1. The Observer Pattern</h3>
