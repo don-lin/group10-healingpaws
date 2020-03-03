@@ -10,6 +10,12 @@
 | Yang Jiarui  |17206000|17372226 |
 | Li Ziqi      |16206779|16372121 |
 
+🏔️ **Live demo:** http://0cdl.com:5000 <br>
+📘 **Paper:** http://0cdl.com:5000 <br>
+🎥 **Video:** http://0cdl.com:5000 <br>
+💻 **Code:** http://0cdl.com:5000 <br>
+📺 **Slides:** http://0cdl.com:5000 <br>
+🎤 **Recording:** http://0cdl.com:5000 <br>
 
 
 ### Description
@@ -23,6 +29,31 @@ This is a manage system for a pets hospital &#x1f600;. The main functions are ma
 <p>Flask >= 1.1.1  &#x2705;</p>
 <p>Android Studio >= 3.5  &#x2705;</p>
 <p>Android OS >= 4.4  &#x2705;</p>
+  
+## Running Web server
+
+Install flask
+```bash
+pip install flask
+pip install flask_sqlalchemy
+pip install flask_wtf
+```
+
+Download or clone this repository:
+
+```bash
+git clone https://github.com/don-lin/group10-healingpaws.git
+```
+
+Then, within `web-server` run:
+
+```bash
+python main.py
+```
+
+## License
+
+MIT License. See [`LICENSE.md`](LICENSE.md).
 
 <hr>
 <h2>Design patterns  that we use:</h2>
