@@ -51,6 +51,12 @@ Then, within `web-server` run:
 python main.py
 ```
 
+## Download the Android APP
+[`/release/healing-paws.apk`]
+
+
+
+
 ## License
 
 MIT License. See [`LICENSE.md`](LICENSE.md).

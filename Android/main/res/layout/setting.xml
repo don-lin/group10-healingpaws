@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/colorSample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="You can see the current Color here" />
+
+        <SeekBar
+            android:id="@+id/alphaValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <SeekBar
+            android:id="@+id/redValue"
+            android:background="#FFFF0000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false" />
+        <SeekBar
+            android:id="@+id/greenValue"
+            android:background="#FF00FF00"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <SeekBar
+            android:id="@+id/blueValue"
+            android:background="#FF0000FF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+
+    </LinearLayout>
+
+</ScrollView>
