@@ -39,6 +39,11 @@ git init
 git clone https://github.com/don-lin/group10-healingpaws
 ```
 
+Get the latest version
+```bash
+git pull
+```
+
 Commit a update to Github
 
 ```bash
