@@ -15,22 +15,36 @@
         android:orientation="horizontal">
     <Button
         android:id="@+id/f1"
-        android:text="Function 1"
+        android:text="Home"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:background="@drawable/shape"
         android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/f2"
-            android:text="Function 2"
+            android:text="Status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/doctors"
+            android:text="Doctors"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:background="@drawable/shape"
             android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/f3"
-            android:text="Function 3"
+            android:text="Appointment"
             android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/f4"
+            android:layout_width="0dp"
+            android:text="Me"
             android:layout_weight="1"
             android:background="@drawable/shape"
             android:layout_height="wrap_content"/>

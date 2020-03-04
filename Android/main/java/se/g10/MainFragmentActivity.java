@@ -8,6 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+
+import se.g10.appoinments.AppoinmentFragment;
+import se.g10.doctors.DoctorsFragment;
+import se.g10.pets.Pet;
+import se.g10.pets.StatusFragment;
+
 public class MainFragmentActivity extends AppCompatActivity {
 
     @Override
@@ -18,22 +25,38 @@ public class MainFragmentActivity extends AppCompatActivity {
         f1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                changeFragment(new SettingFragment());
+                changeFragment(new HomeFragment());
             }
         });
         Button f2=findViewById(R.id.f2);
         f2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                changeFragment(new InputFragment());
+                changeFragment(new StatusFragment());
             }
         });
 
+        Button doctors=findViewById(R.id.doctors);
+        doctors.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                changeFragment(new DoctorsFragment());
+            }
+        });
         Button f3=findViewById(R.id.f3);
         f3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                changeFragment(new SettingFragment());
+                changeFragment(new AppoinmentFragment());
+            }
+        });
+
+        Button f4=findViewById(R.id.f4);
+        f4.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                changeFragment(new InforFragment());
             }
         });
         changeFragment(new InputFragment());

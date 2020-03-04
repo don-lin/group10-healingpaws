@@ -95,7 +95,7 @@ MIT License. See [`LICENSE.md`](LICENSE.md).
 
 <h2>glossary</h2>
 
-<strong>`Appointment:`</strong><br> An adcanved reservation for a doctor<br><br>
+<strong>`Appointment:`</strong><br> An advanced reservation for a doctor<br><br>
 
 <h2>software instructions&#x1F4BB;</h2>
 <h3>Download and compile</h3>
