@@ -30,7 +30,23 @@ This is a manage system for a pets hospital &#x1f600;. The main functions are ma
 <p>Flask >= 1.1.1  &#x2705;</p>
 <p>Android Studio >= 3.5  &#x2705;</p>
 <p>Android OS >= 4.4  &#x2705;</p>
+
+## Git Commands
   
+Clone the repository
+```bash
+git init
+git clone https://github.com/don-lin/group10-healingpaws
+```
+
+Commit a update
+
+```bash
+git add ./
+git commit -m "update"
+git push -u origin master
+```
+
 ## Running Web server
 
 Install flask
