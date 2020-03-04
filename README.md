@@ -39,7 +39,7 @@ git init
 git clone https://github.com/don-lin/group10-healingpaws
 ```
 
-Commit a update
+Commit a update to Github
 
 ```bash
 git add ./
