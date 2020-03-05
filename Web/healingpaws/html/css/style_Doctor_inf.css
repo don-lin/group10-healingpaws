@@ -1,0 +1,43 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color:white ;
+    background-size: cover;
+}
+.wrapper{
+    width: 1500px;
+    margin: auto;
+}
+
+.head_por{
+   border: 30px solid transparent;
+   width: 300px;
+    display: inline-block;
+}
+.head_por h2{
+    color: blue;
+}
+.head_por span{
+    color: black;
+}
+.head_por p{
+    color: black;
+    font-family: "Adobe 宋体 Std L";
+}
+a:link{
+    color: dimgrey;
+}
+a:hover{
+    color: black;
+}
+.footer{
+    width:100%;
+    margin-top: 5px;
+    text-align: center;
+    border-top: aqua 1px dashed;
+}
+.line1{
+    text-align: center;
+
+}

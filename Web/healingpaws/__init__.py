@@ -1,13 +1,13 @@
 from flask import Flask
-from appdir.config import DatabaseSecretConfig
+from healingpaws.config import DatabaseSecretConfig
 from flask_sqlalchemy import SQLAlchemy
 
 
-app=Flask(__name__)
+app=Flask(__name__,template_folder="html")
 
 app.config.from_object(DatabaseSecretConfig)
 db = SQLAlchemy(app)
 
-from appdir import routes, models,dbConnector
+from healingpaws import routes, models,dbConnector
 db.create_all()
 dbConnector.databaseDebug()
