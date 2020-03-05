@@ -9,7 +9,7 @@ class LoginForm(FlaskForm):
     remember_me=BooleanField('goto sign up if password wrong')
     submit=SubmitField('log in')
 
-
+#ssss
 class UpdateForm(FlaskForm):
     birthday=StringField('birthday')
     email=StringField('email')
