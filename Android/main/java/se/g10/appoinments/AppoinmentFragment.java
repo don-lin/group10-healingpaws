@@ -32,7 +32,8 @@ public class AppoinmentFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-
+                DataManager dm=new DataManager();
+                dm.start();
             }
         });
 

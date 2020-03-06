@@ -59,6 +59,7 @@ public class MainFragmentActivity extends AppCompatActivity {
                 changeFragment(new InforFragment());
             }
         });
+        DataManager.refreshData();
         changeFragment(new InputFragment());
 
     }

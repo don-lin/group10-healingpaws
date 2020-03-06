@@ -23,6 +23,14 @@ def location_page():
 def manager_page():
     return render_template("manager.html",users=getAllUser())
 
+@app.route("/android/doctors",methods=["POST"])
+def send_android_doctors():
+    doc_list=getAllDoctors()
+    result=""
+    for d in doc_list:
+        result+=d.formatCode("ccddll")+"dlcc"
+    return result
+
 @app.route("/admin",methods=["GET","POST"])
 def pet_page():
     print(request.form)

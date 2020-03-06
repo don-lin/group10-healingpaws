@@ -33,6 +33,9 @@ class Doctors(db.Model):
     telphone=db.Column(db.String)
     introduction=db.Column(db.String)
     appoinment=db.relationship('Appoinments',backref="appoint_doctor",lazy="dynamic")
+    def formatCode(self,format):
+        return str(self.id)+format+self.doctorname+format+str(self.age)+format+self.telphone+format+self.introduction
+
     def __repr__(self):
         return "id : "+str(self.id)+" doctor name : "+self.doctorname+" age : "+str(self.age)+" telphone : "+self.telphone+" introduction : "+self.introduction +"\n"
 
