@@ -9,12 +9,12 @@ public class Doctor {
     public String telphone;
     public String introduction;
 
-
-    public Doctor(int id, String name, int age, String introduction) {
+    public Doctor(int id, String name, int age, String introduction, String telphone) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.introduction = introduction;
+        this.telphone = telphone;
     }
 
     public Doctor(String rawData,String format){
@@ -40,5 +40,9 @@ public class Doctor {
 
     public String getIntroduction() {
         return introduction;
+    }
+
+    public String getTelphone() {
+        return telphone;
     }
 }

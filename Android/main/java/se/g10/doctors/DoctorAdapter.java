@@ -37,17 +37,18 @@ public class DoctorAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View contentView, ViewGroup viewGroup) {
-        View view = inflater.inflate(R.layout.general_item, null);
+        View view = inflater.inflate(R.layout.doctor_item, null);
         Doctor mDoctor = (Doctor) getItem(i);
 
         TextView name = view.findViewById(R.id.line1);
         TextView age = view.findViewById(R.id.line2);
         TextView intro = view.findViewById(R.id.line3);
+        TextView telephone = view.findViewById(R.id.line4);
 
-        name.setText("Doctor Name" + mDoctor.getName());
+        name.setText("Doctor Name:" + mDoctor.getName());
         age.setText("Age:" + mDoctor.getAge());
         intro.setText("Introduction:" + mDoctor.getIntroduction());
-
+        telephone.setText("Phone Num: " + mDoctor.getTelphone());
         return view;
     }
 }

@@ -1,12 +1,17 @@
 package se.g10.doctors;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +44,34 @@ public class DoctorsFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
+                LayoutInflater factory = LayoutInflater.from(getActivity());
+                final View textEntryView = factory.inflate(R.layout.doctor_dialog, null);
+                Context context = getContext();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("请输入医生信息");
+                final EditText editNname = textEntryView.findViewById(R.id.editTextName);
+                final EditText editTelephone = textEntryView.findViewById(R.id.editTextPhone);
+                final EditText editAge = textEntryView.findViewById(R.id.editTextAge);
+                final EditText editIntroduction = textEntryView.findViewById(R.id.editTextIntro);
+
+                builder.setView(textEntryView);
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String name = editNname.getText().toString();
+                        String telephone = editTelephone.getText().toString();
+                        int age = Integer.valueOf(editAge.getText().toString());
+                        String introduction = editIntroduction.getText().toString();
+                        Toast.makeText(getActivity(),name + telephone + age + introduction, Toast.LENGTH_SHORT ).show();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.show();
             }
         });
 
