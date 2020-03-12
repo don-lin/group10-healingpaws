@@ -303,13 +303,13 @@ def customer_question():
     if not session.get('username'):
         return err_login()
 
-    print("User Name"+session.get('username'))
+    # print("User Name"+session.get('username'))
 
-    if request.method == 'POST':
-        if request.values.get('type') == 'reply':
-            content = request.values.get('content')
-            #数据库刷新
-            addReply(user_id=getUser(session.get('username')).id, content=content, q_id=get_question_by_user(user=getUser(session.get('username')).id).id)
+    # if request.method == 'POST':
+    #     if request.values.get('type') == 'reply':
+    #         content = request.values.get('content')
+    #         #数据库刷新
+    #         addReply(user_id=getUser(session.get('username')).id, content=content, q_id=get_question_by_user(user=getUser(session.get('username')).id).id)
             return content
     #数据库读取
     #目前只读为id为1的
