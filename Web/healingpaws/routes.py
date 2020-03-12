@@ -319,23 +319,6 @@ def pet_page():
     return render_template(L("admin.html"), pet_list=getAllPets(),doctor_list=getAllDoctor())
 
 
-@app.route('/css/<filename>')
-def get_css(filename):
-    return send_from_directory(DatabaseSecretConfig.cssdir,filename)
-@app.route('/img/<filename>')
-def get_img(filename):
-    return send_from_directory(DatabaseSecretConfig.imgdir,filename)
-@app.route('/icon/<rand>/<filename>')
-def get_rand_icon(rand,filename):
-    if not(os.path.exists((DatabaseSecretConfig.userimgdir+"/"+filename))):
-        return get_img('t2.png')
-    return send_from_directory(DatabaseSecretConfig.userimgdir,filename)
-@app.route('/icon/<filename>')
-def get_icon(filename):
-    return get_rand_icon(0,filename)
 
-@app.route('/js/<filename>')
-def get_js(filename):
-    return send_from_directory(DatabaseSecretConfig.jsdir,filename)
 
 
