@@ -279,13 +279,13 @@ def manager_page():
     return render_template(L("manager.html"),users=getAllUser())
 
 
-# @app.route("/android/doctors",methods=["GET","POST"])
-# def send_android_doctors():
-#     doc_list=getAllDoctor()
-#     result=""
-#     for d in doc_list:
-#         result+=d.formatCode("ccddll")+"dlcc"
-#     return result
+@app.route("/android/doctors",methods=["GET","POST"])
+def send_android_doctors():
+    doc_list=getAllDoctor()
+    result=""
+    for d in doc_list:
+        result+=d.formatCode("ccddll")+"dlcc"
+    return result
 
 @app.route("/android/pets",methods=["GET","POST"])
 def send_android_pets():
