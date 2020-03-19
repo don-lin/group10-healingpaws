@@ -14,6 +14,17 @@ def checkIfEmployee(username):
         return True
     else:
         return False
+        
+def checkUserExist(username):
+    return not getUser(username) is None
+
+#检查这个用户是否是员工
+def checkIfEmployee(username):
+    user = getUser(username)
+    if user.user_level == 2:
+        return True
+    else:
+        return False
 
 def checkUserPassword(username,userPassword):
     users=getAllUser()
