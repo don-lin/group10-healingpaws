@@ -5,15 +5,6 @@ from healingpaws.models import User,Pets,Doctors,Appointments,Chat
 from sqlalchemy import or_,and_
 
 
-def checkUserExist(username):
-    return not getUser(username) is None
-
-def checkUserPassword(username,userPassword):
-    users=getAllUser()
-    for u in users:
-        if(username==u.username and check_password_hash(u.passwordHash,userPassword)):
-            return True
-    return False
 
 def addUser(username,password):
     u1=User(username=username,passwordHash=generate_password_hash(password))
