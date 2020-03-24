@@ -31,6 +31,7 @@ def updateUserEmail(username,email):
     User.query.filter_by(username=username).update({'email':email})
     db.session.commit()
 def updateUserGender(username,isMale):
+    #haha
     User.query.filter_by(username=username).update({'isMale':isMale})
     db.session.commit()
 def updateUserPassword(username,newPassword):
