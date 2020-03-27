@@ -12,5 +12,5 @@ class DatabaseSecretConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # dasdasdasdsdas
 	#asdasdasasdadsadsassadassdasdsadassadssdsdsasdasdsadsadssdads
-	#sdasdssadas
+	#sdasdssadassdads
 	#sdasdsdasdas
