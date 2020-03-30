@@ -15,28 +15,28 @@ def checkUserPassword(username,userPassword):
             return True
     return False
 
-def addUser(username,password):
-    u1=User(username=username,passwordHash=generate_password_hash(password))
-    db.session.add(u1)
-    db.session.commit()
+# def addUser(username,password):
+#     u1=User(username=username,passwordHash=generate_password_hash(password))
+#     db.session.add(u1)
+#     db.session.commit()
 
 def updateUserBirthday(username,birthday):
     if not birthday:
         return
     User.query.filter_by(username=username).update({'dateOfBirth':birthday})
     db.session.commit()
-# def updateUserEmail(username,email):
-#     if not email:
-#         return
-#     User.query.filter_by(username=username).update({'email':email})
-#     db.session.commit()
-# def updateUserGender(username,isMale):
-#     User.query.filter_by(username=username).update({'isMale':isMale})
-#     db.session.commit()
-# def updateUserPassword(username,newPassword):
-#     newHash=generate_password_hash(newPassword)
-#     User.query.filter_by(username=username).update({'passwordHash':newHash})
-#     db.session.commit()
+def updateUserEmail(username,email):
+    if not email:
+        return
+    User.query.filter_by(username=username).update({'email':email})
+    db.session.commit()
+def updateUserGender(username,isMale):
+    User.query.filter_by(username=username).update({'isMale':isMale})
+    db.session.commit()
+def updateUserPassword(username,newPassword):
+    newHash=generate_password_hash(newPassword)
+    User.query.filter_by(username=username).update({'passwordHash':newHash})
+    db.session.commit()
 
 def updateUserAccount(username,newaccount):
     User.query.filter_by(username=username).update({'user_level':int(newaccount)})
