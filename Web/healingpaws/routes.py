@@ -10,10 +10,10 @@ app.add_template_global(getAllUser,'get_all_user')
 app.add_template_global(getUserFromId,'get_user')
 app.add_template_global(getPet,'get_pet')
 
-# def L(html):
-#     if session.get('language')==1:
-#         return 'cn/'+html
-#     return html
+def L(html):
+    if session.get('language')==1:
+        return 'cn/'+html
+    return html
 
 def save_file(path,file,name):
     if not file:

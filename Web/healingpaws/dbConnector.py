@@ -15,10 +15,10 @@ def checkUserPassword(username,userPassword):
             return True
     return False
 
-# def addUser(username,password):
-#     u1=User(username=username,passwordHash=generate_password_hash(password))
-#     db.session.add(u1)
-#     db.session.commit()
+def addUser(username,password):
+    u1=User(username=username,passwordHash=generate_password_hash(password))
+    db.session.add(u1)
+    db.session.commit()
 
 def updateUserBirthday(username,birthday):
     if not birthday:
