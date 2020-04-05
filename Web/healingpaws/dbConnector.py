@@ -14,7 +14,6 @@ def checkIfEmployee(username):
         return True
     else:
         return False
-
 def checkUserExist(username):
     return not getUser(username) is None
 
@@ -32,19 +31,7 @@ def checkUserPassword(username,userPassword):
         if(username==u.username and check_password_hash(u.passwordHash,userPassword)):
             return True
     return False
-def checkUserPassword(username,userPassword):
-    users=getAllUser()
-    for u in users:
-        if(username==u.username and check_password_hash(u.passwordHash,userPassword)):
-            return True
-            
 
-def checkUserPassword(username,userPassword):
-    users=getAllUser()
-    for u in users:
-        if(username==u.username and check_password_hash(u.passwordHash,userPassword)):
-            return True
-    return False
 def addUser(username,password):
     u1=User(username=username,passwordHash=generate_password_hash(password),user_level=0)
     add_question(u1.id)
