@@ -19,37 +19,9 @@ def checkUserPassword(username,userPassword):
     return False
 
 def addUser(username,passwordHash):
-    u1=User(username=username,passwordHash=passwordHash)
+    u1=User(username=username,passwordHash=generate_password_hash(passwordHash))
     db.session.add(u1)
     db.session.commit()
-
-def addPet(petname,petHealth,birthday):
-    p1=Pets(petsname=petname,health=petHealth,birthDay=birthday)
-    db.session.add(p1)
-    db.session.commit()
-
-def addDoctor(name,age,telphone,introduction):
-    d1=Doctors(doctorname=name,age=age,telphone=telphone,introduction=introduction)
-    db.session.add(d1)
-    db.session.commit()
-
-# def addNewMessage(username,title,)
-
-def getTime():
-    return time.strftime("%Y/%m/%d  %I:%M:%S")
-
-def genNewComment(username,content):
-    result=username+"_;_"+getTime()+"_;_"+content+"_;_"
-    return result
-
-
-def filtMessage(username,messages):
-    result=[]
-    for m in messages:
-        if(m.get('username')==username):
-            result.append(m)
-    return result
-
 
 def updateUserBirthday(username,birthday):
     User.query.filter_by(username=username).update({'dateOfBirth':birthday})
@@ -65,6 +37,63 @@ def updateUserPassword(username,newPassword):
     User.query.filter_by(username=username).update({'passwordHash':newHash})
     db.session.commit()
 
+def deleteUser(username):
+    User.query.filter_by(username=username).delete()
+    db.session.commit()
+
+def getAllUser():
+    return User.query.all()
+
+def getUser(username):
+    users=getAllUser()
+    for u in users:
+        if u.username==username:
+            return u
+    return None
+
+def getUserFromId(userid):
+    users=getAllUser()
+    for u in users:
+        if u.id==userid:
+            return u
+    return None
+
+def showUsers(users):
+    for u in users:
+        print(u)
+
+
+
+
+def addPet(petname,petHealth,birthday):
+    p1=Pets(petsname=petname,health=petHealth,birthDay=birthday)
+    db.session.add(p1)
+    db.session.commit()
+
+def addDoctor(name,age,telphone,introduction):
+    d1=Doctors(doctorname=name,age=age,telphone=telphone,introduction=introduction)
+    db.session.add(d1)
+    db.session.commit()
+
+
+def genNewComment(username,content):
+    result=username+"_;_"+getTime()+"_;_"+content+"_;_"
+    return result
+
+
+def filtMessage(username,messages):
+    result=[]
+    for m in messages:
+        if(m.get('username')==username):
+            result.append(m)
+    return result
+
+
+def getTime():
+    return time.strftime("%Y/%m/%d  %I:%M:%S")
+
+
+
 def updateDoctor(docid,name,age,telphone,introduction):
     Doctors.query.filter_by(id=docid).update({'doctorname':name,'age':age,'telphone':telphone,'introduction':introduction})
     db.session.commit()
@@ -77,39 +106,21 @@ def deletePet(petid):
 def deleteDoctor(docid):
     Doctors.query.filter_by(id=docid).delete()
     db.session.commit()
-def deleteUser(username):
-    User.query.filter_by(username=username).delete()
-    db.session.commit()
+
 def getAllUserNameList():
     users=getAllUser()
     result=[]
     for u in users:
         result.append(u.username)
     return result
-def getAllUser():
-    return User.query.all()
+
 def getAllPets():
     return Pets.query.all()
 def getAllDoctors():
     return Doctors.query.all()
-def getUser(username):
-    users=getAllUser()
-    for u in users:
-        if u.username==username:
-            return u
-    return None
-def getUserFromId(userid):
-    users=getAllUser()
-    for u in users:
-        if u.id==userid:
-            return u
-    return None
-def showUsers(users):
-    for u in users:
-        print(u)
-
 
 def databaseDebug():
+    #调试数据库
     addUser("donlin", "000")
     showUsers(getAllUser())
 

@@ -1,4 +1,4 @@
-from healingpaws import  *
+from healingpaws import  app,DatabaseSecretConfig
 from healingpaws.dbConnector import  *
 from flask import render_template,send_from_directory,request
 
@@ -7,10 +7,17 @@ from flask import render_template,send_from_directory,request
 def about_page():
     return render_template("about.html")
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 @app.route("/doctors")
 def doctors_page():
     return render_template("doctors.html")
+
+@app.route("/register")
+def register():
+    return render_template("register.html")
 
 @app.route("/signup")
 def signup_page():
@@ -19,9 +26,17 @@ def signup_page():
 def location_page():
     return render_template("locations.html")
 
+@app.route("/information")
+def information():
+    return render_template("information.html")
+
 @app.route("/manage")
 def manager_page():
     return render_template("manager.html",users=getAllUser())
+
+@app.route("/mydate")
+def my_date():
+    return render_template("my_date.html")
 
 @app.route("/android/doctors",methods=["POST"])
 def send_android_doctors():
