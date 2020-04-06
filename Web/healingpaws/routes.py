@@ -15,20 +15,20 @@ def L(html):
         return 'cn/'+html
     return html
 
-def save_file(path,file,name):
-    if not file:
-        return
-    print('saving the files')
-    file_path = os.path.join(path,name)
-    file.save(file_path)
+# def save_file(path,file,name):
+#     if not file:
+#         return
+#     print('saving the files')
+#     file_path = os.path.join(path,name)
+#     file.save(file_path)
     
-def rand():
-    return random.random()
+# def rand():
+#     return random.random()
 
-def err_login():
-    global error_info
-    error_info='Please Log In First'
-    return redirect('/introduction')
+# def err_login():
+#     global error_info
+#     error_info='Please Log In First'
+#     return redirect('/introduction')
 
 @app.errorhandler(404)
 def page_not_found(e):
