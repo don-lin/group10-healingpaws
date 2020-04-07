@@ -1,25 +1,30 @@
 {% extends "logo.html" %}
 {% block footer %}
 
-<form method="post">
-    <label>pet name:</label><input name="pet_name" value="no name"><br>
-    <label>pet health(integer):</label><input type="number" name="pet_health" value="0" ><br>
-    <label>pet birthDay:</label><input name="pet_birthday" value="2020-3-5"><br>
-    <button type="submit" name="submit" value="1">add a new pet</button><br>
+    <form method="post">
+        <label>pet name:</label><input name="pet_name" value="no name"><br>
+        <label>pet health(integer):</label><input type="number" name="pet_health" value="0"><br>
+        <label>pet birthDay:</label><input name="pet_birthday" value="2020-3-5"><br>
+        <button type="submit" name="submit" value="1">add a new pet</button>
+        <br>
         {% for l in pet_list %}
-            {{ l }}<button type="submit" name="delete_pet" value="{{ l.id }}">delete this pet</button> <button type="submit" name="update_pet" value="{{ l.id }}">update this pet</button><br>
+            {{ l }}
+            <button type="submit" name="delete_pet" value="{{ l.id }}">delete this pet</button>
+            <button type="submit" name="update_pet" value="{{ l.id }}">update this pet</button><br>
         {% endfor %}
-</form>
+    </form>
 
-<form method="post">
-    <label>doctor name:</label><input name="doctor_name" value="no name"><br>
-    <label>doctor age:</label><input type="number" name="age" value="30" ><br>
-    <label>doctor telphone:</label><input name="doctor_telphone" value="2020-3-5"><br>
-    <label>doctor introduction:</label><input name="doctor_introduction" value="a good doctor"><br>
-    <button type="submit" name="submit" value="2">add a new doctor</button><br>
+    <form method="post">
+        <label>doctor name:</label><input name="doctor_name" value="no name"><br>
+        <label>doctor age:</label><input type="number" name="age" value="30"><br>
+        <label>doctor telphone:</label><input name="doctor_telphone" value="2020-3-5"><br>
+        <label>doctor introduction:</label><input name="doctor_introduction" value="a good doctor"><br>
+        <button type="submit" name="submit" value="2">add a new doctor</button>
+        <br>
         {% for l in doctor_list %}
-            {{ l }}<button type="submit" name="delete_doctor" value="{{ l.id }}">delete this doctor</button> <button type="submit" name="update_doctor" value="{{ l.id }}">update this doctor</button><br>
+            {{ l }}
+            <button type="submit" name="delete_doctor" value="{{ l.id }}">delete this doctor</button>
+            <button type="submit" name="update_doctor" value="{{ l.id }}">update this doctor</button><br>
         {% endfor %}
-</form>
-
+    </form>
 {% endblock %}

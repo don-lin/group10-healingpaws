@@ -1,90 +1,129 @@
-import  time
+import time
+import click
 from werkzeug.security import check_password_hash, generate_password_hash
 from healingpaws import db
-from healingpaws.models import User,Pets,Doctors,Appoinments
+from healingpaws.models import User, Pets, Doctors, Appoinments, Branches, Hospital
 
 
 def checkUserExist(username):
-    users=getAllUser()
+    users = getAllUser()
     for u in users:
-        if(username==u.username):
+        if (username == u.username):
             return True
     return False
 
-def checkUserPassword(username,userPassword):
-    users=getAllUser()
+
+def checkUserPassword(username, userPassword):
+    users = getAllUser()
     for u in users:
-        if(username==u.username and check_password_hash(u.passwordHash,userPassword)):
+        if (username == u.username and check_password_hash(u.passwordHash, userPassword)):
             return True
     return False
 
-def addUser(username,passwordHash):
-    u1=User(username=username,passwordHash=generate_password_hash(passwordHash))
+
+def addUser(username, passwordHash):
+    u1 = User(username=username, passwordHash=generate_password_hash(passwordHash))
     db.session.add(u1)
     db.session.commit()
 
-def updateUserBirthday(username,birthday):
-    User.query.filter_by(username=username).update({'dateOfBirth':birthday})
+
+def updateUserBirthday(username, birthday):
+    User.query.filter_by(username=username).update({'dateOfBirth': birthday})
     db.session.commit()
-def updateUserEmail(username,email):
-    User.query.filter_by(username=username).update({'email':email})
+
+
+def updateUserEmail(username, email):
+    User.query.filter_by(username=username).update({'email': email})
     db.session.commit()
-def updateUserGender(username,isMale):
-    User.query.filter_by(username=username).update({'isMale':isMale})
+
+
+def updateUserGender(username, isMale):
+    User.query.filter_by(username=username).update({'isMale': isMale})
     db.session.commit()
-def updateUserPassword(username,newPassword):
-    newHash=generate_password_hash(newPassword)
-    User.query.filter_by(username=username).update({'passwordHash':newHash})
+
+
+def updateUserPassword(username, newPassword):
+    newHash = generate_password_hash(newPassword)
+    User.query.filter_by(username=username).update({'passwordHash': newHash})
     db.session.commit()
+
 
 def deleteUser(username):
     User.query.filter_by(username=username).delete()
     db.session.commit()
 
+
 def getAllUser():
     return User.query.all()
 
+
 def getUser(username):
-    users=getAllUser()
+    users = getAllUser()
     for u in users:
-        if u.username==username:
+        if u.username == username:
             return u
     return None
 
+
 def getUserFromId(userid):
-    users=getAllUser()
+    users = getAllUser()
     for u in users:
-        if u.id==userid:
+        if u.id == userid:
             return u
     return None
+
 
 def showUsers(users):
     for u in users:
         print(u)
 
 
-
-
-def addPet(petname,petHealth,birthday):
-    p1=Pets(petsname=petname,health=petHealth,birthDay=birthday)
+def addPet(petname, petHealth, birthday):
+    p1 = Pets(petsname=petname, health=petHealth, birthDay=birthday)
     db.session.add(p1)
     db.session.commit()
 
-def addDoctor(name,age,telphone,introduction):
-    d1=Doctors(doctorname=name,age=age,telphone=telphone,introduction=introduction)
+
+def addBranch(name, address, intro, pic_address):
+    branch = Branches(name=name, address=address, introduction=intro, pic_address=pic_address)
+    db.session.add(branch)
+    db.session.commit()
+
+
+
+
+def getBranch(name):
+    return Branches.query.filter_by(name=name).first()
+
+
+def getAllBranches():
+    return Branches.query.all()
+
+
+def deleteBranch(name):
+    Branches.query.filter_by(name=name).delete()
+    db.session.commit()
+
+
+def getHospital():
+    return Hospital
+
+
+def addDoctor(name, age, telphone, introduction):
+    d1 = Doctors(doctorname=name, age=age, telphone=telphone, introduction=introduction)
     db.session.add(d1)
     db.session.commit()
 
 
-def genNewComment(username,content):
-    result=username+"_;_"+getTime()+"_;_"+content+"_;_"
+def genNewComment(username, content):
+    result = username + "_;_" + getTime() + "_;_" + content + "_;_"
     return result
 
 
-def filtMessage(username,messages):
-    result=[]
+def filtMessage(username, messages):
+    result = []
     for m in messages:
-        if(m.get('username')==username):
+        if (m.get('username') == username):
             result.append(m)
     return result
 
@@ -93,34 +132,45 @@ def getTime():
     return time.strftime("%Y/%m/%d  %I:%M:%S")
 
 
+def updateDoctor(docid, name, age, telphone, introduction):
+    Doctors.query.filter_by(id=docid).update(
+        {'doctorname': name, 'age': age, 'telphone': telphone, 'introduction': introduction})
+    db.session.commit()
 
-def updateDoctor(docid,name,age,telphone,introduction):
-    Doctors.query.filter_by(id=docid).update({'doctorname':name,'age':age,'telphone':telphone,'introduction':introduction})
+
+def updatePet(petid, petname, petHealth, birthday):
+    Pets.query.filter_by(id=petid).update({'petsname': petname, 'health': petHealth, 'birthDay': birthday})
     db.session.commit()
-def updatePet(petid,petname,petHealth,birthday):
-    Pets.query.filter_by(id=petid).update({'petsname':petname,'health':petHealth,'birthDay':birthday})
-    db.session.commit()
+
+
 def deletePet(petid):
     Pets.query.filter_by(id=petid).delete()
     db.session.commit()
+
+
 def deleteDoctor(docid):
     Doctors.query.filter_by(id=docid).delete()
     db.session.commit()
 
+
 def getAllUserNameList():
-    users=getAllUser()
-    result=[]
+    users = getAllUser()
+    result = []
     for u in users:
         result.append(u.username)
     return result
 
+
 def getAllPets():
     return Pets.query.all()
+
+
 def getAllDoctors():
     return Doctors.query.all()
 
+
 def databaseDebug():
-    #调试数据库
+    # 调试数据库
     addUser("donlin", "000")
     showUsers(getAllUser())
 
@@ -139,11 +189,12 @@ def databaseDebug():
     deleteUser("donlin")
     showUsers(getAllUser())
 
+
 def checkHashLoop(hash):
-    pass_hash=generate_password_hash("hello")
+    pass_hash = generate_password_hash("hello")
     print("hash is ")
     print(pass_hash)
     while True:
-        i=input()
+        i = input()
         print("check result:")
-        print(check_password_hash(pass_hash,i))
+        print(check_password_hash(pass_hash, i))
