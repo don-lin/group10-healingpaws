@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+<div class="logo">
+        <img src="/img/logoBIGnew.jpg" width="600" height="200"/>
+    </div>
+
+    <table  width="1500" height= "100" cellpadding="10" cellspacing="10">
+    <tr>
+        <th bgcolor="aqua"><a style="font-size: 16px;text-decoration:none" href="Doctor_inf.html" target="_self">Doctor List</a>
+        <th bgcolor="aqua"><a style="font-size: 16px;text-decoration:none" href="about_us.html" target="_self">About us</a></th>
+        <th bgcolor="aqua"><a style="font-size: 16px;text-decoration:none" href="#" target="_self">Other Location</a></th>
+        <th bgcolor="aqua"><a style="font-size: 16px;text-decoration:none" href="#" target="_self">Online Appointment</a></th>
+    </tr>
+</table>
+
+<div class="all">
+	<form action="" method="post" novalidate>
+		{{ form.hidden_tag() }}
+		<div class="line">
+			<div class="div1">{{ form.username.label }} </div>
+			<div class="div2">{{ form.username(size=32) }}</div>
+			
+			{% for error in form.username.erroes %}
+			<span style="color:red;">[{{ error }}]</span>
+			{% endfor %}
+		</div>
+	
+		<div class="line">
+			<div class="div1">{{ form.password.label }}</div>
+			<div class="div2">{{ form.password(size=32) }}</div>
+			
+			{% for error in form.password.errors %}
+			<span style="color:red;">[{{ erroe }}]</span>
+			{% endfor %}
+		</div>
+	
+	<div class="login">
+		{{ form.remember_me() }} {{form.remember_me.label }}<br>
+		{{ form.submit() }}
+	</div><br>
+	
+	<div class="line">
+		<div class="div2">Don't have an account?<a href="register.html">Press here</a></div>
+</div><br>
+
+<div class="footer">
+        <div class="line1"><a style="font-size: 20px" href="#">Back Homepage</a>  |  <a style="font-size: 20px" href="#">Online Service</a></div>
+</div>
+</body>
+</html>
