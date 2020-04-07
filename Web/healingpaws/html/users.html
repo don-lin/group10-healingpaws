@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<title>Doctors</title>
+<title>Users</title>
 
 <body>
+
             <br>
 
             <div id="timeLine">
@@ -24,17 +25,14 @@
                                                 <div class="c-li-right">
                                                     <p>username: {{u.username}} </p>
                                                     <p>e-mail: {{u.email}} </p>
+                                                    <p>type: {{['user','doctor','employee'][u.user_level]}} </p>
                                                     <p>birthday: {{u.dateOfBirth}} </p>
                                                     <p>gender: {%if u.isMale%} male ♂ {%else%} female ♀ {%endif%}</p>
-                                                    <p>Appointments: {{count_doc_appointment(u.id)}}</p>
 
 
                                                     <div class="special-buttons">
-                                                        <div class="btn" onclick="init_doc('{{u.username}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Overview</span></div>
                                                         <div class="btn" onclick="init_chat('{{u.username}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Chat</span></div>
-                                                        <div class="btn" onclick="location.replace('/appointment/doctor/{{u.id}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Appointment</span></div>
-                                                        
-                                                        <!-- <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Comment</span></div> -->
+                                                        <div class="btn" onclick="init_info('{{u.username}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Profile</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -54,8 +52,7 @@
                     </ul>
                     <div class="dotted-line"></div>
                 </div>
-                
-
+                <div class="chathtml"></div>
 
 </body>
 {% endblock content %}

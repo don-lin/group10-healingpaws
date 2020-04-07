@@ -1,0 +1,92 @@
+<style>
+    table
+{
+animation:mymove 0.5s;
+-webkit-animation:mymove 0.5s; /*Safari and Chrome*/
+}
+
+
+@keyframes mymove
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+@-webkit-keyframes mymove /*Safari and Chrome*/
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+</style>
+    
+
+<body style="
+	overflow-x: hidden;
+	background: #50a3a2;
+	background: linear-gradient(135deg, rgb(165, 155, 224) 0%, rgba(242,147,113,1) 100%) no-repeat center center;
+    background-attachment: fixed;"><br>
+
+<style>
+    th{
+        text-align:center;
+    }
+</style>
+<div style="height:500px;overflow:auto; padding:0px;">
+<table class="table" style="margin:auto; text-align:center;">
+
+	<thead>
+		<tr>
+			<td>Pet</td>
+			<td>Photo</td>
+			<td>Doctor</td>
+			<td>Icon</td>
+            <td>Emergency</td>
+            <td>Healthy</td>
+            <td>Priority</td>
+            <td>Hospital</td>
+            <td>Status</td>
+			<td>Date</td>
+		</tr>
+	</thead>
+	<tbody>
+	{# active success warning danger #}
+
+	{%for a in apppointments%}
+	{%with p=get_pet(a.pet)%}
+		<tr class="active">
+			<td>{{a.pet}}</td>
+			<td><img src='/icon/{{rand}}/pet_icon_{{a.pet}}.jpg' 
+				onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px"></td>
+
+				{%with doc=get_user(a.doctor)%}
+				<td>{{doc.username}}</td>
+				<td><img src="/icon/{{rand}}/{{doc.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
+				{%endwith%}
+				<td style="color:{{['red','pink','black'][a.priority]}}">{{['Emergency','Important','Normal'][a.priority]}}</td>
+				<td style="color:{{['red','black','green'][p.health]}}">{{['bad','unknown','perfect'][p.health]}}</td>
+				<td>{{a.priority*3+p.health}}</td>
+                <td>{{['Bei Jing','Shang Hai','Guang Zhou'][a.hospital]}}</td>
+                <td>{{["Not Confirmed","Confirmed","Surgery Queue","Surgery Completed","Ready For Release"][a.status]}}</td>
+			<td>{{a.date}}</td>
+		</tr>
+		{%endwith%}
+	{%endfor%}
+	</tbody>
+</table>
+</div>
+
+<script>
+		function a0(num){
+			if(num<10)
+				return "0"+num;
+			return num;
+		}
+
+		function getT(){
+			d=new Date();
+			return 1900+d.getYear()+"-"+a0(1+d.getMonth())+"-"+a0(d.getDate());
+		}
+
+</script>
+</body>

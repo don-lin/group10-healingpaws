@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "cn/base.html" %}
 
 {% block content %}
 <title>Your Profile</title>
@@ -61,15 +61,15 @@ to {transform: rotateY(0deg);}
             </tr>
             <tr>
                 {%if user.isMale%}
-                    <td colspan="3" style=" font-size:20px">male</td>
+                    <td colspan="3" style=" font-size:20px">男生</td>
                 {%else%}
-                    <td colspan="3" style=" font-size:20px">female</td>
+                    <td colspan="3" style=" font-size:20px">女生</td>
                 {%endif%}
             </tr>
             <tr>
                 <td colspan="3" style=" font-size:20px">
                     <div class="special-buttons">
-                       <div class="btn" onclick="edit_form()"><span class="circle" style="z-index: 0;"></span><span class="text">Edit</span></div>
+                       <div class="btn" onclick="edit_form()"><span class="circle" style="z-index: 0;"></span><span class="text">编辑</span></div>
                     </div>
                 
             </tr>
@@ -77,14 +77,14 @@ to {transform: rotateY(0deg);}
             <td style="height: 20px;"></td>
             </tr>
             <tr>
-            <td><span>pets |</span></td>
-            <td><span>&nbsp;appointments |</span></td>
-            <td><span>&nbsp;level</span></td>
+            <td><span>宠物数字 |</span></td>
+            <td><span>&nbsp;预约数 |</span></td>
+            <td><span>&nbsp;账号等级</span></td>
             </tr>
             <tr>
             <td><a href="/pets">{{pets|length}} </a></td>
             <td><a href="/appointment">{{appointments|length}} </a></td>
-            <td><span>{{['user','doctor','employee'][user.user_level]}}</span></td>
+            <td><span>{{['用户','医生','员工'][user.user_level]}}</span></td>
             </tr>
 
 
@@ -113,11 +113,11 @@ to {transform: rotateY(0deg);}
                 
                     <select name='gender'>
                         {%if user.isMale%}
-                            <option value="male" selected="selected">male</option>
-                            <option value="female" >female</option>
+                            <option value="male" selected="selected">男生</option>
+                            <option value="female" >女生</option>
                         {%else%}
-                            <option value="male" >male</option>
-                            <option value="female" selected="selected">female</option>
+                            <option value="male" >男生</option>
+                            <option value="female" selected="selected">女生</option>
                         {%endif%}
 
                     </select>
@@ -125,10 +125,10 @@ to {transform: rotateY(0deg);}
             <tr>
                 <td colspan="3" style=" font-size:20px;">
                     <div class="special-buttons">
-                       <div class="btn" onclick="document.querySelector('.profile-form').submit()"><span class="circle" style="z-index: 0;"></span><span class="text">&nbsp;&nbsp;Save&nbsp;&nbsp;</span></div>
+                       <div class="btn" onclick="document.querySelector('.profile-form').submit()"><span class="circle" style="z-index: 0;"></span><span class="text">&nbsp;&nbsp;保存&nbsp;&nbsp;</span></div>
                     </div>
                     <div class="special-buttons">
-                       <div class="btn" type='submit' onclick="display_form()"><span class="circle" style="z-index: 0;"></span><span class="text">Cancel</span></div>
+                       <div class="btn" type='submit' onclick="display_form()"><span class="circle" style="z-index: 0;"></span><span class="text">取消</span></div>
                     </div>
                     </td>
             </tr>
@@ -143,15 +143,15 @@ to {transform: rotateY(0deg);}
 
             <table class="pet-table" border="1" style="text-align: center;;padding:30px;border-radius:50px; margin:auto; background-color:white">
                 <tr>
-                    <th colspan="5" style="text-align: center;">Over view</th>
+                    <th colspan="5" style="text-align: center;">宠物情况</th>
                 </tr>
 
                 <tr>
-                    <td>photo</td>
-                    <td>name</td>
-                    <td>birthday</td>
-                    <td>healthy</td>
-                    <td>Appointment</td>
+                    <td>照片</td>
+                    <td>名字</td>
+                    <td>出生日期</td>
+                    <td>健康度</td>
+                    <td>预约</td>
                 </tr>
                 {%for p in pets%}
                 <tr>
@@ -159,7 +159,7 @@ to {transform: rotateY(0deg);}
                         onerror="onerror=null;src='/img/t2.png'" width="30px" height="30px"></td>
                     <td>{{p.petsname}}</td>
                     <td>{{p.birthDay}}</td>
-                    <td style="color: {{['red','grey','green'][p.health]}};">{{['bad','unknown','perfect'][p.health]}}</td>
+                    <td style="color: {{['red','grey','green'][p.health]}};">{{['糟糕','未知','完美'][p.health]}}</td>
                     <td ><a href='/appointment/pet/{{p.id}}'>{{count_pet_appointment(p.id)}}</a></td>
                 </tr>
                 {%endfor%}

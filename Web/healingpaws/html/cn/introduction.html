@@ -1,4 +1,4 @@
-{%extends "base.html"%}
+{%extends "cn/base.html"%}
 
 {%block content%}
 <title>Group-10 Main Page</title>
@@ -13,8 +13,8 @@
                     <img src="/img/t2.png" alt="">
                     </div>
                     <span class="source">ResNet-18</span>
-                    <h2 class="title">Recognise Pets type from image</h2>
-                    <span class="detail">ResidualNeuralNetwork</span>
+                    <h2 class="title">精准识别图片</h2>
+                    <span class="detail">残差神经网络</span>
                     </a>
                     </div>
 
@@ -24,9 +24,9 @@
                             <div class="imgBox">
                             <img src="/img/t2.png" alt="">
                             </div>
-                            <span class="source">NLP</span>
-                            <h2 class="title">Emotional Analysis</h2>
-                            <span class="detail">based on LSTMs</span>
+                            <span class="source">自然语言处理</span>
+                            <h2 class="title">情感分析</h2>
+                            <span class="detail">基于LSTMs</span>
                             </a>
                             </div>
 
@@ -36,9 +36,9 @@
                             <div class="imgBox">
                             <img src="/img/t2.png" alt="">
                             </div>
-                            <span class="source">Database</span>
-                            <h2 class="title">Data Preserve</h2>
-                            <span class="detail">based on flask-sqlalchemy</span>
+                            <span class="source">数据库</span>
+                            <h2 class="title">数据保存</h2>
+                            <span class="detail">基于flask-sqlalchemy</span>
                             </a>
                             </div>
 
@@ -48,9 +48,9 @@
                             <div class="imgBox">
                             <img src="/img/t2.png" alt="">
                             </div>
-                            <span class="source">Algorithm</span>
-                            <h2 class="title">Unique Mechanism Deal the queue</h2>
-                            <span class="detail">Avoid conflict automatically</span>
+                            <span class="source">算法</span>
+                            <h2 class="title">独一无二的优先级算法</h2>
+                            <span class="detail">自动给宠物确定顺序</span>
                             </a>
                             </div>
             </div>
@@ -89,12 +89,12 @@
 
             <div id="timeLine">
                     <ul id="yearList" style="left: 0px;">
-                        <li class="year-active">Doctors<i class="year-dot"></i></li>
-                        <li >Introduction<i class="year-dot"></i></li>
-                        <li >SH Hospital<i class="year-dot"></i></li>
-                        <li >BJ Hospital<i class="year-dot"></i></li>
-                        <li >GZ Hospital<i class="year-dot"></i></li>
-                        <li >Appointments<i class="year-dot"></i></li>
+                        <li class="year-active">医生<i class="year-dot"></i></li>
+                        <li >介绍<i class="year-dot"></i></li>
+                        <li >上海医院<i class="year-dot"></i></li>
+                        <li >北京医院<i class="year-dot"></i></li>
+                        <li >广州医院<i class="year-dot"></i></li>
+                        <li >预约<i class="year-dot"></i></li>
                     </ul>
                     <div class="dotted-line"></div>
                 
@@ -187,18 +187,18 @@
             <div style="height: 20vh; background-color:grey;color:white;">
                     <br>
                     {%if not username%}
-                        <h1 style="text-align: center;">Start Use Now</h1>
+                        <h1 style="text-align: center;">立刻开始使用</h1>
                         <p style="text-align: center;">
                         <br>
-                        <button data-toggle="modal" data-target="#myModal-login" style="width: 300px;height:56px;margin-right: 30px;background: #5481fe; color:white;font-size:15px;font-weight:900;">Log In</button> 
-                        <button data-toggle="modal" data-target="#myModal-register" style="width: 300px;height:56px;margin-right: 30px;background: #0dbcd7; color:white;font-size:15px;font-weight:900;">Register</button> 
+                        <button data-toggle="modal" data-target="#myModal-login" style="width: 300px;height:56px;margin-right: 30px;background: #5481fe; color:white;font-size:15px;font-weight:900;">登录</button> 
+                        <button data-toggle="modal" data-target="#myModal-register" style="width: 300px;height:56px;margin-right: 30px;background: #0dbcd7; color:white;font-size:15px;font-weight:900;">注册</button> 
                     
                     {%else%}
-                        <h1 style="text-align: center;">Hello {{username}}</h1>
+                        <h1 style="text-align: center;">你好呀， {{username}}</h1>
                         <p style="text-align: center;">
                         <br>
-                        <button data-toggle="modal" data-target="#myModal-reset-password" style="width: 300px;height:56px;margin-right: 30px;background: #5481fe; color:white;font-size:15px;font-weight:900;">Reset Password</button> 
-                        <button data-toggle="modal" data-target="#myModal-logout" style="width: 300px;height:56px;margin-right: 30px;background: #0dbcd7; color:white;font-size:15px;font-weight:900;">Log Out</button> 
+                        <button data-toggle="modal" data-target="#myModal-reset-password" style="width: 300px;height:56px;margin-right: 30px;background: #5481fe; color:white;font-size:15px;font-weight:900;">重置密码</button> 
+                        <button data-toggle="modal" data-target="#myModal-logout" style="width: 300px;height:56px;margin-right: 30px;background: #0dbcd7; color:white;font-size:15px;font-weight:900;">注销账户</button> 
                
                     {%endif%}
                 </div>

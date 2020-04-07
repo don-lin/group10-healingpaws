@@ -1,0 +1,62 @@
+<style>
+    table
+{
+animation:mymove 0.5s;
+-webkit-animation:mymove 0.5s; /*Safari and Chrome*/
+}
+
+
+@keyframes mymove
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+@-webkit-keyframes mymove /*Safari and Chrome*/
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+</style>
+    
+<script>
+    function edit_form(){
+        document.querySelector('.edit-table').removeAttribute('hidden')
+        document.querySelector('.show-table').setAttribute('hidden','')
+    }
+    function display_form(){
+        document.querySelector('.show-table').removeAttribute('hidden')
+        document.querySelector('.edit-table').setAttribute('hidden','')
+    }
+</script>
+
+
+
+            <table class="show-table" style="text-align: center;;padding:30px;border-radius:50px; margin:auto; background-color:white">
+
+            <tr>
+                <td ><img src="/icon/0/{{user.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="100px" height="100px" style="border-radius:10px;"></td>
+            </tr>
+            <tr>
+                <td ><span style="color: purple; font-size:30px">{{user.username}}</span></td>
+            </tr>
+            <tr>
+                <td ><label>{{user.email}}</label></td>
+            </tr>
+            <tr>
+                <td  style=" font-size:20px">{{user.dateOfBirth}}</td>
+            </tr>
+            <tr>
+                {%if user.isMale%}
+                    <td  style=" font-size:20px">male</td>
+                {%else%}
+                    <td  style=" font-size:20px">female</td>
+                {%endif%}
+            </tr>
+            <tr>
+            <td><span>{{['user','doctor','employee'][user.user_level]}}</span></td>
+            </tr>
+
+
+            </table>

@@ -1,0 +1,161 @@
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+<style>
+
+
+        .item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .left {
+            flex-direction: row;
+        }
+        
+        .right {
+            flex-direction: row-reverse;
+        }
+        
+        .right .message {
+            margin-right: 10px;
+        }
+        .left .message{
+            margin-left: 10px;
+        }
+        
+        .header-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 100px;
+        }
+        
+        .message {
+            border-radius: 10px;
+            display: flex;
+            background: #efefef;
+            min-height: 25px;
+            padding: 9px 10px;
+            align-items: center;
+            color: #222121;
+        }
+        
+        .input-box {
+            
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            display: flex;
+            padding: 4px 6px;
+            box-sizing: border-box;
+        }
+        
+        .input-box button:hover{
+            background: rgb(33, 237, 244);
+            transition: 0.5s;
+
+        }
+        .input-box button:active{
+            background: rgb(33, 244, 146);
+            transition: 0.2s;
+        }
+        .input-box input {
+            flex: 1;
+            border-radius: 10px;
+            border: 1px #cecece solid;
+            padding: 3px 4px;
+                outline: none;
+        }
+        
+        .input-box button {
+            width: 80px;
+            background: #2196F4;
+            border-radius: 21px;
+            border: 1px #fffa solid;
+            color: #ffffff;
+            margin: 0px 6px;
+            outline: none;
+        }
+        button:active{}
+        
+        .chart-timer{
+            text-align: center;
+            color: #616161;
+            font-size: 13px;
+        }
+        </style>
+        
+            <div style="width: 400px; margin:auto;">
+                <p style="text-align:center;" class="refresh-hint">waiting for server response...</p>
+                <div class="chat-box"style="height:400px; overflow-y:scroll;">
+
+                </div>
+        
+                <div class="input-box">
+                    <input type="text" class="chat-input" />
+                    <button onclick='send_chat();'>send</button>
+                    <button onclick='refresh_chat();'>refresh</button>
+                    <button onclick='clear_chat();'>clear</button>
+                </div>
+            </div>
+
+            <script>
+                function send_chat(){
+                    a=document.querySelector('.chat-input')
+                    content=a.value
+                    a.value=""
+                    $.post("/chat/"+window.chatto,{content:content},function(result){
+                        console.log(result)
+                  });
+                }
+                function clear_chat(){
+                    a=document.querySelector('.chat-input').value=""
+                }
+                function decode_message(arr,message){
+                    if(message.length==0)
+                        return arr;
+                    m=message.split("donlin_send_key")
+                    arr.push(m)
+                    return arr;
+                }
+                function display_arr(arr){
+                    //console.log(arr)
+                    var chatbox=document.querySelector('.chat-box')
+                    chatbox.innerHTML='';
+                    for(var i=0;i<arr.length;i++){
+                        var e=create_element(arr[i]);
+                        chatbox.innerHTML+=e
+                    }
+
+                    chatbox.scrollTo(0,chatbox.scrollHeight);
+                }
+
+                function create_element(message){
+                    a='left'
+                    if(message[1]==window.username)
+                        a='right'
+
+                    return `<div class="chart-timer">
+                            ${message[3]}<br> 
+                            from ${message[1]}
+                            to ${message[2]}
+                        </div>
+                        <div class="item ${a}">
+                            <img class="header-img" src="/icon/0/${message[1]}.jpg"  />
+                            <span class="message">${message[4]}</span>
+                        </div>`
+                }
+
+                function refresh_chat(){
+                    $.post("/chat/"+window.chatto,{},function(result){
+                        arr=[]
+                        messages=result.split("donlin_split_key")
+                        for(var i=0;i<messages.length;i++)
+                            arr=decode_message(arr,messages[i])
+                        display_arr(arr)
+                        rh=document.querySelector('.refresh-hint')
+                        rh.textContent="last refresh : "+new Date().toLocaleTimeString();
+                  });
+                }
+            window.username='{{username}}'
+            window.chatto='{{chatto}}'
+            setInterval(refresh_chat, 1000);
+            </script>
