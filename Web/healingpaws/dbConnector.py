@@ -28,7 +28,8 @@ def addUser(username,password):
     add_question(u1.id)
     db.session.add(u1)
     db.session.commit()
-#sadasd
+#sadasdwaodpkl,;
+
 def updateUserBirthday(username,birthday):
     if not birthday:
         return
