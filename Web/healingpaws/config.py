@@ -10,4 +10,4 @@ class DatabaseSecretConfig(object):
     SECRET_KEY = 'group-10-is-the-best'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'mydb.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # dasda
+    # dasdasdasd
