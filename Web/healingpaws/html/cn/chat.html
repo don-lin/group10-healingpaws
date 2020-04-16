@@ -1,0 +1,127 @@
+<style>
+.lite-chatbox{padding:0;width:100%;position:relative;overflow-y:auto;overflow-x:hidden;font:18px Helvetica,"PingFang SC","Microsoft YaHei",sans-serif}
+
+.lite-chatbox .cmsg{position:relative;margin:4px 7px;min-height:50px;border:0}
+
+.lite-chatbox .cright{text-align:right;margin-left:64px}.lite-chatbox .cleft{text-align:left;margin-right:64px}.lite-chatbox img.headIcon{width:34px;height:34px;top:9px;position:absolute;border:1px solid #c5d4c4}.lite-chatbox .name{color:#8b8b8b;font-size:12px;display:block;line-height:18px}.lite-chatbox .name .htitle{display:inline-block;padding:0 3px;background-color:#ccc;color:#fff;-moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px;margin-right:4px;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;max-width:50px}.lite-chatbox .content{word-break:break-all;word-wrap:break-word;text-align:left;position:relative;display:inline-block;font-size:15px;padding:10px 15px;line-height:20px;min-width:9px;min-height:18px}.lite-chatbox .content img{width:100%;height:auto}.lite-chatbox .content a{color:#0072C1;margin:0 5px;cursor:hand}.lite-chatbox .tips{margin:12px;text-align:center;font-size:12px}.lite-chatbox .tips span{display:inline-block;padding:4px;background-color:#ccc;color:#fff;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px}.lite-chatbox img.radius{-moz-border-radius:100%;-webkit-border-radius:100%;border-radius:100%}.lite-chatbox .cright img.headIcon{right:0}.lite-chatbox .cleft img.headIcon{left:0}.lite-chatbox .cright .name{margin:0 48px 2px 0}.lite-chatbox .cleft .name{margin:0 0 2px 48px}
+
+.lite-chatbox .cright .content{margin:0 48px 0 0;-webkit-border-radius:20px 0 20px 20px;border-radius:20px 0 20px 20px;color:#fff;background:-webkit-linear-gradient(70deg,#3FD1E1 0%,#44D7CD 100%);background:linear-gradient(20deg,#3f8fe1cc 0%,#44d7c9 100%);-webkit-box-shadow:5px 5px 15px 0 rgba(102,102,102,0.15);box-shadow:5px 5px 15px 0 rgba(102,102,102,0.15)}
+
+
+.lite-chatbox .cright .content:after{right:-12px;top:8px}.lite-chatbox .cleft .content:after{left:-12px;top:8px}
+
+.lite-chatbox .cleft .content{margin:0 0 0 48px;-webkit-border-radius:0 20px 20px 20px;border-radius:0 20px 20px 20px;color:#666;border:1px solid rgba(0,0,0,0.05);background:#FFF;-webkit-box-shadow:5px 5px 15px 0 rgba(102,102,102,0.1);box-shadow:5px 5px 15px 0 rgba(102,102,102,0.1)}
+
+
+</style>
+
+
+        <p style="text-align:center;" class="refresh-hint">waiting for server response...</p>
+    <div class="lite-chatbox chat-box" style="width:400px; height:400px;overflo-y:auto"> 
+    
+    </div>
+    <div class="input-box">
+    <input  type="text" class="chat-input">
+    
+    <button onclick="send_chat()">发送</button>
+    
+    <button onclick="clear_chat()">清空</button>
+    </div>
+    
+    <style>
+            .input-box button:hover{
+            background: rgb(33, 237, 244);
+            transition: 0.5s;
+
+        }
+        .input-box button:active{
+            background: rgb(33, 244, 146);
+            transition: 0.2s;
+        }
+        .input-box input {
+            flex: 1;
+            border-radius: 10px;
+            border: 1px #cecece solid;
+            padding: 3px 4px;
+                outline: none;
+        }
+        
+        .input-box button {
+            width: 80px;
+            background: #2196F4;
+            border-radius: 21px;
+            border: 1px #fffa solid;
+            color: #ffffff;
+            margin: 0px 6px;
+            outline: none;
+        }
+    </style>
+
+    
+                <script>
+                function send_chat(){
+                    a=document.querySelector('.chat-input')
+                    content=a.value
+                    a.value=""
+                    $.post("/chat/"+window.chatto,{content:content},function(result){
+                        console.log(result)
+                  });
+                }
+                function clear_chat(){
+                    a=document.querySelector('.chat-input').value=""
+                }
+                function decode_message(arr,message){
+                    if(message.length==0)
+                        return arr;
+                    m=message.split("donlin_send_key")
+                    arr.push(m)
+                    return arr;
+                }
+                window.lastlength=-1;
+                function display_arr(arr){
+                    //console.log(arr)
+                    var chatbox=document.querySelector('.chat-box')
+                    chatbox.innerHTML='';
+                    for(var i=0;i<arr.length;i++){
+                        var e=create_element(arr[i]);
+                        chatbox.innerHTML+=e
+                    }
+
+                    
+                   if(window.lastlength!=arr.length)  
+                   chatbox.scrollTo(0,chatbox.scrollHeight);
+                   window.lastlength=arr.length;
+                }
+
+                function create_element(message){
+                    a='left'
+                    if(message[1]==window.username)
+                        a='right'
+
+                    return `
+                    	<div class="tips">
+                            <span>${message[3]}</span>
+                        </div>
+                        <div class="c${a} cmsg">
+                            <img class="headIcon" ondragstart="return false;"  src="/icon/0/${message[1]}.jpg" />
+                            <span class="name">${message[1]}</span>
+                            <span class="content">${message[4]}</span>
+                        </div>
+                    `
+                }
+
+                function refresh_chat(){
+                    $.post("/chat/"+window.chatto,{},function(result){
+                        arr=[]
+                        messages=result.split("donlin_split_key")
+                        for(var i=0;i<messages.length;i++)
+                            arr=decode_message(arr,messages[i])
+                        display_arr(arr)
+                        rh=document.querySelector('.refresh-hint')
+                        rh.textContent="last refresh : "+new Date().toLocaleTimeString();
+                  });
+                }
+            window.username='{{username}}'
+            window.chatto='{{chatto}}'
+            setInterval(refresh_chat, 1000);
+            </script>
