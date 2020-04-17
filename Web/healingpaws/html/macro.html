@@ -1,8 +1,0 @@
-{% macro render_form(form) %}
-    <form class="form" method="POST" enctype=multipart/form-data>
-    {{ form.hidden_tag() }}
-    {% for filed in form %}
-        {{ filed.label }}{{ filed }}<br>
-    {% endfor %}
-    </form>
-{% endmacro %}

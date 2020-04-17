@@ -10,4 +10,3 @@ db = SQLAlchemy(app)
 
 from healingpaws import routes, models,dbConnector
 db.create_all()
-dbConnector.databaseDebug()

@@ -1,0 +1,207 @@
+{%extends "base.html"%}
+
+{%block content%}
+<body>
+
+            <br>
+
+            <div id="boxapp" style="margin:auto;">
+                    <div class="mybox" >
+                    <a href="javascript:reshow()">
+                    <div class="imgBox">
+                    <img src="/img/t2.png" alt="">
+                    </div>
+                    <span class="source">ResNet-18</span>
+                    <h2 class="title">Recognise Pets type from image</h2>
+                    <span class="detail">ResidualNeuralNetwork</span>
+                    </a>
+                    </div>
+
+                    
+                    <div class="mybox" >
+                            <a href="javascript:reshow()">
+                            <div class="imgBox">
+                            <img src="/img/t2.png" alt="">
+                            </div>
+                            <span class="source">NLP</span>
+                            <h2 class="title">Emotional Analysis</h2>
+                            <span class="detail">based on LSTMs</span>
+                            </a>
+                            </div>
+
+                            
+                    <div class="mybox" >
+                            <a href="javascript:reshow()">
+                            <div class="imgBox">
+                            <img src="/img/t2.png" alt="">
+                            </div>
+                            <span class="source">Database</span>
+                            <h2 class="title">Data Preserve</h2>
+                            <span class="detail">based on flask-sqlalchemy</span>
+                            </a>
+                            </div>
+
+                            
+                    <div class="mybox" >
+                            <a href="javascript:reshow()">
+                            <div class="imgBox">
+                            <img src="/img/t2.png" alt="">
+                            </div>
+                            <span class="source">Algorithm</span>
+                            <h2 class="title">Unique Mechanism Deal the queue</h2>
+                            <span class="detail">Avoid conflict automatically</span>
+                            </a>
+                            </div>
+            </div>
+
+
+            <script>
+            function reshow(){
+                a=document.querySelector('.introduction-content');
+                if(a.getAttribute('hidden')==null)
+                    a.setAttribute('hidden','')
+                else
+                    a.removeAttribute('hidden')
+            }
+            </script>
+
+            <style>
+                .introduction-content{
+                    animation:mymove 0.5s;
+                    -webkit-animation:mymove 0.5s; /*Safari and Chrome*/
+                }
+
+
+                @keyframes mymove
+                {
+                    from {transform: rotateY(90deg);}
+                    to {transform: rotateY(0deg);}
+                }
+            </style>
+
+            <div class="introduction-content" style="margin:auto;text-align:center;" hidden="">
+                <img src="/img/db.jpg" width="500px" height="500px">
+                <p>this is the Introduction of resnet-18</p>
+            </div>
+
+    
+
+            <div id="timeLine">
+                    <ul id="yearList" style="left: 0px;">
+                        <li class="year-active">Doctors<i class="year-dot"></i></li>
+                        <li >Introduction<i class="year-dot"></i></li>
+                        <li >SH Hospital<i class="year-dot"></i></li>
+                        <li >BJ Hospital<i class="year-dot"></i></li>
+                        <li >GZ Hospital<i class="year-dot"></i></li>
+                        <li >Appointments<i class="year-dot"></i></li>
+                    </ul>
+                    <div class="dotted-line"></div>
+                
+                    <div id="cList">
+                        <a id="btnLeft" href='javascript:void(0)'>&lt;</a>
+                        <div style="width: 850px;margin: 0 auto; overflow: hidden">
+                                <ul id="cUl" style="left: 0px;">
+                                        <li style="left: 0px;">
+                                            <span class="li-tit">1</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 1 </p><p>
+                                                    </p><p>content 1 </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li style="left: 850px;">
+                                            <span class="li-tit">2</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 2</p><p>
+                                                    </p><p>content 2</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li style="left: 1700px;">
+                                            <span class="li-tit">3</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 3</p><p>
+                                                    </p><p>content 3</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li style="left: 2550px;">
+                                            <span class="li-tit">4</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 4</p><p>
+                                                    </p><p>content 4</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li style="left: 3400px;">
+                                            <span class="li-tit">5</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                   <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 5</p><p>
+                                                    </p><p>content 5</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li style="left: 4250px;">
+                                            <span class="li-tit">6</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 6</p><p>
+                                                    </p><p>content 6</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                       
+                                    </ul>
+                        </div>
+                
+                        <a id="btnRight" href='javascript:void(0)'>&gt;</a>
+                    </div>
+                </div>
+                
+
+                
+            <div style="height: 20vh; background-color:grey;color:white;">
+                    <br>
+                    {%if not username%}
+                        <h1 style="text-align: center;">Start Use Now</h1>
+                        <p style="text-align: center;">
+                        <br>
+                        <button data-toggle="modal" data-target="#myModal-login" style="width: 300px;height:56px;margin-right: 30px;background: #5481fe; color:white;font-size:15px;font-weight:900;">Log In</button> 
+                        <button data-toggle="modal" data-target="#myModal-register" style="width: 300px;height:56px;margin-right: 30px;background: #0dbcd7; color:white;font-size:15px;font-weight:900;">Register</button> 
+                    
+                    {%else%}
+                        <h1 style="text-align: center;">Hello {{username}}</h1>
+                        <p style="text-align: center;">
+                        <br>
+                        <button data-toggle="modal" data-target="#myModal-reset-password" style="width: 300px;height:56px;margin-right: 30px;background: #5481fe; color:white;font-size:15px;font-weight:900;">Reset Password</button> 
+                        <button data-toggle="modal" data-target="#myModal-logout" style="width: 300px;height:56px;margin-right: 30px;background: #0dbcd7; color:white;font-size:15px;font-weight:900;">Log Out</button> 
+               
+                    {%endif%}
+                </div>
+
+</body>
+
+{%endblock content%}

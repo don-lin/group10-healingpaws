@@ -1,46 +1,66 @@
-{% extends "logo.html" %}
+{% extends "base.html" %}
 
-{% block header %}
+{% block content %}
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>分院位置</title>
-        <link rel="stylesheet" href="css/base.css">
-        <link rel="stylesheet" href="css/style_locations.css">
-    </head>
-    <body>
-    <div class="wrapper">
-{% endblock %}
-{% block footer %}
-    {% for branch in branches %}
-{#        {% if loop.index is odd %}#}
-            <div class="container" style="width: 40%; height: auto">
-                <img src={{ branch.pic_address }} , style="width: 90%; height: auto; align-content: center">
-                <h2 style="align-content: center">{{ branch.name }}</h2>
-                <h3 style="align-content: center">{{ branch.address }}</h3>
-                <p>{{ branch.introduction }}</p>
-            </div>
-{#        {% else %}#}
-{#            <div class="container" style="width: 40%; height: auto">#}
-{#                <img src={{ branch.pic_address }} , style="width: 90%; height: auto; align-content: center">#}
-{#                <h2 style="align-content: center">{{ branch.name }}</h2>#}
-{#                <h3 style="align-content: center">{{ branch.address }}</h3>#}
-{#                <p>{{ branch.introduction }}</p>#}
-{#            </div>#}
-{#        {% endif %}#}
-    {% endfor %}
+<body>
+            <br>
 
+            <div id="timeLine">
 
-    </div>
-    <div class="footer">
-        <div class="line1"><a style="font-size: 20px" href="#">返回首页</a> | <a style="font-size: 20px" href="#">在线服务</a>
-        </div>
-    </div>
+                
+                    <div id="cList">
+                        <a id="btnLeft" href='javascript:void(0)'>&lt;</a>
+                        <div style="width: 850px;margin: 0 auto; overflow: hidden">
+                                <ul id="cUl" style="left: 0px;">
+                                        <li style="left: 0px;">
+                                            <span class="li-tit">1</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 1 </p><p>
+                                                    </p><p>content 1 </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li style="left: 850px;">
+                                            <span class="li-tit">2</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 2</p><p>
+                                                    </p><p>content 2</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li style="left: 1700px;">
+                                            <span class="li-tit">3</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/t2.png" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>title 3</p><p>
+                                                    </p><p>content 3</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                        </div>
+                
+                        <a id="btnRight" href='javascript:void(0)'>&gt;</a>
+                    </div>
+                                        <ul id="yearList" style="left: 0px;">
+                        <li class="year-active">Hospital Bei Jing<i class="year-dot"></i></li>
+                        <li >Hospital Shang Hai<i class="year-dot"></i></li>
+                        <li >Hospital Guang Zhou<i class="year-dot"></i></li>
+                    </ul>
+                    <div class="dotted-line"></div>
+                </div>
+                
 
-    </div>
-
-    </body>
-    </html>
-{% endblock %}
+</body>
+{% endblock content %}

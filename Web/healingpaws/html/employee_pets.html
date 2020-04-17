@@ -1,0 +1,168 @@
+{% extends "employee_base.html" %}
+
+{% block content %}
+
+<style>
+    table
+{
+animation:mymove 0.5s;
+-webkit-animation:mymove 0.5s; /*Safari and Chrome*/
+}
+
+
+@keyframes mymove
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+@-webkit-keyframes mymove /*Safari and Chrome*/
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+</style>
+    
+
+<body style="
+	overflow-x: hidden;
+	background: #50a3a2;
+	background: linear-gradient(135deg, rgb(165, 155, 224) 0%, rgba(242,147,113,1) 100%) no-repeat center center;
+    width:100vw;
+    height:100vh;
+    background-attachment: fixed;">
+            <br>
+
+<style>
+    th{
+        text-align:center;
+    }
+</style>
+
+<table class="table" style="width:500px;margin:auto; text-align:center;">
+	<caption><div class="special-buttons">
+                       <div class="btn" data-toggle="modal" data-target="#myModal-add-pet"><span class="circle" style="z-index: 0;"></span><span class="text">Add Pet</span></div> </div></caption>
+	<thead>
+		<tr>
+			<td>id</td>
+			<td>Name</td>
+			<td>Photo</td>
+			<td>Birth</td>
+			<td>Status</td>
+			<td>Appointment</td>
+			<td>Manage</td>
+		</tr>
+	</thead>
+	<tbody>
+    {# active success warning danger #}
+
+	{%for p in pets%}
+		<tr class="{{['danger','active','success','success'][p.health]}}">
+			<td>{{p.id}}</td>
+			<td>{{p.petsname}}</td>
+			{% if p.petsname == 'dog'%}
+			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/dog.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
+			{%elif p.petsname =='cat'%}
+			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/cat.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
+			{%else%}
+			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
+			{%endif%}
+			<td>{{p.birthDay}}</td>
+			<td>{{['Surgery date confirmed','Surgery Completed','Ready for Release', 'Waiting for Surgery'][p.health]}}</td>
+			<td>not set</td>
+			<td> <div class="special-buttons">
+                       <div class="btn"  onclick="prepareManage('{{p.id}}','{{p.petsname}}','{{p.birthDay}}',{{p.health}})" data-toggle="modal" data-target="#myModal-manage-pet"><span class="circle" style="z-index: 0;"></span><span class="text">Manage</span></div> </div></td>
+		</tr>
+	{%endfor%}
+	</tbody>
+</table>
+
+<div class="modal-box">
+    	<!-- Modal -->
+	<div class="modal fade" id="myModal-delete-pet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<div class="icon"> ! </div>
+					<h3 class="title">Delete this pet?</h3>
+					<form method="POST">
+					
+					<p class="description">pet name is null</p>
+					<button name='delete_pet' class="subscribe">Delete</button>
+					
+					</form>
+				</div>
+            </div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal-box">
+    	<!-- Modal -->
+	<div class="modal fade" id="myModal-manage-pet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<p class="description">Description</p>
+					<form method="POST">
+                    <select name='pet_health'>
+						<option value="0" >Surgery date confirmed</option>
+						<option value="1" >Surgery Complete</option>
+						<option value="2" >Ready for Release</option>
+						<option value="3">Waiting for Surgery</option>
+					</select>
+						<br>
+						<br>
+						<hr>
+						<button name="update_pet" value="" class="subscribe">Save</button>
+					</form>
+				</div>
+            </div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function prepareManage(id,name,birth,healthy){
+		options=document.querySelectorAll('#myModal-manage-pet option')
+		options[healthy].setAttribute('selected','selected')
+		document.querySelector('#myModal-manage-pet .description').textContent="PetName:" + name;
+		document.querySelector('#myModal-manage-pet .subscribe').setAttribute('value',id);
+	}
+</script>
+
+
+<div class="modal-box">
+    	<!-- Modal -->
+	<div class="modal fade" id="myModal-add-pet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<h3 class="title">new pet</h3>
+					<form  enctype="multipart/form-data" style="text-align: center;" method="POST" >
+						<h5>petname</h5><input name="pet_name"/><br>
+						<h5>photo</h5><input type="file" style="margin-left:70px;" />
+						<h5>birth</h5><input name="pet_birthday" type="date" /><br>
+						<h5>healthy</h5>
+                    <select name='pet_health'>
+						<option value="1" selected="selected">unknown</option>
+						<option value="0" >bad</option>
+						<option value="2" >perfect</option>
+					</select>
+					<p class="description"></p>
+						<button name="submit" value="add" class="subscribe">Add</button>
+					</form>
+				</div>
+            </div>
+		</div>
+	</div>
+</div>
+
+</body>
+{% endblock content %}
