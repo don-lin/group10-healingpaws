@@ -1,0 +1,1120 @@
+
+<!--icon change-->
+
+
+<style>
+.healing-paws-icon:hover{
+    transform:rotatey(360deg); 
+    transition: 3s;
+}
+</style>
+
+<!-- login style-->
+<style>
+.modal-box{ font-family: 'Roboto', sans-serif; }
+.modal-box .show-modal{
+    color: #fff;
+    background-color: #555;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    box-shadow: -5px 5px 1px rgba(0,0,0,0.2);
+    display: block;
+}
+.modal-box .show-modal:hover{
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+.modal-backdrop.in{ opacity: 0; }
+.modal-box .modal{ top: 70px !important; }
+.modal-box .modal-dialog{
+    width: 400px;
+    margin: 30px auto 10px;
+}
+.modal-box .modal-dialog .modal-content{
+    text-align: center;
+    border: 3px solid #FFB300;
+    border-radius: 15px;
+    box-shadow: -12px 12px 1px rgba(0, 0,0,0.2);
+    position: relative;
+    z-index: 10000;
+}
+.modal-box .modal-dialog .modal-content:before,
+.modal-box .modal-dialog .modal-content:after{
+    content: "";
+    background: linear-gradient(-32deg, #FFB300 49%,#FFC700 50%);
+    width: 100%;
+    height: 70%;
+    border-radius: 12px 12px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+.modal-box .modal-dialog .modal-content:after{
+    background: #FFB300;
+    width: 25px;
+    height: 25px;
+    border-radius: 0;
+    transform: translateX(-50%) rotate(45deg);
+    left: 50%;
+    bottom: 100px;
+    top: auto;
+}
+.modal-box .modal-dialog .modal-content .close{
+    color: #4D4D4D;
+    background-color: #fff;
+    font-size: 32px;
+    line-height: 30px;
+    height: 35px;
+    width: 35px;
+    border: 3px solid #FFB300;
+    border-radius: 50%;
+    box-shadow: -5px 5px 1px rgba(0,0,0,0.1);
+    opacity: 1;
+    position: absolute;
+    left: auto;
+    right: -10px;
+    top: -10px;
+    z-index: 1;
+    transition: all 0.3s;
+}
+.modal-box .modal-dialog .modal-content .close:hover{
+    color: #fff;
+    background-color: #4D4D4D;
+    border: 3px solid #262628;
+}
+.modal-box .modal-dialog .modal-content .modal-body{ padding: 20px 20px 30px !important; }
+
+.modal-box .modal-dialog .modal-content .modal-body .icon{
+    color: #3E3E40;
+    background: #fff;
+    font-size: 80px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 140px;
+    height: 110px;
+    width: 110px;
+    margin: 0 auto 20px;
+    -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.modal-box .modal-dialog .modal-content .modal-body .title{
+    color: #3B393F;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 50px;
+    text-transform: capitalize;
+    margin: 0 0 5px 0;
+}
+.modal-box .modal-dialog .modal-content .modal-body .description{
+    color: #3B393F;
+    font-size: 16px;
+    margin: 0 0 60px;
+}
+.modal-box .modal-dialog .modal-content .modal-body .subscribe{
+    color: #fff;
+    background: #3E3E40;
+    font-size: 18px;
+    padding: 8px 40px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0 auto;
+    border: 3px solid #262628;
+    box-shadow: -5px 5px 1px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    display: block;
+    transition: all 0.3s;
+}
+.modal-box .modal-dialog .modal-content .modal-body .subscribe:hover{
+    color: #3B393F;
+    background: #FFC700;
+    border: 3px solid #FFB300;
+}
+@media only screen and (max-width: 576px){
+    .modal-dialog{ width: 96% !important; }
+}
+</style>
+
+<!-- Timeline css -->
+<style>
+        #timeLine{
+            width: 1000px;
+            margin: auto;
+            /*border:  solid 1px #434343;*/
+            /*background: rgba(500,500,500,0.9);*/
+            overflow: hidden;
+        }
+        #yearList{
+            width: 100%;
+            list-style: none;
+            position: relative;
+            /*left: 457px;*/
+            margin-left: 457px;
+        }
+        #yearList:after,.container-li:after{
+            content: "";
+            display: table;
+            clear: both;
+        }
+        #yearList li{
+            float: left;
+            cursor: pointer;
+            text-align: center;
+            font-size: 21px;
+            padding: 10px 20px;
+        }
+        .year-dot{
+            width: 10px; height: 10px; border-radius: 5px;
+            background-color: #002f21;
+            margin: 10px auto;
+            display: block;
+        }
+        .dotted-line{
+            border-bottom: dashed 2px  #7b7d7b;
+            position: relative;
+            top: -26px;
+            z-index: -1;
+        }
+        #cList{
+            width: 100%;
+            position: relative;
+        }
+        #btnLeft{
+            width: 50px; height: 130px;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 180px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            line-height: 120px;
+            background: rgba(0,0,0,0.3);
+        }
+        #btnRight{
+            width: 50px; height: 130px;
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            top: 180px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            line-height: 120px;
+            background: rgba(0,0,0,0.3);
+        }
+        #btnLeft:hover,#btnRight:hover{
+            background: rgba(0,0,0,0.5);
+        }
+        #cUl{
+            width: 850px;
+            list-style: none;
+            height: 400px;
+            margin: 0 auto;
+            position: relative;
+            left: 0px;
+        }
+        #cUl li{
+            width: 850px;
+          position: absolute;  left: 0;
+        }
+        .li-tit{
+            display:inline-block;
+            color: #fff;
+            background-color: #002f21;
+            padding: 10px 20px;
+            margin: 30px auto 10px;
+        }
+        .container-li{
+            width: 100%;
+            padding: 20px 50px;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border: solid 1px #434343;
+        }
+        .c-li-left{
+            width: 40%;
+            float: left;
+        }
+        .c-li-right{
+            width: 60%;
+            float: right;
+        }
+        .year-active{
+            color: red;
+        }
+        .year-active i{
+            background-color: red;
+        }
+</style>
+
+<!--  search bar css -->
+<style>
+        .type-ahead {
+            width: 100%;
+            max-width: 250px;
+            position: relative;
+            -webkit-perspective: 500px;
+                    perspective: 500px;
+          }
+          .type-ahead__input {
+            padding: 12px 34px 12px 12px;
+            border: none;
+            border-radius: 0;
+            font-size: 14px;
+            letter-spacing: .4px;
+            caret-color: #007991;
+            color: #007991;
+            outline: none;
+            width: calc(100% - 46px);
+            box-shadow: 4px 8px 12px 0 rgba(0, 0, 0, 0.1);
+          }
+          .type-ahead__input::-webkit-input-placeholder {
+            opacity: .5;
+            -webkit-transition: opacity .2s linear;
+            transition: opacity .2s linear;
+            color: #6E6E6E;
+          }
+          .type-ahead__input::-moz-placeholder {
+            opacity: .5;
+            -moz-transition: opacity .2s linear;
+            transition: opacity .2s linear;
+            color: #6E6E6E;
+          }
+          .type-ahead__input:-ms-input-placeholder {
+            opacity: .5;
+            -ms-transition: opacity .2s linear;
+            transition: opacity .2s linear;
+            color: #6E6E6E;
+          }
+          .type-ahead__input::-ms-input-placeholder {
+            opacity: .5;
+            -ms-transition: opacity .2s linear;
+            transition: opacity .2s linear;
+            color: #6E6E6E;
+          }
+          .type-ahead__input::placeholder {
+            opacity: .5;
+            -webkit-transition: opacity .2s linear;
+            transition: opacity .2s linear;
+            color: #6E6E6E;
+          }
+          .type-ahead__input:focus::-webkit-input-placeholder {
+            opacity: .7;
+          }
+          .type-ahead__input:focus::-moz-placeholder {
+            opacity: .7;
+          }
+          .type-ahead__input:focus:-ms-input-placeholder {
+            opacity: .7;
+          }
+          .type-ahead__input:focus::-ms-input-placeholder {
+            opacity: .7;
+          }
+          .type-ahead__input:focus::placeholder {
+            opacity: .7;
+          }
+          .type-ahead .icon {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            fill: #6E6E6E;
+            -webkit-transform: scale(0.8);
+                    transform: scale(0.8);
+            fill: #007991;
+          }
+          .type-ahead__suggestions {
+            padding: 0px 0;
+            background-color: lightgray;
+            
+            width: 100%;
+            position: absolute;
+            top: 42px;
+            margin: 0;
+            -webkit-transform-origin: top;
+                    transform-origin: top;
+            -webkit-transform: rotateX(0deg);
+                    transform: rotateX(0deg);
+            -webkit-transition: opacity 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.3s, -webkit-transform 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.2s;
+            transition: opacity 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.3s, -webkit-transform 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.2s;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.2s, opacity 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.3s;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.2s, opacity 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.3s, -webkit-transform 0.6s cubic-bezier(0.68, -0.55, 0.39, 1.3) -0.2s;
+          }
+          .type-ahead__suggestions.hidden {
+            opacity: 0;
+            -webkit-transform: rotateX(-90deg);
+                    transform: rotateX(-90deg);
+            transform: rotateX(-90deg);
+            pointer-events: none;
+            -webkit-transition: opacity 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09) 0.1s, -webkit-transform 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09);
+            transition: opacity 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09) 0.1s, -webkit-transform 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09);
+            transition: transform 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09), opacity 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09) 0.1s;
+            transition: transform 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09), opacity 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09) 0.1s, -webkit-transform 0.6s cubic-bezier(0.71, -0.22, 0.33, 1.09);
+          }
+          .type-ahead__suggestions .suggestion {
+            color: #6E6E6E;
+            list-style: none;
+            font-size: 12px;
+            margin: 0;
+            padding: 8px 12px;
+            -webkit-transition: all .2s linear;
+            transition: all .2s linear;
+            cursor: pointer;
+          }
+          .type-ahead__suggestions .suggestion .match {
+            font-weight: bold;
+            overflow-wrap: break-word;
+          }
+          .type-ahead__suggestions .suggestion:hover {
+            color: #007991;
+          }
+</style>
+
+<!-- top buttons css -->
+
+<style>
+        .special-buttons {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .special-buttons .btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "Raleway", sans-serif;
+          font-weight: 300;
+          padding: 1rem 2rem;
+          margin: 0 5rem;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+        .special-buttons .btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid #8d99ae;
+          padding: 1rem 2rem 1rem 3rem;
+        }
+        .special-buttons .btn .circle {
+          background-color: #8d99ae;
+          height: 1rem;
+          width: 1rem;
+          border-radius: 100%;
+          margin-right: 1rem;
+          position: absolute;
+          left: 1rem;
+          z-index: -1;
+          transition: 0.25s;
+        }
+        .special-buttons .btn .text {
+          position: relative;
+          left: 0;
+          transition: 0.5s;
+        }
+        .special-buttons .btn:hover {
+          color: white;
+        }
+        .special-buttons .btn:hover .circle {
+          -webkit-transform: scale(25);
+                  transform: scale(25);
+        }
+        .special-buttons .btn:hover .text {
+          left: -0.5rem;
+        }
+        </style>
+
+<!-- header css l-->
+<style>
+header {
+    background-color:#333;
+    color:#b0b0b0;
+    text-align:center;
+    padding:5px;
+}
+
+header a:link,a:visited{
+    color:#b0b0b0;
+    text-decoration:none;
+}
+header a:hover{
+    color:white
+}
+</style>
+
+<!-- boxes css -->
+<style>
+
+        *{padding:0;margin:0}
+        
+        #boxapp{width:1200px;display:flex;justify-content:space-between;position:relative}
+        .mybox{width:280px;overflow:hidden;background:#f6f6f6;box-sizing:border-box;padding:0 15px 25px}
+        .mybox a{display:flex;flex-direction:column;align-items:center;color:#535353;text-decoration:none}
+        .mybox a:hover{color:#e52d67}
+        .mybox .imgBox{width:280px;height:186.67px;overflow:hidden}
+        .mybox .imgBox img{width:100%;height:100%;transition:all .6s linear}
+        .mybox .source{border:1px solid #535353;padding:6px 20px;border-radius:25px;margin:20px}
+        .mybox .title{margin-bottom:20px;font-size:20px}
+        .mybox .detail{font-size:14px;line-height:160%;text-align:justify;width:100%}
+        .mybox>a::after{content:'';width:280px;position:absolute;background:#e52d67;bottom:0;height:0;transition:height .3s linear}
+        .mybox>a:hover::after{height:10px}.mybox:hover img{transform:scale(1.15)}
+        .mybox:hover .source{background:#e52d67;border-color:#e52d67;color:#fff}
+</style>
+
+
+{%if not noBS%}
+
+<header >
+
+    <div  >
+    <a href="/introduction" style="float:left" data-toggle="modal"  >Healing Paws</a>
+    <label style="float:left"></label>
+    <label style="float:right">
+    <a class='myerror' hidden='hidden' href="javascript:void(0);" data-toggle="modal" data-target="#myModal-error"></a>
+	{%if not username%}
+	
+    <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-login">log in |</a>
+    <a  href="javascript:void(0);" data-toggle="modal" data-target="#myModal-register" >register</a>
+	
+	{%else%}
+	
+    <a href="/profile" data-toggle="modal"  >{{username}}|</a>
+    <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-reset-password">reset password |</a>
+    <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-logout" >log out</a>
+	
+	{%endif%}
+    </label>
+    <div class="modal-box">
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<h3 class="title">Please Log In</h3>
+					<form method="post" action="/login">
+					<label>username :</label><input name="username"><br>
+					<label>password :</label><input type="password" name="password">
+					<p class="description"></p>
+					<button class="subscribe" type="submit">log in</button>
+					
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    	<!-- Modal -->
+	<div class="modal fade" id="myModal-register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<h3 class="title">Please Register</h3>
+					<form method="post" action="/register">
+					<label>username :</label><input name="username"><br>
+					<label>password :</label><input type="password" name="password">
+					<p class="description"></p>
+					<button class="subscribe" type="submit">register</button>
+					
+					</form>
+				</div>
+            </div>
+		</div>
+	</div>
+
+    
+    	<!-- Modal -->
+	<div class="modal fade" id="myModal-reset-password" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<h3 class="title">Reset Password</h3>
+					<form method="post" action="/reset">
+					<input hidden='hidden' name="username" value="{{username}}">
+					<label>new password :</label><input type="password" name="password">
+					<p class="description">Please remember your new password</p>
+					<button class="subscribe" type="submit">reset</button>
+					
+					</form>
+				</div>
+            </div>
+		</div>
+	</div>
+	
+    	<!-- Modal -->
+        <div class="modal fade" id="myModal-logout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<div class="icon"> √ </div>
+					<h6 class="title">'{{username}}' Are you sure to Log Out</h6>
+					<p class="description">Your User name is {{username}}</p>
+					<br><br>
+					<button class="subscribe" onclick="$.post('/logout','',function(){location.reload()})">Confirm</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+        	<!-- Modal -->
+    <div class="modal fade" id="myModal-error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<div class="icon"> ! </div>
+					<h6 class="title">Error</h6>
+					<p class="description" style="font-size: 20px;color:red;">{{error_info}}</p>
+					<br><br>
+					<button class="subscribe" data-dismiss="modal" aria-label="Close">Confirm</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<table class="head-table" align="center" style="margin:auto; color: white;text-align:center; ">
+		<tr>
+			<td>Group 10</td>
+		</tr>
+    </table>    
+</div>
+
+</header>
+{%endif%}
+
+
+<div id="wrapper" class="">
+	<div class="overlay" style="display: none;"></div>
+
+	<!-- Sidebar -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+		<ul class="nav sidebar-nav">
+			<li class="sidebar-brand">
+				<a href="/doctors">
+				   Users List
+				</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-folder"></i> Page one</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-file-o"></i> Second page</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-cog"></i> Third page</a>
+			</li>
+			<li class="dropdown">
+			  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Dropdown <span class="caret"></span></a>
+			  <ul class="dropdown-menu" role="menu">
+				<li class="dropdown-header">Dropdown heading</li>
+				<li><a href="#">Action</a></li>
+				<li><a href="#">Another action</a></li>
+				<li><a href="#">Something else here</a></li>
+				<li><a href="#">Separated link</a></li>
+				<li><a href="#">One more separated link</a></li>
+			  </ul>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-bank"></i> Page four</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-dropbox"></i> Page 5</a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-fw fa-twitter"></i> Last page</a>
+			</li>
+		</ul>
+	</nav>
+	<!-- /#sidebar-wrapper -->
+
+	<!-- Page Content -->
+	<div id="page-content-wrapper">
+	  <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+		<span class="hamb-top"></span>
+		<span class="hamb-middle"></span>
+		<span class="hamb-bottom"></span>
+	  </button>
+		
+	</div>
+	<!-- /#page-content-wrapper -->
+
+</div>
+
+
+<div class="special-buttons">
+            <img class="healing-paws-icon" src="/img/logoBIGnew.jpg" style="width: 200px; height:50px;">
+                <div class="btn" onclick="location.replace('/employee_question')"><span class="circle"></span><span class="text">Answer</span></div>
+                <div class="btn" onclick="location.replace('/employee_appointment')"><span class="circle"></span><span class="text">Manage appointment</span></div>
+                <div class="btn" onclick="location.replace('/employee_pets')"><span class="circle"></span><span class="text">Pets</span></div>
+                <div class="btn" onclick="location.replace('/profile')"><span class="circle"></span><span class="text">Profile</span></div>
+            
+                <label class="type-ahead" style="float: right;z-index: 2;">
+                        <input type="text" class="type-ahead__input" placeholder="input a keyword" value="">
+                        <svg class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+                            <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z"></path></svg>
+                        <ul class="type-ahead__suggestions"></ul>
+                </label>
+            </div>
+{%block content%}
+
+
+
+{%endblock content%}
+
+<!-- search bar js -->
+<script>
+        const suggestions = document.querySelector('.type-ahead__suggestions')
+        const input = document.querySelector('.type-ahead__input');
+        
+        
+        suggestions.addEventListener('click', (e) => {
+            if(e.target.classList.contains('match')) {
+                input.value = e.target.parentNode.innerText;
+            } else {
+                input.value = e.target.innerText;
+            }
+            suggestions.classList.add('hidden');
+        })
+            suggestions.classList.add('hidden');
+        
+        input.addEventListener('keyup', (e) => {
+            if(e.code === 'Enter') 	return suggestions.classList.add('hidden');
+            const text = event.target.value;
+            if(!text) {
+                return suggestions.classList.add('hidden')
+            } else {
+                suggestions.classList.remove('hidden')
+                const suggestionItems = `
+                    <li class="suggestion"><span class="match">${text}</span></li>
+                    <li class="suggestion">${highLightMatch('doctor1',text)}</li>
+                    <li class="suggestion">${highLightMatch('hostpital1',text)}</li>
+                    <li class="suggestion">${highLightMatch('ok',text)}</li>
+                `;
+                suggestions.innerHTML = suggestionItems;
+            };
+        });
+        
+        function highLightMatch(sentence, targetText) {
+            const regex = new RegExp(targetText, 'gi');
+            return sentence.replace(regex, `<span class="match">${targetText}</span>`)
+        }
+</script>
+
+<!--  time line js -->
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+<script>
+        ;(function($){
+
+            $.fn.timeLine = function(opt) {
+                //设置 默认值
+                var defaults = {
+                    w: 0,   //每一个li的宽度
+                    n:0,    //点击移动的次数
+                    btnPrev:"#btnLeft",      //上一个按钮
+                    btnNext: "#btnRight",  //下一个按钮
+                    dateBox:"#yearList", //日期的ul盒子
+                    dateArr: "#yearList li", //保存每一个日期的数组
+                    conBox:"#cUl",  //保存切换内容的ul盒子
+                    conArr:"#cUl li" //保存每一个内容的数组
+                    //init:function(){
+                    //    var _this=this;
+                    //}
+                };
+        
+                opt = $.extend({}, defaults, opt);
+                return this.each(function() {
+                    opt.btnPrev=$(opt.btnPrev);
+                    opt.btnNext=$(opt.btnNext);
+                    opt.dateBox=$(opt.dateBox);
+                    opt.dateArr=$(opt.dateArr);
+                    opt.conBox=$(opt.conBox);
+                    opt.conArr=$(opt.conArr);
+                    var liNum=opt.conArr.length;
+                    //初始化li的位置
+                    opt.conArr.each(function(i){
+                        $(this).css("left",opt.w*i+"px");
+                    })
+                    //绑定右边点击事件
+                    opt.btnNext.on("click",function(){
+                        if(opt.n<liNum){
+                            opt.n++;
+                            (opt.n>=liNum)&&(opt.n=0);
+                            updata();
+                        }
+                    })
+                    //绑定左边点击事件
+                    opt.btnPrev.on("click",function(){
+                        opt.n--;
+                        (opt.n<0)&&(opt.n=liNum-1);
+                        updata();
+                    })
+        
+                    function updata(){
+                        console.log(opt.n)
+                        opt.conBox.animate({left:-(opt.w*opt.n)+'px'},300);
+                        opt.dateBox.animate({left:-((90)*opt.n)+'px'},300);
+                        $(opt.dateArr[opt.n]).addClass("year-active").siblings().removeClass("year-active");
+                    }
+                });
+            }
+        
+        
+        
+        })(jQuery);
+</script>
+
+<!-- time line js-->
+<script type="text/javascript">
+    $(function(){
+        $("#timeLine").timeLine({
+            w:850  //每一个li的宽度
+//            btnPrev:"#btnLeft",      //上一个按钮
+//            btnNext: "#btnRight",  //下一个按钮
+//            dateBox:"#yearList", //日期的ul盒子
+//            dateArr: "#yearList li", //保存每一个日期的数组
+//            conBox:"#cUl",  //保存切换内容的ul盒子
+//            conArr:"#cUl li" //保存每一个内容的数
+        });
+    });
+</script>
+
+<link href="/css/bootstrap.css" rel="stylesheet">
+<script src="/js/bootstrap.js"></script>
+<!--left side bar-->
+<style>
+/*-------------------------------*/
+/*           VARIABLES           */
+/*-------------------------------*/
+
+.nav .open > a {
+  background-color: transparent;
+}
+.nav .open > a:hover {
+  background-color: transparent;
+}
+.nav .open > a:focus {
+  background-color: transparent;
+}
+/*-------------------------------*/
+/*           Wrappers            */
+/*-------------------------------*/
+#wrapper {
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  padding-left: 0;
+  transition: all 0.5s ease;
+}
+#wrapper.toggled {
+  padding-left: 220px;
+}
+#wrapper.toggled #sidebar-wrapper {
+  width: 220px;
+}
+#wrapper.toggled #page-content-wrapper {
+  position: absolute;
+}
+#sidebar-wrapper {
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  background: #1a1a1a;
+  height: 100%;
+  left: 220px;
+  margin-left: -220px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: all 0.5s ease;
+  width: 0;
+  z-index: 1000;
+}
+#sidebar-wrapper::-webkit-scrollbar {
+  display: none;
+}
+/*-------------------------------*/
+/*     Sidebar nav styles        */
+/*-------------------------------*/
+.sidebar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  width: 220px;
+}
+.sidebar-nav li {
+  display: inline-block;
+  line-height: 20px;
+  position: relative;
+  width: 100%;
+}
+.sidebar-nav li:before {
+  background-color: #1c1c1c;
+  content: '';
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  -webkit-transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in;
+  width: 3px;
+  z-index: -1;
+}
+.sidebar-nav li:first-child a {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+.sidebar-nav li:nth-child(2):before {
+  background-color: #402d5c;
+}
+.sidebar-nav li:nth-child(3):before {
+  background-color: #4c366d;
+}
+.sidebar-nav li:nth-child(4):before {
+  background-color: #583e7e;
+}
+.sidebar-nav li:nth-child(5):before {
+  background-color: #64468f;
+}
+.sidebar-nav li:nth-child(6):before {
+  background-color: #704fa0;
+}
+.sidebar-nav li:nth-child(7):before {
+  background-color: #7c5aae;
+}
+.sidebar-nav li:nth-child(8):before {
+  background-color: #8a6cb6;
+}
+.sidebar-nav li:nth-child(9):before {
+  background-color: #987dbf;
+}
+.sidebar-nav li:hover:before {
+  -webkit-transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in;
+  width: 100%;
+}
+.sidebar-nav li a {
+  color: #dddddd;
+  display: block;
+  padding: 10px 15px 10px 30px;
+  text-decoration: none;
+}
+.sidebar-nav li.open:hover before
+  -webkit-transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in;
+  width: 100%;
+}
+.sidebar-nav .dropdown-menu {
+  background-color: #222222;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+.sidebar-nav li a:hover,
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus,
+.sidebar-nav li.open a:hover,
+.sidebar-nav li.open a:active,
+.sidebar-nav li.open a:focus {
+  background-color: transparent;
+  color: #ffffff;
+  text-decoration: none;
+}
+.sidebar-nav > .sidebar-brand {
+  font-size: 20px;
+  height: 65px;
+  line-height: 44px;
+}
+/*-------------------------------*/
+/*       Hamburger-Cross         */
+/*-------------------------------*/
+.hamburger {
+  background: transparent;
+  border: none;
+  display: block;
+  height: 32px;
+  margin-left: 15px;
+  position: fixed;
+  top: 40px;
+  width: 32px;
+  z-index: 999;
+}
+.hamburger:hover {
+  outline: none;
+}
+.hamburger:focus {
+  outline: none;
+}
+.hamburger:active {
+  outline: none;
+}
+.hamburger.is-closed:before {
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: all 0.35s ease-in-out;
+  color: #ffffff;
+  content: '';
+  display: block;
+  font-size: 14px;
+  line-height: 32px;
+  opacity: 0;
+  text-align: center;
+  width: 100px;
+}
+.hamburger.is-closed:hover before {
+  -webkit-transform: translate3d(-100px, 0, 0);
+  -webkit-transition: all 0.35s ease-in-out;
+  display: block;
+  opacity: 1;
+}
+.hamburger.is-closed:hover .hamb-top {
+  -webkit-transition: all 0.35s ease-in-out;
+  top: 0;
+}
+.hamburger.is-closed:hover .hamb-bottom {
+  -webkit-transition: all 0.35s ease-in-out;
+  bottom: 0;
+}
+.hamburger.is-closed .hamb-top {
+  -webkit-transition: all 0.35s ease-in-out;
+  background-color: #663300;
+  top: 5px;
+}
+.hamburger.is-closed .hamb-middle {
+  background-color: #ff9999;
+  margin-top: -2px;
+  top: 50%;
+}
+.hamburger.is-closed .hamb-bottom {
+  -webkit-transition: all 0.35s ease-in-out;
+  background-color: #660066;
+  bottom: 5px;
+}
+.hamburger.is-closed .hamb-top,
+.hamburger.is-closed .hamb-middle,
+.hamburger.is-closed .hamb-bottom,
+.hamburger.is-open .hamb-top,
+.hamburger.is-open .hamb-middle,
+.hamburger.is-open .hamb-bottom {
+  height: 4px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+.hamburger.is-open .hamb-top {
+  -webkit-transform: rotate(45deg);
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.73, 1, 0.28, 0.08);
+  background-color: #ffffff;
+  margin-top: -2px;
+  top: 50%;
+}
+.hamburger.is-open .hamb-middle {
+  background-color: #ffffff;
+  display: none;
+}
+.hamburger.is-open .hamb-bottom {
+  -webkit-transform: rotate(-45deg);
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.73, 1, 0.28, 0.08);
+  background-color: #ffffff;
+  margin-top: -2px;
+  top: 50%;
+}
+.hamburger.is-open:before {
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: all 0.35s ease-in-out;
+  color: #ffffff;
+  content: '';
+  display: block;
+  font-size: 14px;
+  line-height: 32px;
+  opacity: 0;
+  text-align: center;
+  width: 100px;
+}
+.hamburger.is-open:hover before {
+  -webkit-transform: translate3d(-100px, 0, 0);
+  -webkit-transition: all 0.35s ease-in-out;
+  display: block;
+  opacity: 1;
+}
+/*-------------------------------*/
+/*          Dark Overlay         */
+/*-------------------------------*/
+.overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+/* SOME DEMO STYLES - NOT REQUIRED */
+
+</style>
+
+
+<!-- /#wrapper -->
+<script type="text/javascript">
+	$(document).ready(function () {
+	  var trigger = $('.hamburger'),
+		  overlay = $('.overlay'),
+		 isClosed = false;
+
+		trigger.click(function () {
+		  hamburger_cross();      
+		});
+
+		function hamburger_cross() {
+
+		  if (isClosed == true) {          
+			overlay.hide();
+			trigger.removeClass('is-open');
+			trigger.addClass('is-closed');
+			isClosed = false;
+		  } else {   
+			overlay.show();
+			trigger.removeClass('is-closed');
+			trigger.addClass('is-open');
+			isClosed = true;
+		  }
+	  }
+	  
+	  $('[data-toggle="offcanvas"]').click(function () {
+			$('#wrapper').toggleClass('toggled');
+	  });  
+	});
+</script>
+
+
+
+{%if error_info%}
+        <script>
+        console.log('haha')
+        document.querySelector('.myerror').click()</script>
+{%endif%}
