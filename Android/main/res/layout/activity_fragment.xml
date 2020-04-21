@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/myFragment"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <Button
+        android:id="@+id/f1"
+        android:text="Home"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/shape"
+        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/f2"
+            android:text="Status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/doctors"
+            android:text="Doctors"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/f3"
+            android:text="Appointment"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/f4"
+            android:layout_width="0dp"
+            android:text="Me"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>
