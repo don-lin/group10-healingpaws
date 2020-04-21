@@ -274,31 +274,7 @@ Every time a user register a new account, he will be given the default user leve
      In addition, to give user a better experience when chatting with others, every time user submit what he want to say, the page would not refresh and display the new statement immediately. To achieve this, we apply AJAX mechanism. Through a small amount of data exchange with the server in the background, Ajax can make the web page asynchronously update. This means that you can update a part of the page without reloading the entire page.
 \end{itemize}
 
-\subsection{Reliability and Security}
-\begin{itemize}
-    \item \textbf{Authority Validation}
-    \newline
-    It is dangerous for users to illegally access some pages that they don't have access to, which may cause data transmission errors or server crashes. For example, if a customer user visit manage page that is belong to employee, his illegal behaviors might cause damage to the system. To prevent this problem, our navigation bar is designed with two version, one is for employees and another is for customers. The time a user log in, our system will validate his identity and give him the right navigation bars. At the same time, before entering any pages that involves data exchange between browser and server like "appointment", our system will make sure there is an account has logged in. If not, the page will reject this user's visit request and alert him.
-    \begin{figure}[h]
-         \centering
-         \includegraphics[scale = 0.45]{alert.png}
-         \caption{Alert dialog}
-         \label{alert_dialog}
-     \end{figure}
-    
-    \item \textbf{Account Security}
-    \newline
-    Protecting the security of accounts is one of the important means to protect users. We want to ensure that only the owner of an account has the right to log in with it, so we use SHA256 to protect user passwords. The password entered by the user in the browser is not directly stored in the database, instead we store the encrypted hash code. This conversion is irreversible. The password that has been hashed cannot be restored to the original input by calculation. Even if others have access to the server database, it is impossible to obtain the user's password.
-    \begin{figure}[h]
-         \centering
-         \includegraphics[scale=0.9]{pass_in_db.png}
-         \caption{User's password in our database}
-         \label{pass_in_db}
-     \end{figure}
-    \item \textbf{CSRF Protection}
-    \newline
-    CSRF cross-site request forgery is derived from WEB's implicit authentication mechanism. Although WEB's authentication mechanism can hold a request from a user's browser, it cannot guarantee that the request is sent by the user's approval. In order to allow all views to be protected by CSRF, we use flask's "CsrfProtect" module. And we set a token for CSRF protection, we add a CSRF token every time the user needs to submit the form, if the website does not pass CSRF verification, it will return a "400" response.
-\end{itemize}
+% 
 
 
 \subsection{Hospital Map}
