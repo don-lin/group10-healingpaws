@@ -52,7 +52,8 @@ def reset_password():
 @app.route('/logout',methods=["GET","POST"])
 def logout():
     session.pop('username')
-    session.pop('user_level')
+    if session.get('user_level') is not None:
+        session.pop('user_level')
     return 'log out success'
 
 
