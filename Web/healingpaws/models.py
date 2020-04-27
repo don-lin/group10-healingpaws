@@ -3,6 +3,7 @@ class User(db.Model):
     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     username=db.Column(db.String(64))
     passwordHash=db.Column(db.String(64))
+    #customer 0,  doctor 1, employee 2
     user_level=db.Column(db.Integer)
     email=db.Column(db.String,default="no email")
     dateOfBirth=db.Column(db.String,default="unknown birthday")

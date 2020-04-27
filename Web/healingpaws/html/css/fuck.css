@@ -1,0 +1,295 @@
+body,html{
+    height: 100%;
+}
+body{
+    background: #f0f1f2;
+    font-size: 12px;
+    font-family: Open sans, sans-serif;
+}
+/* container */
+.container{
+    max-width: 500px;
+    min-width: 300px;
+    height: auto;
+    background: white;
+    border-radius: 6px;
+    position: relative;
+    margin: 0 auto;/*居中*/
+}
+.container > .chatbox{
+    width: inherit;
+}
+/*friendslist*/
+.container > .chatbox > .friendslist{
+    width: inherit;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+    /*topmenu*/
+.container > .chatbox > .friendslist > .topmenu{
+    height: 70px;
+    width: inherit;
+    border-bottom: 1px solid #d8dfe3;
+}
+.container > .chatbox > .friendslist > .topmenu > span{
+    display: inline-block;
+    width: 96px;
+    height: 70px;
+    margin-left: 12%;
+    cursor: pointer;
+    background: url("../img/top-menu.png") no-repeat;
+}
+.container > .chatbox > .friendslist > .topmenu > span.friends{
+    background-position: -3px -48px;
+ }
+.container > .chatbox > .friendslist > .topmenu > span.chats{
+    background-position: -96px -48px;
+}
+.container > .chatbox > .friendslist > .topmenu > span.history{
+    background-position: -192px -48px;
+}
+.container > .chatbox > .friendslist > .topmenu > span.friends:hover,
+.container > .chatbox > .friendslist > .topmenu > span.friends.active{
+    background-position: -3px -118px;
+}
+.container > .chatbox > .friendslist > .topmenu > span.chats:hover,
+.container > .chatbox > .friendslist > .topmenu > span.chats.active{
+    background-position: -96px -118px;
+}
+.container > .chatbox > .friendslist > .topmenu > span.history:hover,
+.container > .chatbox > .friendslist > .topmenu > span.history.active{
+    background-position: -192px -118px;
+}
+    /*friends*/
+.container > .chatbox > .friendslist > .friends{
+    overflow-y: scroll;
+    overflow-y: hidden;
+}
+.container > .chatbox > .friendslist > .friends > .friend{
+    width:100%;
+    position: relative;
+    padding: 10px;
+    border-bottom: 1px solid #CCCCCC;
+}
+.container > .chatbox > .friendslist > .friends > .friend:last-child{
+    margin-bottom: 50px;
+}
+.container > .chatbox > .friendslist > .friends > .friend:hover{
+    background: #EEEEEE;
+    cursor: pointer;
+}
+.container > .chatbox > .friendslist > .friends > .friend > img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+.container > .chatbox > .friendslist > .friends > .friend > p {
+    position: absolute;
+    height: 50px;
+    line-height: 20px;
+    top:50%;
+    left:90px;
+    margin-top: -20px;
+}
+.container > .chatbox > .friendslist > .friends > .friend > p > span{
+    display: block;
+    color: #AABED1;
+    font-size: 14px;
+}
+.container > .chatbox > .friendslist > .friends > .friend > p > strong{
+    font-size: 16px;
+    color: #597A96;
+}
+.container > .chatbox > .friendslist >  .search{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: 12px 18px;
+    background: #E3E9ED;
+    border-radius: 0 0 6px 6px;
+}
+.container > .chatbox > .friendslist > .search > input{
+    border: none;
+    outline: none;
+    background: #E3E9ED;
+    padding: 5px;
+    margin-left: 26px;
+    color: #8198AC;
+}
+.container > .chatbox > .friendslist > .search > input::-webkit-input-placeholder,
+.container > .chatbox > .friendslist > .search > input:-ms-input-placeholder,
+.container > .chatbox > .friendslist > .search > input::-moz-placeholder{
+    color: #8198AC;
+    font-size: 14px;
+}
+.container > .chatbox > .friendslist > .search > i{
+    width:22px;
+    height: 26px;
+    position: absolute;
+    background: #CCCCCC url("../img/search.png") right bottom no-repeat;
+}
+/*chatview*/
+.container > .chatbox > #chatview{
+    width:100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top:0;
+    background: #EEEEEE;
+    border: 1px solid #eaeaea;
+    border-radius: 6px;
+    display: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+    /*profile*/
+.container > .chatbox > #chatview > #profile{
+    position: relative;
+    width:100%;
+    height:30%;
+    text-align: center;
+    background:#fff url("../img/timeline1.png") 0 0 no-repeat;
+    background-size: 100% 100%;
+    border-radius: 6px 6px 0 0;
+}
+.container > .chatbox > #chatview > #profile .avatar{
+    position: absolute;
+    width:80px;
+    height: 80px;
+    border:3px solid #fff;
+    border-radius:50%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    left:50%;
+    top:20%;
+    margin-left: -40px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.container > .chatbox > #chatview > #profile > p{
+    position: absolute;
+    width: 100%;
+    margin-left: -50%;
+    color: white;
+    font-size: 16px;
+    left: 40%;
+    top:calc(40% + 90px);
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+
+}
+.container > .chatbox > #chatview > #profile > p.active{
+    left: 50%;
+    top:calc(20% + 90px);
+    letter-spacing: 1px;
+    opacity: 1.0;
+    filter: alpha(opacity=1.0);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.container > .chatbox > #chatview > #profile > span{
+    position: absolute;
+    display: inline-block;
+    width: 100%;
+    margin-left: -50%;
+    color: white;
+    left: 40%;
+    top:calc(40% + 120px);
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.container > .chatbox > #chatview > #profile > span.active{
+    left: 50%;
+    top:calc(20% + 120px);
+    opacity: 1.0;
+    filter: alpha(opacity=1.0);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+        /*close*/
+.container > .chatbox > #chatview > #profile > #close{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 3px;
+    opacity: 0.6;
+    filter: alpha(opacity=0.6);
+}
+.container > .chatbox > #chatview > #profile > #close:hover{
+    opacity: 1.0;
+    filter: alpha(opacity=1.0);
+}
+.user-avatar{
+    position: absolute;
+    border-radius: 50%;
+    overflow: hidden;
+    border:3px solid #fff;
+    width:80px;
+    height: 80px;
+}
+.user-avatar.avatarMove{
+    left: 50% !important;
+    top: 6% !important;
+    margin-left: -40px !important;
+    -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -ms-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+}
+
+    /*response*/
+    @media screen and (max-width: 500px){
+        .container > .chatbox > .friendslist > .topmenu > span:first-child{
+            margin-left: 8%;
+        }
+        .container > .chatbox > .friendslist > .topmenu > span + span{
+            margin-left: 6%;
+        }
+    }
+@media screen and (max-width: 400px){
+    .container > .chatbox > .friendslist > .topmenu > span:first-child{
+        margin-left: 6%;
+    }
+    .container > .chatbox > .friendslist > .topmenu > span + span{
+        margin-left: 4%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -23,7 +23,8 @@ def checkUserPassword(username,userPassword):
     return False
 
 def addUser(username,password):
-    u1=User(username=username,passwordHash=generate_password_hash(password))
+    u1=User(username=username,passwordHash=generate_password_hash(password),user_level=0)
+    add_question(u1.id)
     db.session.add(u1)
     db.session.commit()
 
@@ -51,6 +52,9 @@ def deleteUser(username):
 
 def getAllUser():
     return User.query.all()
+
+def getAllCustomer():
+    return User.query.filter_by(user_level=0).all()
 
 def getUser(username):
     users=User.query.filter_by(username=username).all()
@@ -151,6 +155,33 @@ def filtMessage(username,messages):
 def getTime():
     return time.strftime("%Y/%m/%d  %I:%M:%S")
 
+# 添加一个新的question
+def add_question(user):
+    q1 = Question(user=user,title="What's up")
+    db.session.add(q1)
+    db.session.commit()
+
+#为每一个用户创建一个channel,这里假如已经创建过了就会忽律
+def add_questions_for_all_users():
+    #这里只为customer创建信道
+    all_customer = User.query.filter_by(user_level=0).all()
+    for c in all_customer:
+        #如果该用户还没有channel就创建一个question
+        if not check_user_channel(c.id):
+            print("add_questions_for_all_users")
+            add_question(c.id)
+
+#检查是否为该用户创建channel
+def check_user_channel(user_id):
+    q = Question.query.filter_by(user=user_id).first()
+    print(q)
+    if q is None:
+        print("为用户id " + str(user_id) + " 创建聊天信道")
+        return False
+    else:
+        print("用户id " + str(user_id) + " 已经有聊天信道了")
+        return True
+
 def addReply(user_id, content, q_id):
     r = Reply(user=user_id, content=content, question_id=q_id)
     db.session.add(r)
@@ -185,10 +216,16 @@ def getUserAppointment(username):
         result+=getPetsAppointment(p.id)
     return result
 
+def get_question_by_user(user):
+    if check_user_channel(user):
+        print("get_question_by_user")
+        return Question.query.filter_by(user=user).first()
+    else:
+        add_question(user=user)
+        return Question.query.filter_by(user=user).first()
+
 def get_question_by_id(id):
     questions = getAllQuestions()
-    print(questions)
-    print(questions[0])
     for q in questions:
         if q.id == id:
             return q
@@ -197,8 +234,8 @@ def get_question_by_id(id):
 def get_replies_by_question(q_id):
     replies = getAllReplies()
     result = []
-    print(replies)
-    print(replies[0])
+    # print(replies)
+    # print(replies[0])
     #无故报错 说reply对象不可迭代？
 
     for i in range(len(replies)):
@@ -206,6 +243,11 @@ def get_replies_by_question(q_id):
         if r.question_id == q_id:
             result.append(r)
     return result
+
+#获取该的question的最后一个relpy
+def get_last_reply(q_id):
+    replies = get_replies_by_question(q_id)
+    return replies[len(replies)-1]
 
 def get_pet_by_id(pet_id):
     pets = Pets.query.filter_by(id=pet_id).all()

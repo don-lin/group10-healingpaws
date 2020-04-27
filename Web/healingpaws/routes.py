@@ -7,6 +7,7 @@ error_info=None
 
 def save_file(path,file,name):
     if not file:
+        print("No file detected")
         return
     print('saving the files')
     file_path = os.path.join(path,name)
@@ -141,7 +142,7 @@ def profile_page():
 
     if request.method=='POST':
         print(request.form)
-        save_file(DatabaseSecretConfig.userimgdir,request.files.get('icon'),session.get('username')+'.jpg')
+        save_file(DatabaseSecretConfig.userimgdir,request.files.get('icon'), session.get('username')+'.jpg')
         updateUserBirthday(request.form.get('username'),request.form.get('date'))
         updateUserEmail(request.form.get('username'),request.form.get('mail'))
         updateUserGender(request.form.get('username'),request.form.get('gender')=='male')
@@ -161,6 +162,10 @@ def pets_page():
         deletePet(request.form.get("delete_pet"))
     if(request.form.get("update_pet")):
         updatePet(request.form.get("update_pet"),request.form['pet_name'],int(request.form['pet_health']),request.form['pet_birthday'])
+        pet_id = request.form.get("update_pet")
+        print("更新pet id为" + str(pet_id))
+        dir_name = 'pet_' + '' + str(pet_id) + '.jpg'
+        save_file(DatabaseSecretConfig.petimgdir, request.files.get('icon'), dir_name)
 
     return render_template("pets.html",username=session.get("username"),pets=getUserPets(session.get('username')))
 
@@ -182,7 +187,7 @@ def introduction_page():
     print(session.get('user_level'))
     if session.get('user_level') is not None:
         if session['user_level'] == 'employee':
-            return redirect('/employee_question')
+            return redirect('/employee_questions_list')
     return render_template("introduction.html",username=session.get("username"),error_info=a)
 
 @app.route("/doctors")
@@ -241,32 +246,57 @@ def pet_page():
         updatePet(request.form.get("update_pet"),request.form['pet_name'],int(request.form['pet_health']),request.form['pet_birthday'])
     return render_template("admin.html", pet_list=getAllPets(),doctor_list=getAllDoctors())
 
-@app.route("/employee_question",methods=["GET","POST"])
-def employee_question():
+@app.route("/employee_questions_list",methods=["GET","POST"])
+def employee_questions_list():
+    if not session.get('username'):
+        return err_login()
+    questions_in_db = getAllQuestions()
+    #传到前端的数据
+    questions = []
+    for q_in_db in questions_in_db:
+        user_in_db = getUserFromId(q_in_db.user)
+        #检测是否是customer
+        if user_in_db.user_level == 0:
+            qid = q_in_db.id
+            username = user_in_db.username
+            last_reply = get_last_reply(qid)
+            reply_content = last_reply.content
+            q = []
+            print("用户id是" + str(user_in_db.id))
+            print("qid是" + str(qid))
+            q.append(qid)
+            q.append(username)
+            q.append(reply_content)
+            questions.append(q)
+    print(questions)
+    return render_template("employee_questions_list.html",questions=questions)
+
+@app.route("/employee_question/<int:id>",methods=["GET","POST"])
+def employee_question(id):
     if not session.get('username'):
         return err_login()
 
     print("User Name"+session.get('username'))
 
     if request.method == 'POST':
-        if request.values.get('type') == 'reply':
+        if request.values.get('type') == 'e_reply':
             content = request.values.get('content')
             #数据库刷新
-            addReply(user_id=getUser(session.get('username')).id, content=content, q_id=1)
+            ##为什么是3？？？？？？这个地方为什么不打印 草尼玛
+            addReply(user_id=getUser(session.get('username')).id, content=content, q_id=id)
             return content
     #数据库读取
     #目前只读为id为1的
-    q_id = 1
+    q_id = id
     replies_in_db = get_replies_by_question(q_id=q_id)
     replies = []
     for r_in_db in replies_in_db:
         r = []
         r.append(q_id)
-        print("id" + str(r_in_db.user))
         r.append(getUserFromId(r_in_db.user).username)
         r.append(r_in_db.content)
         replies.append(r)
-    return render_template("employee_question.html", replies = replies, username = session.get('username'))
+    return render_template("employee_question.html", replies = replies, username = session.get('username'), qid=id)
 
 @app.route("/customer_question",methods=["GET","POST"])
 def customer_question():
@@ -279,12 +309,14 @@ def customer_question():
         if request.values.get('type') == 'reply':
             content = request.values.get('content')
             #数据库刷新
-            addReply(user_id=getUser(session.get('username')).id, content=content, q_id=1)
+            addReply(user_id=getUser(session.get('username')).id, content=content, q_id=get_question_by_user(user=getUser(session.get('username')).id).id)
             return content
     #数据库读取
     #目前只读为id为1的
-    q_id = 1
+    q_id = get_question_by_user(user=getUser(session.get('username')).id).id
+    print("qid = " + str(q_id))
     replies_in_db = get_replies_by_question(q_id=q_id)
+    print(replies_in_db)
     replies = []
     for r_in_db in replies_in_db:
         r = []
@@ -308,6 +340,7 @@ def get_pet_img(filename):
 @app.route('/icon/<rand>/<filename>')
 def get_icon(rand,filename):
     return send_from_directory(DatabaseSecretConfig.userimgdir,filename)
+
 @app.route('/js/<filename>')
 def get_js(filename):
     return send_from_directory(DatabaseSecretConfig.jsdir,filename)

@@ -2,8 +2,8 @@ import os
 
 class DatabaseSecretConfig(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
-    userimgdir = os.path.join(basedir, 'user-img')
-    petimgdir = os.path.join(basedir, 'pet-img')
+    userimgdir = os.path.join(basedir, 'static/user-img')
+    petimgdir = os.path.join(basedir, 'static/pet-img')
     cssdir=os.path.join(basedir,'html/css')
     jsdir=os.path.join(basedir,'html/javascript')
     imgdir = os.path.join(basedir,'html/img')

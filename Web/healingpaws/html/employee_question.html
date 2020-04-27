@@ -24,7 +24,50 @@ to {transform: rotateY(0deg);}
 
 </style>
 
+ <style>
+    .submit_button{
+      position: relative;
+      appearance: none;
+      background: #f72359;
+      padding: 1em 2em;
+      border: none;
+      color: white;
+      font-size: 0.8em;
+      cursor: pointer;
+      outline: none;
+      overflow: hidden;
+      border-radius: 100px;
+    }
+    .submit_button::before {
+    --size: 0;
 
+    content: '';
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--size);
+    height: var(--size);
+    background: radial-gradient(circle closest-side, #4405f7, transparent);
+    transform: translate(-50%, -50%);
+    transition: width .2s ease, height .2s ease;
+  }
+
+  .submit_button:hover::before {
+    --size: 400px;
+  }
+  </style>
+
+<script>
+  var oButton = document.querySelector('.submit_button')
+  oButton.onmousemove = (e) => {
+    const x = e.pageX - e.target.offsetLeft
+    const y = e.pageY - e.target.offsetTop
+    e.target.style.setProperty('--x', `${x}px`)
+    e.target.style.setProperty('--y', `${y}px`)
+  }
+
+
+</script>
 <body style="
 	overflow-x: hidden;
     width:100vw;
@@ -57,13 +100,13 @@ to {transform: rotateY(0deg);}
                 {%for reply in replies%}
                 {% if username == reply[1] %}
                 <div class="cright cmsg">
-                    <img class="headIcon radius" ondragstart="return false;"  oncontextmenu="return false;"  src="/img/my_p.jpg" />
+                    <img class="headIcon radius" ondragstart="return false;"  oncontextmenu="return false;"  src="/static/user-img/{{username}}.jpg" />
                     <span class="name">{{reply[1]}}</span>
                     <span class="content">{{reply[2]}}</span>
                 </div>
                 {% else %}
                  <div class="cleft cmsg">
-                    <img class="headIcon radius" ondragstart="return false;"  oncontextmenu="return false;"  src="/img/t2.png" />
+                    <img class="headIcon radius" ondragstart="return false;"  oncontextmenu="return false;"  src="/static/user-img/{{reply[1]}}.jpg" />
                     <span class="name">{{reply[1]}}</span>
                     <span class="content">{{reply[2]}}</span>
                 </div>
@@ -72,7 +115,7 @@ to {transform: rotateY(0deg);}
             </div>
             <br>
             <input type="text" class="form-control" placeholder="input a some reply" value="" style="width: 80%; text-align: center;"/>
-            <div class="btn"><span class="circle" style="z-index: 0;"></span><span class="text">Submit</span></div>
+            <button class="submit_button">Submit</button>
             <br>
         </td>
     </tr>
@@ -97,7 +140,7 @@ to {transform: rotateY(0deg);}
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
 <script>
     console.log("正在运行JS");
-    $('.question .btn').click(function () {
+    $('.question .submit_button').click(function () {
         // let $parent_td = $(this).parent();
         parent_td = document.getElementById("q_1");
         // let q_id = parent_td.attr('id').split('_')[1];
@@ -107,9 +150,9 @@ to {transform: rotateY(0deg);}
         let new_content =  parent_td.querySelector("input").value;
         console.log("输入的聊天信息"+new_content);
         $.ajax({
-            url: '/customer_question',
+            url: '/employee_question/{{qid}}',
             type: 'Post',
-            data: {"q_id": q_id,"type": "reply", "content":new_content},
+            data: {"q_id": q_id,"type": "e_reply", "content":new_content},
             success:function (content) {
                 console.log("服务器传回的信息"+new_content);
                 // let $new_reply = $('<div></div>');

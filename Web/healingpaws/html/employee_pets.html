@@ -61,13 +61,7 @@ to {transform: rotateY(0deg);}
 		<tr class="{{['danger','active','success','success'][p.health]}}">
 			<td>{{p.id}}</td>
 			<td>{{p.petsname}}</td>
-			{% if p.petsname == 'dog'%}
-			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/dog.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%elif p.petsname =='cat'%}
-			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/cat.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%else%}
-			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%endif%}
+			<td><img src="static/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
 			<td>{{p.birthDay}}</td>
 			<td>{{['Surgery date confirmed','Surgery Completed','Ready for Release', 'Waiting for Surgery'][p.health]}}</td>
 			<td>not set</td>

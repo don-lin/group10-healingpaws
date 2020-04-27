@@ -47,7 +47,7 @@ to {transform: rotateY(0deg);}
             <table class="show-table" style="text-align: center;;padding:30px;border-radius:50px; margin:auto; background-color:white">
 
             <tr>
-                <td colspan="3"><img src="/icon/{{rand}}/{{user.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="100px" height="100px" style="border-radius:10px;"></td>
+                <td colspan="3"><img src="/static/user-img/{{user}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="100px" height="100px" style="border-radius:10px;"></td>
             </tr>
             <tr>
                 <td colspan="3"><span style="color: purple; font-size:30px">{{user.username}}</span></td>
@@ -155,12 +155,7 @@ to {transform: rotateY(0deg);}
                 </tr>
                 {%for p in pets%}
                 <tr>
-                   {% if p.petsname == 'dog'%}
-			    <td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/dog.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>{%elif p.petsname =='cat'%}
-			    <td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/cat.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
-			    {%else%}
-			    <td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
-			    {%endif%}
+			    <td><img src="static/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/cat.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
                     <td>{{p.petsname}}</td>
                     <td>{{p.birthDay}}</td>
                     <td style="color: {{['red','grey','green'][p.health]}};">{{['bad','unknown','perfect'][p.health]}}</td>

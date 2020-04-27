@@ -81,13 +81,7 @@ to {transform: rotateY(0deg);}
             <td>{{a[2]}}</td>
             <td>{{a[3]}}</td>
             <td>{{a[4]}}</td>
-			{% if a[4] == 'dog'%}
-			<td><img src="/pet-img/pet_{{a[3]}}.jpg" onerror="onerror=null;src='/img/dog.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%elif a[4] =='cat'%}
-			<td><img src="/pet-img/pet_{{a[3]}}.jpg" onerror="onerror=null;src='/img/cat.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%else%}
-			<td><img src="/pet-img/pet_{{a[3]}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%endif%}
+			<td><img src="static/pet-img/pet_{{a[3]}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
             <td>{{a[5]}}</td>
             <td>{{a[6]}}</td>
 			<td>{{a[7]}}</td>

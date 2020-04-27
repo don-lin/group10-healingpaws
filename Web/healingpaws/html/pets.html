@@ -62,13 +62,7 @@ to {transform: rotateY(0deg);}
 		<tr class="{{['danger','active','success'][p.health]}}">
 			<td>{{p.id}}</td>
 			<td>{{p.petsname}}</td>
-			{% if p.petsname == 'dog'%}
-			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/dog.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%elif p.petsname =='cat'%}
-			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/cat.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%else%}
-			<td><img src="/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%endif%}
+			<td><img src="static/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
 			<td>{{p.birthDay}}</td>
 			<td>{{['bad','unknown','perfect'][p.health]}}</td>
 			<td>not set</td>
@@ -94,7 +88,6 @@ to {transform: rotateY(0deg);}
 					
 					<p class="description">pet name is null</p>
 					<button name='delete_pet' class="subscribe">Delete</button>
-					
 					</form>
 				</div>
             </div>
@@ -114,13 +107,14 @@ to {transform: rotateY(0deg);}
 					<h3 class="title">new pet</h3>
 					<form  enctype="multipart/form-data" style="text-align: center;" method="POST" >
 						<h5>petname</h5><input name="pet_name"/><br>
-						<h5>photo</h5><input type="file" style="margin-left:70px;" />
+						<h5>photo</h5><input type="file" name='icon' style="margin-left:70px;" />
 						<h5>birth</h5><input name="pet_birthday" type="date" /><br>
 						<h5>healthy</h5>
                     <select name='pet_health'>
-						<option value="0" >bad</option>
-						<option value="1" >unknown</option>
-						<option value="2" >perfect</option>
+						<option value="0" >Surgery date confirmed</option>
+						<option value="1" >Surgery Completed</option>
+						<option value="2" >Ready for Release</option>
+						<option value="3">Wait for Surgery</option>
 					</select>
 					<p class="description"></p>
 						<button name="update_pet" value="" class="subscribe">Save</button>
@@ -138,12 +132,16 @@ to {transform: rotateY(0deg);}
 		document.querySelector('#myModal-delete-pet .description').textContent='pet name is '+name;
 	}
 	function prepareManage(id,name,birth,healthy){
-		inputs=document.querySelectorAll('#myModal-manage-pet input')
-		inputs[0].setAttribute('value',name)
-		inputs[2].setAttribute('value',birth)
-		options=document.querySelectorAll('#myModal-manage-pet option')
-		options[healthy].setAttribute('selected','selected')
-		document.querySelector('#myModal-manage-pet .subscribe').setAttribute('value',id)
+	    console.log("更新的宠物id为"+id)
+		inputs=document.querySelectorAll('#myModal-manage-pet input');
+		inputs[0].setAttribute('value',name);
+		inputs[2].setAttribute('value',birth);
+		options=document.querySelectorAll('#myModal-manage-pet option');
+		console.log(healthy);
+		options[healthy].setAttribute('selected',true);
+		document.querySelector('#myModal-manage-pet .subscribe').setAttribute('value',id);
+	    document.querySelector('#myModal-delete-pet .description').textContent='pet id is '+id;
+	    console.log("FUCK");
 	}
 </script>
 
