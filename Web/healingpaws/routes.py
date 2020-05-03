@@ -135,6 +135,7 @@ def employee_appointment_page():
     return render_template('employee_appointments.html', appointments=appointments_list, doctors_list=doctors_list, username=session.get("username"))
 
 
+
 @app.route("/profile",methods=["GET","POST"])
 def profile_page():
     if not session.get('username'):
