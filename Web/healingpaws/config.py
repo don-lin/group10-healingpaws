@@ -1,6 +1,5 @@
 import os
 
-
 class DatabaseSecretConfig(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
     userimgdir = os.path.join(basedir, 'static/user-img')
