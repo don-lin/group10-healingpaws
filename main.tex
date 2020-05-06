@@ -1,0 +1,385 @@
+% You should not modify anything from here ... -------------
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{microtype,etex,listings,color,parskip}
+\usepackage[margin=2cm]{geometry}
+\usepackage{caption}
+\usepackage{graphicx, subfig}
+\usepackage{hyperref}
+\lstset{
+  language=C,
+  tabsize=2,
+  showstringspaces=false,
+  breaklines=true,
+  basicstyle=\ttfamily,
+  keywordstyle=\color[rgb]{0.1,0.3,0.7}\ttfamily,
+  stringstyle=\color[rgb]{0.7,0.1,0.3}\ttfamily,
+  commentstyle=\color[rgb]{0.3,0.4,0.3}\ttfamily,
+  columns=fixed,
+  numberstyle=\sffamily\scriptsize,
+  backgroundcolor=\color[rgb]{0.95,0.95,0.95},
+  frame=lines,
+  framexleftmargin=5pt,
+  numbers = left,
+  numberstyle = \footnotesize
+}
+% ... until here -------------------------------------------
+
+\begin{document}
+
+% replace X and XXX with the number and title of the assignment:
+\title{Healingpaws Pets Hospital Manage System}
+% DO NOT ADD YOUR NAME, only your student numbers:
+\author{16206515 \& 17205999 \& 17205965 \& 17206000 \& 16206779}
+\date{Algorithms and Data Structures 2020}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NOTE: You MUST read and follow Appendix E of the lecture notes! %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Project description}
+
+According to the requirements of customers, we have implemented the official website of Healing Paws and the mobile app associated with it.Now I will introduce our project through these two aspects.
+
+On the website. The first main content is that when users click in, the first thing they see is the publicity homepage.On this page, users can see the hospital news and recent activities, and can view the location of the branch hospital and the doctor's information through some page jumps.Users can also search the information they want through the search engine on the page.If users want to do further operations,they need to register and log in.
+
+So our second main content is registration and login interface. The registration interface and login interface we designed are divided into customers and doctors. In the customer registration interface, we will need the customer to fill in the user name, set the password and confirm the password. We also need the customer binds his Email through the Email verification code.Unlike user registration, doctor registration requires advanced permission to register.After this registration is completed, the user can log in, just need to enter the user name and password. 
+
+The third main content is the personal information interface.In this interface, users can see some of their own information. And users can add their own pets to the "my pets" page. In the process of adding, we need users to fill in some information about pets, such as the name and birth date. Through our dynamic identification function, we can automatically determine the category of pets and more detailed varieties. After the registration of pets, users can see the status of pets in real time.Users can also modify their personal information and their avatars on this page.
+
+After the completion of personal registration and pet registration, the user can make an online appointment and view the appointment information in the "my appointment" interface.Through the "my appointment" interface, the doctor can see the selection of his guests and the appointment time.
+
+We have a dynamic database, which can update user information, doctor information and pet information in real time. All the information on the web page is obtained in this database.
+
+We also added the chat function, in which users can communicate with doctors and chat with many users online.
+
+Now introduce our app,Our app is strongly related to the website. The user information on the web page can log in to the app, and the user information on the app can also log in to the website. And our app can realize all the functions on the web page. 
+
+Next, we will further explain our project through project analysis, project architecture, Implementation of the Project and Innovations.
+
+\section{Introduction}
+
+...
+
+% \includegraphics{a.jpg}
+\section{Solution description}
+\subsection{Overview}
+\subsubsection{Flask}
+Our website uses the flask web framework, with Werkzeug as the Python Web Server Gateway Interface and Jinja2 as HTML templates engines. Flask is one of the most popular lightweight web frameworks at the moment. Its code is very concise and easy to extend. It is very suitable for small teams like us to develop.
+An important reason why we chose Flask is that its core function library Werkzeug is very powerful. It supports pages routing through URL, which can respond to multiple users' requests to access multiple users at a time. It provides a session management mechanism to save the user's state through the identity cache on the server side to improve the user's access speed.
+In the web page loading process of Jinjia2, the python source code will be pre-compiled to form bytecode, so as to realize the efficient operation of the template. The template has an inheritance mechanism, which greatly improves development efficiency and code reuse rates.
+
+\subsubsection{HTML + CSS + JS }
+Our front-end uses HTML to generate pages, CSS to beautify the interface, and JavaScripts to interact with users on the browser side. A lot of JavaScript script code is embedded in our page, it is used to respond to browser events, read and write HTML elements, and verify data before it is submitted to the server. 
+\subsection{Architecture}
+\subsubsection{B/S Model}
+\subsubsection{Micro-service Model}
+\subsection{Web pages}
+\subsubsection{Base Page}
+Thanks to the inheritability of the Jinja template, we have been able to reuse elements common to all pages such as the navigation bar, search box, and sidebar etc. Every page other than base page is the children page of the "base.html". To meet specific needs, each page will add some html codes. And all pages will inherit the all features of base page, including some JS code and CSS. Here are some codes to briefly illustrate what child pages should do. 
+\lstinputlisting{base.html}
+%\newline
+The navigation bar of the website at the top of the page has been designed very user-friendly. It plays the role of connecting the various interfaces of the entire website. The item on the navigation bar points to several of our core functional modules, which are introduction(Home page), doctors list, Pet's , Making appointments, Customer's Pets and personal profile. Any interface shares the same navigation bar, which allows users to jump between pages. In addition, the navigation bar is also equipped with a search box, so that users can search for the content they want by keywords(We will talk about it in later section).
+\subsubsection{Modified Bootstrap}
+\subsubsection{Modal box}
+%\newline
+      \begin{figure}[h]
+         \centering
+         \includegraphics[scale=0.4]{loginbox.png}
+         \caption{Our Modal box}
+         \label{navibar}
+     \end{figure}
+When we encounter scenarios that require users to fill in and submit some contents like logging in, making an appointment, we apply modal box mechanism. A modal box is a child form overlaid on the parent form. The general purpose is to display content from a separate source, and there can be some interaction without leaving the parent form or redirecting to other pages. This pattern is better than giving user's a page to input some information. That's because applying model box can prevent user from accidentally pointing to another page, which possibly leads to the loss of contents that user have filled in. We all hate repeatedly entering the same things. So when the model box pops up, users must complete the content and click "submit" or click "cancel" to visit other elements on the page.
+
+\subsection{Database}
+\subsection{Server}
+\subsection{Appointment}
+In this section, we will mainly discuss the implementation of the functions that are related to appointment.
+\subsubsection{Appointment display}
+At back end, we get a list of appointments(object) from database. An important things to point out is that how many and which appointment we add into the list depends on user's authority. If the user is a customer, we only query appointments that are related to him, if the user is an employee, all appointments in database will be queried. After a list that contains appointments information is constructed, it will be referred as a parameter of the function "render\_templates()", then the data will be transferred to front end when HTML is creating.
+\quad\\
+At the front end, in order to display appointments neatly, we use "table" tag to create a table. Every piece of information will be put inside a "tr" tag, and the detail data will be put inside "td" tags of that "tr".
+\quad\\
+In order to let user know which piece of appointment is important, we want to give different color to appointments with different priorities. So we define 3 classes of CSS to three level appointment's level. Every time we add a piece of appointment at page, we will judge its level and give it a "class" attribute accordingly.
+\lstinputlisting{appointment.html}
+\subsubsection{Add \& Delete appointment}
+This part will show you how to apply our modal box in front end to transfer data to server. We will take "add appointment"and "delete appointment" as an example, which is very similar to "manage appointment", "add pet", "manage pet", "delete pet". So we won't talk about them later.
+\quad\\
+To add a appointment, when user clicks on "Add appointment" button, the browser will show a dialog window(Modal box) as Figure \ref{add_appointment}. To give user a better experience, all his pets data and doctor in system has been added into this dialog for user to select, so he do not need to add by himself, which might cause some error. There are several input field inside the dialog, after user fill in the input fields and click "submit", browser will make a request to server. At back end, the server will judge if the request is "add appointment", if it is, a new appointment will be stored in database.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.35]{add_appointment.png}
+    \caption{Add appointment}
+    \label{add_appointment}
+\end{figure}
+\quad\\
+Delete a appointment is a little bit complex.As you can see in following codes. We add a JS function called "prepareDelete(id)". When "delete" button is clicked by user, "prepareDelete(id)" will trigger and this appointment's id will be transferred as a parameter. What "prepareDelete(id)" do is to get the appointment's id and ready for transmitted it to server. 
+\lstinputlisting{prepareDelete.js}
+After the id is transmitted to server, server will response by deleting that appointment in the database.
+\lstinputlisting{delete_appointment.py}
+\subsubsection{Show Optional Appointment}
+Users especially employees, they will face a huge amount of appointments. It is necessary to provide users with many options that will restrict which appointment show up. We have design a mechanism for user to winnow the appointments they want. For example, they can see appointments that belong to a doctor, or are at a specific date or even belong to a specific hospital in BeiJing. We will show you how to get all appointments at a specific date to illustrate how this function works.
+\quad\\
+When user click on "Check Date" and select a date, it will trigger a JS function "init\_date(date)". This function will finally make a request to server for reloading a page.
+\lstinputlisting{select_by_date.js}
+After server receive the request from the browser, it will create a new page for that date and render the HTML template again.
+\subsubsection{Sort Appointment}
+Another important extra requirement for user is to see appointments in order, which will be very useful for large amount of appointments. To meet this, we offer users with a bunch of options to sort appointments in a specific order. So far, users can sort appointments by its priority, Doctor name, emergency level, date, pet's health, hospital, id ,status. All these appointments can be ascending order or descending order. 
+\quad\\
+We use bubble algorithm as our sort algorithm. It repeatedly visited the column of elements to be sorted, compared two adjacent elements in turn, and exchanged them if the order (such as from large to small, initial letter from Z to A) was wrong. The work of visiting the elements is repeated until no adjacent elements need to be exchanged, which means that the element column has been sorted. Bubble sort is very simple and easier to implement than other sorting algorithm, so we will run less risk of making mistake. Although its performance is O($n^2$), we estimate in practice, the amount of all appointments in the database is at most thousands, so its speed is ok. 
+\quad\\
+In order to reduce the load on the server, our sorting process takes place entirely on the browser side, uses JS to execute the bubble sorting algorithm, and uses JS Dom to regenerate a series of appointments. During this period, there is no need to interact with the server, which ensures the reliability and stability of the system.
+\lstinputlisting{sort.js}
+% \subsection{Queue algorithm}
+\subsection{Search Bar}
+To give users a better experience when using our website, we develop a very powerful search bar for them in case they get lost in our website. This search bar will also help user quickly navigate to the page he want. User can input some key words to describe what they want to do, and he will see some hints below. When user clicks on one of the hint items, he will be navigate to that page. For example, as shown in Figure \ref{search_bar} , if user want to chat with another user, he can just input "chat" or even "ch", the list below will shows all hints that match user's input. If the user click on "chat with bb", then a chat dialog with bb will show up.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{search_bar.png}
+    \caption{Search Bar}
+    \label{search_bar}
+\end{figure}
+\subsubsection{Navigate to target page}
+To reduce the load of server and make our system more reliable, we decide put codes deal with search function at browser side. In other words, we use JavaScript to implement this function.
+\quad\\
+We define 3 important variables. Variable "suggestions" is a DOM object that contains all suggestion(hint) match user's input, "input" receive user's input content, "searchList" contains all predefined potential suggestion items. When user click on a suggestion item, it will trigger a function that navigate user to target page.
+\lstinputlisting{search_var.js}
+\subsubsection{Match user's input}
+Our idea to display suggestions item that match user input is to  hide items that don't match input. We define a function to get a single string result that contain all matched suggestion. After we get the result, we will loop through all predefined suggestion items, and find and hide unmatched items. 
+\lstinputlisting{match.js}
+\subsection{Instant Chatting}
+\subsection{Dynamical Loading Pictures}
+\subsubsection{Basic idea}
+In our system, many practical scenarios need to store and load pictures. For example, user need an avatar, he can edit the avatar on his profile page, and the user can also assign an avatar to each pet. However, it is very difficult to store the avatar efficiently and correctly. If the image data is directly stored in the sqlite database in the form of a binary stream, it will limit the speed of the server. Because sqlite data is very slow to read and write picture data, and if there are too many pictures read and written at the same time, it is easy to cause memory leaks. Instead, we store picture file in directories on server. After we get a picture file from user, we generate a relative unique path for this picture. For example, if this is user's avatar picture(jpg), we will store it in the path "/user-img/username.jpg". When we need to load user's avatar image, browser will make a request to the server for getting the picture in the path "/user-img/username.jpg".
+\quad\\
+Here are some back end python code for saving file:
+\lstinputlisting{save_file.py}
+\subsubsection{Optimize dynamical loading}
+We have described the basic idea for us to save file in previous section, however, in practice there are some problems for browser to directly get this file from server. Some browsers like chrome have a cache with very large size to buffer file. When the first time a file was requested by the user, cache will store it in browser. Then next time when user request the same file, this request would not be transferred to server, instead, browser's cache will return this picture's origin copy even if this file is actually modified on server. To avoid the problem of not refreshing pictures correctly and make our system more reliable, we optimize the way front end make request.
+\quad\\
+At front end, every time we load the page we would get a random number from server. And that random number is used to make an unique request for a picture file.
+\lstinputlisting{get_image.html}
+This mechanism ensures that this request is delivered to server. So it will get the new version of the picture.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.8]{http_code.png}
+    \caption{HTTP code after}
+    \label{http_code}
+\end{figure}
+
+\subsection{Security}
+\begin{itemize}
+    \item \textbf{Authority Validation}
+    \newline
+    It is dangerous for users to illegally access some pages that they don't have access to, which may cause data transmission errors or server crashes. For example, if a customer user visit manage page that is belong to employee, his illegal behaviors might cause damage to the system. To prevent this problem, our navigation bar is designed with two version, one is for employees and another is for customers. The time a user log in, our system will validate his identity and give him the right navigation bars. At the same time, before entering any pages that involves data exchange between browser and server like "appointment", our system will make sure there is an account has logged in. If not, the page will reject this user's visit request and alert him.
+    \begin{figure}[h]
+         \centering
+         \includegraphics[scale = 0.45]{alert.png}
+         \caption{Alert dialog}
+         \label{alert_dialog}
+     \end{figure}
+    
+    \item \textbf{Account Security}
+    \newline
+    Protecting the security of accounts is one of the important means to protect users. We want to ensure that only the owner of an account has the right to log in with it, so we use SHA256 to protect user passwords. The password entered by the user in the browser is not directly stored in the database, instead we store the encrypted hash code. This conversion is irreversible. The password that has been hashed cannot be restored to the original input by calculation. Even if others have access to the server database, it is impossible to obtain the user's password.
+    \begin{figure}[h]
+         \centering
+         \includegraphics[scale=0.9]{pass_in_db.png}
+         \caption{User's password in our database}
+         \label{pass_in_db}
+     \end{figure}
+    \item \textbf{CSRF Protection}
+    \newline
+    CSRF cross-site request forgery is derived from WEB's implicit authentication mechanism. Although WEB's authentication mechanism can hold a request from a user's browser, it cannot guarantee that the request is sent by the user's approval. In order to allow all views to be protected by CSRF, we use flask's "CsrfProtect" module. And we set a token for CSRF protection, we add a CSRF token every time the user needs to submit the form, if the website does not pass CSRF verification, it will return a "400" response.
+\end{itemize}
+\subsection{Map-api}
+\subsection{User/Employee/Doctor}
+
+\subsubsection{Portal Design}
+We need to design different portals for users with different levels. To achieve this, at the time a user is logging in, our system will automatically validate his identity and give him the right authority. As table \ref{authority} shows, we define 3 roles with different authorities for them. In our system, all users can have pets and they can also make appointments, but the roles they play are quite different.
+\begin{table}[h]
+    \centering
+    \begin{tabular}[h]{l|lll}
+        \hline
+        Authority & Customer & Doctor & Employee \\ \hline
+        Have pet & Yes & Yes & Yes \\
+        Make appointment & Yes & Yes & Yes \\
+        Have profile & Yes & Yes & Yes\\
+        Manage own appointments & Yes & Yes & Yes \\
+        Manage all appointments & No & No & Yes \\
+        Chat with other & Yes & Yes & Yes \\
+        Appear on doctor list & No & Yes & No
+    \end{tabular}
+    \caption{Different User Level Authority}
+    \label{authority}
+\end{table}
+\quad\\
+Customer is the user who want to send their pets to the hospital. Most appointments in the system are proposed by customer users.
+\quad \\
+Employee likes a manager, he can see and manage all appointments in the system including prioritize, modify and delete an appointment. He can also chat with customers to answer some questions or communicate with his colleagues. 
+\quad\\
+Doctor serves as another role to answer some questions proposed by customers, he can directly give feedback to customer on how the situation the customer's pet is in. He can also provide customer with some remote professional guidance, like giving a initial diagnosis before customer make on-site appointment. In addition, doctor can check appointments related to him through our system, but he don't have the authority to manage all appointments and pets in database.
+\subsubsection{Upgrade Account}
+Every time a user register a new account, he will be given the default user level "customer". Therefore, at first he will have limited authority. In test version, to be more convenient, we add a button for user(tester) to upgrade the account by himself. He can choose his own user level to test corresponding operation. But when final release comes out, we will cut this button, only the employee in hospital who actually maintain and take charge of IT service can upgrade one's account by modifying user level in database.
+\subsection{Deployment}
+\subsection{Android side}
+\subsection{Test}
+\subsection{Reliability}
+
+\section{Implementation of the Project}
+
+...
+
+% \section{Evaluation of the program} % Optional
+%
+% ...
+\section{Innovations}
+\subsection{Good user experience}
+\begin{itemize}
+    \item \textbf{Simple and Clear Interface}
+    \newline
+     Directly understandable interface makes users feel comfortable. Too much auxiliary information may cause users to feel visually disturbance, unable to concentrate on what they are looking for,  and thus find it difficult and uncomfortable to use. Our website is designed based on this idea.
+     \item \textbf{Useful Navigation Bar}
+     \newline
+     \begin{figure}[h]
+         \centering
+         \includegraphics[scale=0.4]{navibar.png}
+         \caption{Navigation bar of our website}
+         \label{navibar}
+     \end{figure}
+     \newline
+     First, the navigation bar of the website at the top of the page has been designed very user-friendly. It plays the role of connecting the various interfaces of the entire website. The item on the navigation bar points to several of our core functional modules, which are introduction(Home page), doctors list, Q\&A and chatting, Making appointments, Customer's Pets and personal profile. Any interface shares the same navigation bar, which allows users to jump between pages. In addition, the navigation bar is also equipped with a search box, so that users can search for the content they want by keywords.
+     \item \textbf{Modal box design}
+     \newline
+      \begin{figure}[h]
+         \centering
+         \includegraphics[scale=0.4]{loginbox.png}
+         \caption{Our Modal box}
+         \label{navibar}
+     \end{figure}
+     When we encounter scenarios that require users to fill in and submit some contents like logging in, making an appointment, we apply modal box mechanism. A modal box is a child form overlaid on the parent form. The general purpose is to display content from a separate source, and there can be some interaction without leaving the parent form or redirecting to other pages. This pattern is better than giving user's a page to input some information. That's because applying model box can prevent user from accidentally pointing to another page, which possibly leads to the loss of contents that user have filled in. We all hate repeatedly entering the same things. So when the model box pops up, users must complete the content and click "submit" or click "cancel" to visit other elements on the page.
+     \item \textbf{Beautiful Chat Interface}
+     \begin{figure}[h]
+         \centering
+         \includegraphics[scale = 0.35]{chat_dialog.png}
+         \caption{Our chat dialog}
+         \label{chat_dialog}
+     \end{figure}
+     \newline
+     Our chat system supports group chat, because this is more in line with the actual application scenario, any employee can answer questions and chat with customers. The chat dialog design adopts a more attractive style, it and can automatically adapt to the length of the text. The overall style of the chat module conforms to the habit of daily chat, that is, what you say is always on the right side of the window, and what others say is always on the other side. 
+     \newline
+     In addition, to give user a better experience when chatting with others, every time user submit what he want to say, the page would not refresh and display the new statement immediately. To achieve this, we apply AJAX mechanism. Through a small amount of data exchange with the server in the background, Ajax can make the web page asynchronously update. This means that you can update a part of the page without reloading the entire page.
+\end{itemize}
+
+% \subsection{Reliability and Security}
+% \begin{itemize}
+%     \item \textbf{Authority Validation}
+%     \newline
+%     It is dangerous for users to illegally access some pages that they don't have access to, which may cause data transmission errors or server crashes. For example, if a customer user visit manage page that is belong to employee, his illegal behaviors might cause damage to the system. To prevent this problem, our navigation bar is designed with two version, one is for employees and another is for customers. The time a user log in, our system will validate his identity and give him the right navigation bars. At the same time, before entering any pages that involves data exchange between browser and server like "appointment", our system will make sure there is an account has logged in. If not, the page will reject this user's visit request and alert him.
+%     \begin{figure}[h]
+%          \centering
+%          \includegraphics[scale = 0.45]{alert.png}
+%          \caption{Alert dialog}
+%          \label{alert_dialog}
+%      \end{figure}
+    
+%     \item \textbf{Account Security}
+%     \newline
+%     Protecting the security of accounts is one of the important means to protect users. We want to ensure that only the owner of an account has the right to log in with it, so we use SHA256 to protect user passwords. The password entered by the user in the browser is not directly stored in the database, instead we store the encrypted hash code. This conversion is irreversible. The password that has been hashed cannot be restored to the original input by calculation. Even if others have access to the server database, it is impossible to obtain the user's password.
+%     \begin{figure}[h]
+%          \centering
+%          \includegraphics[scale=0.9]{pass_in_db.png}
+%          \caption{User's password in our database}
+%          \label{pass_in_db}
+%      \end{figure}
+%     \item \textbf{CSRF Protection}
+%     \newline
+%     CSRF cross-site request forgery is derived from WEB's implicit authentication mechanism. Although WEB's authentication mechanism can hold a request from a user's browser, it cannot guarantee that the request is sent by the user's approval. In order to allow all views to be protected by CSRF, we use flask's "CsrfProtect" module. And we set a token for CSRF protection, we add a CSRF token every time the user needs to submit the form, if the website does not pass CSRF verification, it will return a "400" response.
+% \end{itemize}
+
+
+\subsection{Hospital Map}
+
+\subsection{User and Employee and Doctor}
+
+\subsection{System Test}
+
+\subsection{Deploy to the cloud server}
+
+\section{Conclusions}
+
+...
+\section{Labor Division}
+\newpage
+\subsection{Chen Donglin(...)}
+\begin{itemize}
+    \item \textbf{Database Design}
+    \item \textbf{Server response}
+    \item \textbf{Server's data interface}
+    \item \textbf{Server deployment}
+     \item \textbf{Queue Algorithm Design}
+      \item \textbf{Weekly update(2,7,12)}
+      \item \textbf{Video Animation}
+    ...
+\end{itemize}
+\subsection{Hu Yuang(17205999)}
+\begin{itemize}
+    \item \textbf{Android end design}
+    \item \textbf{Connection}
+    \item \textbf{Database Maintainance}
+    \item \textbf{Video Structure Design}
+    \item \textbf{Video Editing}
+    \item \textbf{Meeting Holder}
+    \item \textbf{Weekly update(1,6,11)}
+\end{itemize}
+\subsection{Yang Jiarui(17206000)}
+\begin{itemize}
+    \item \textbf{Authorization Validation}
+     \item \textbf{Employee page design}
+    \item \textbf{User data manage}
+    \item \textbf{Acceptance Tester}
+    \item \textbf{Version Manager}
+    \item \textbf{Weekly update(3,8)}
+\end{itemize}
+\subsection{Wang Xinzhu(...)}
+\begin{itemize}
+    \item \textbf{Architecture Designer}
+    \item \textbf{Online Chatting}
+    \item \textbf{Search Engine}
+    \item \textbf{Side Bar}
+    \item \textbf{Department Map}
+    \item \textbf{Weekly update(4,9)}
+\end{itemize}
+\subsection{Li Ziqi(16206779)}
+\begin{itemize}
+    \item \textbf{Analyze user requirements}  \newline
+% By investigating user experience and user feedback, I analyzed the following user needs。The user needs some reminders about the appointment and some information about the doctor's free time, which is used to facilitate the communication with the doctor and the determination of the appointment time.
+    % \item \textbf{I am personally responsible for the editing and production of web interface in this project}
+    \item \textbf{Website Animation(CSS) Design}
+    \item \textbf{Logo design}
+    \item \textbf{Web page UI design}
+    \item \textbf{Web page}
+    \item \textbf{Scurm Manager}
+    \item \textbf{Weekly update(5,10)}
+
+\end{itemize}
+\section{Appendix: program text}
+
+% Here you should include the program text.
+% Do NOT use screenshots or similar methods.
+% Below you can see how to use \lstinputlisting{}.
+
+\lstinputlisting{program.c}
+
+% \section{Appendix: test cases} % Optional
+%
+% ...
+
+% \section{Appendix: Extensions} % Optional
+%
+% ...
+
+\end{document}
