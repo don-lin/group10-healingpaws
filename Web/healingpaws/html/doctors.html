@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<title>Doctors</title>
 
 <body>
             <br>
@@ -19,22 +18,20 @@
                                             <span class="li-tit">{{u.username}}</span>
                                             <div class="container-li">
                                                 <div class="c-li-left">
-                                                    <img src="/icon/{{rand}}/{{u.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="200px" height="200px" style="border-radius:10px;">
+                                                    <img src="/user-img/{{u.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="200px" height="200px" style="border-radius:10px;">
                                                 </div>
                                                 <div class="c-li-right">
                                                     <p>username: {{u.username}} </p>
                                                     <p>e-mail: {{u.email}} </p>
+                                                    <p>level: {{u.user_level}} </p>
                                                     <p>birthday: {{u.dateOfBirth}} </p>
                                                     <p>gender: {%if u.isMale%} male ♂ {%else%} female ♀ {%endif%}</p>
-                                                    <p>Appointments: {{count_doc_appointment(u.id)}}</p>
 
 
                                                     <div class="special-buttons">
-                                                        <div class="btn" onclick="init_doc('{{u.username}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Overview</span></div>
-                                                        <div class="btn" onclick="init_chat('{{u.username}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Chat</span></div>
-                                                        <div class="btn" onclick="location.replace('/appointment/doctor/{{u.id}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Appointment</span></div>
-                                                        
-                                                        <!-- <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Comment</span></div> -->
+                                                        <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Appointment</span></div>
+                                                        <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Chat</span></div>
+                                                        <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Comment</span></div>
                                                     </div>
                                                 </div>
                                             </div>

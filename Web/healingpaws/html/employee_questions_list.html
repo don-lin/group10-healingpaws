@@ -1,0 +1,62 @@
+{% extends "employee_base.html" %}
+
+{% block content %}
+
+<style>
+    table
+{
+animation:mymove 0.5s;
+-webkit-animation:mymove 0.5s; /*Safari and Chrome*/
+}
+
+
+@keyframes mymove
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+@-webkit-keyframes mymove /*Safari and Chrome*/
+{
+from {transform: rotateY(90deg);}
+to {transform: rotateY(0deg);}
+}
+
+</style>
+
+<body style="
+	overflow-x: hidden;
+    width:100vw;
+    height:100vh;
+    background-attachment: fixed;">
+            <br>
+
+<style>
+    th{
+        text-align:center;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="/css/default.css" />
+<link rel="stylesheet" type="text/css" href="/css/fuck.css" />
+
+<div class="container">
+    <div class="chatbox">
+        <div class="friendslist">
+            {%for q in questions%}
+            <div class="friends">
+                <div class="friend"  onclick="window.open('/employee_question/{{q[0]}}')">
+                    <img src="/static/user-img/{{q[1]}}.jpg" alt="user"/>
+                    <p>
+                        <strong>{{q[1]}}</strong>
+                        <span>{{q[2]}}</span>
+                    </p>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+
+</body>
+{% endblock content %}

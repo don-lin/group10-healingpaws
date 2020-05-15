@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<title>Your Profile</title>
 
 <style>
     table
@@ -48,7 +47,7 @@ to {transform: rotateY(0deg);}
             <table class="show-table" style="text-align: center;;padding:30px;border-radius:50px; margin:auto; background-color:white">
 
             <tr>
-                <td colspan="3"><img src="/icon/{{rand}}/{{user.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="100px" height="100px" style="border-radius:10px;"></td>
+                <td colspan="3"><img src="/static/user-img/{{user}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="100px" height="100px" style="border-radius:10px;"></td>
             </tr>
             <tr>
                 <td colspan="3"><span style="color: purple; font-size:30px">{{user.username}}</span></td>
@@ -84,7 +83,7 @@ to {transform: rotateY(0deg);}
             <tr>
             <td><a href="/pets">{{pets|length}} </a></td>
             <td><a href="/appointment">{{appointments|length}} </a></td>
-            <td><span>{{['user','doctor','employee'][user.user_level]}}</span></td>
+            <td><span>user</span></td>
             </tr>
 
 
@@ -99,6 +98,7 @@ to {transform: rotateY(0deg);}
             <form method='POST' enctype="multipart/form-data" class='profile-form'>
 
             <tr>
+            <input hidden='hidden' name='username' value='{{user.username}}'>
                 <td colspan="3"><label><input style="width:8vw" type="file" name="icon"></label></td>
             </tr>
             
@@ -151,16 +151,15 @@ to {transform: rotateY(0deg);}
                     <td>name</td>
                     <td>birthday</td>
                     <td>healthy</td>
-                    <td>Appointment</td>
+                    <td>next Appointment</td>
                 </tr>
                 {%for p in pets%}
                 <tr>
-                    <td><img src='/icon/{{rand}}/pet_icon_{{p.id}}.jpg' 
-                        onerror="onerror=null;src='/img/t2.png'" width="30px" height="30px"></td>
+			    <td><img src="static/pet-img/pet_{{p.id}}.jpg" onerror="onerror=null;src='/img/cat.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
                     <td>{{p.petsname}}</td>
                     <td>{{p.birthDay}}</td>
                     <td style="color: {{['red','grey','green'][p.health]}};">{{['bad','unknown','perfect'][p.health]}}</td>
-                    <td ><a href='/appointment/pet/{{p.id}}'>{{count_pet_appointment(p.id)}}</a></td>
+                    <td>null</td>
                 </tr>
                 {%endfor%}
 
