@@ -1,6 +1,123 @@
 {% extends "base.html" %}
 
 {% block content %}
+<title>Doctors</title>
+
+
+<!-- Timeline css -->
+<style>
+        #timeLine1{
+            width: 1000px;
+            margin: auto;
+            /*border:  solid 1px #434343;*/
+            /*background: rgba(500,500,500,0.9);*/
+            overflow: hidden;
+        }
+        #yearList1{
+            width: 999999999%;
+            list-style: none;
+            position: relative;
+            /*left: 457px;*/
+            margin-left: 457px;
+        }
+        #yearList1:after,.container-li:after{
+            content: "";
+            display: table;
+            clear: both;
+        }
+        #yearList1 li{
+            float: left;
+            cursor: pointer;
+            text-align: center;
+            font-size: 21px;
+            padding: 10px 20px;
+        }
+        .year-dot{
+            width: 10px; height: 10px; border-radius: 5px;
+            background-color: #002f21;
+            margin: 10px auto;
+            display: block;
+        }
+        .dotted-line{
+            border-bottom: dashed 2px  #7b7d7b;
+            position: relative;
+            top: -26px;
+            z-index: -1;
+        }
+        #cList1{
+            width: 100%;
+            position: relative;
+        }
+        #btnLeft1{
+            width: 50px; height: 130px;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 180px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            line-height: 120px;
+            background: rgba(0,0,0,0.3);
+        }
+        #btnRight1{
+            width: 50px; height: 130px;
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            top: 180px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            line-height: 120px;
+            background: rgba(0,0,0,0.3);
+        }
+        #btnLeft1:hover,#btnRight:hover{
+            background: rgba(0,0,0,0.5);
+        }
+        #cUl1{
+            width: 850px;
+            list-style: none;
+            height: 400px;
+            margin: 0 auto;
+            position: relative;
+            left: 0px;
+        }
+        #cUl1 li{
+            width: 850px;
+          position: absolute;  left: 0;
+        }
+        .li-tit{
+            display:inline-block;
+            color: #fff;
+            background-color: #002f21;
+            padding: 10px 20px;
+            margin: 30px auto 10px;
+        }
+        .container-li{
+            width: 100%;
+            padding: 20px 50px;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border: solid 1px #434343;
+        }
+        .c-li-left{
+            width: 40%;
+            float: left;
+        }
+        .c-li-right{
+            width: 60%;
+            float: right;
+        }
+        .year-active{
+            color: red;
+        }
+        .year-active i{
+            background-color: red;
+        }
+</style>
 
 <body>
             <br>
@@ -16,23 +133,26 @@
 
                                         <li >
                                             <span class="li-tit">{{u.username}}</span>
-                                            <div class="container-li">
+                                            <div class="container-li" style="height: 300px;overflow-y: auto;overflow-x:hidden;">
                                                 <div class="c-li-left">
-                                                    <img src="/user-img/{{u.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="200px" height="200px" style="border-radius:10px;">
+                                                    <img src="/icon/{{rand}}/{{u.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="200px" height="200px" style="border-radius:10px;">
                                                 </div>
                                                 <div class="c-li-right">
                                                     <p>username: {{u.username}} </p>
                                                     <p>e-mail: {{u.email}} </p>
-                                                    <p>level: {{u.user_level}} </p>
                                                     <p>birthday: {{u.dateOfBirth}} </p>
                                                     <p>gender: {%if u.isMale%} male ♂ {%else%} female ♀ {%endif%}</p>
+                                                    <p>Appointments: {{count_doc_appointment(u.id)}}</p>
 
 
                                                     <div class="special-buttons">
-                                                        <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Appointment</span></div>
-                                                        <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Chat</span></div>
-                                                        <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Comment</span></div>
+                                                        <div class="btn" onclick="init_doc('{{u.username}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Overview</span></div>
+                                                        <div class="btn" onclick="init_chat('{{u.username}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Chat</span></div>
+                                                        <div class="btn" onclick="location.replace('/appointment/doctor/{{u.id}}')"><span class="circle" style="z-index: 0;"></span><span class="text">Appointment</span></div>
+                                                    
+                                                        <!-- <div class="btn" onclick=""><span class="circle" style="z-index: 0;"></span><span class="text">Comment</span></div> -->
                                                     </div>
+             
                                                 </div>
                                             </div>
                                         </li>
@@ -53,6 +173,145 @@
                 </div>
                 
 
+           <br>
+
+            <div id="timeLine1" class='timeLine1'>
+
+                    <div id="cList1" class="cList1">
+                        <a id="btnLeft1" class="btnLeft1" href='javascript:void(0)' style='display:none'>&lt;</a>
+                        <div style="width: 850px;margin: 0 auto; overflow: hidden">
+                                <ul id="cUl1" class="cUl1" style="left: 0px;">
+                                        
+                                        {%for u in users%}
+
+                                        <li >
+                                            <span class="li-tit">write anonymous comment to {{u.username}}</span>
+                                            <div class="container-li" style="height: 300px;overflow-y: auto;overflow-x:hidden;">
+                                                <div class="c-li-left">
+                                                    <img src="/img/ano.gif" width="200px" height="200px" style="border-radius:10px;">
+                                                </div>
+                                                <div class="c-li-right">
+
+<form action="/comment/{{u.username}}" method='post'>
+<input name='content'>
+<button>comment</button><br>
+{%for c in getChat('commentor',u.username)%}                               
+
+<span>{{c.date}} : {{c.content}}</span>
+<button name='delid' value='{{c.id}}'>delete</button>
+
+<button name='updateid' value='{{c.id}}'>modify</button>
+
+<br>
+{%endfor%}
+</form>                
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        {%endfor%}
+                                       
+                                    </ul>
+                        </div>
+                
+                        <a id="btnRight1" class="btnRight1" href='javascript:void(0)'  style='display:none'>&gt;</a>
+                    </div>
+                        <ul id="yearList1" class="yearList1" style="left: 0px;display:none;">
+                         {%for i in range(users|length)%}
+                            <li {%if i==0%} class="year-active"  {%endif%} >{{users[i].username}}<i class="year-dot"></i></li>
+                        {%endfor%}
+                    </ul>
+                    <div class="dotted-line" style="display:none;"></div>
+                </div>
+                
+
+<script>
+function custom_update(){
+    console.log(window.year_pos)
+    $('#btnLeft1').click()
+    
+}
+
+window.custom_update=custom_update;
+
+</script>
+
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+
+<script>        
+
+var mytestfunction=function(opt) {
+                //设置 默认值
+                var defaults = {
+                    w: 0,   //每一个li的宽度
+                    n:0,    //点击移动的次数
+                    btnPrev:"#btnLeft1",      //上一个按钮
+                    btnNext: "#btnRight1",  //下一个按钮
+                    dateBox:"#yearList1", //日期的ul盒子
+                    dateArr: "#yearList1 li", //保存每一个日期的数组
+                    conBox:"#cUl1",  //保存切换内容的ul盒子
+                    conArr:"#cUl1 li" //保存每一个内容的数组
+                    //init:function(){
+                    //    var _this=this;
+                    //}
+                };
+        
+                opt = $.extend({}, defaults, opt);
+                window.year_pos=opt.n
+                return this.each(function() {
+                    opt.btnPrev=$(opt.btnPrev);
+                    opt.btnNext=$(opt.btnNext);
+                    opt.dateBox=$(opt.dateBox);
+                    opt.dateArr=$(opt.dateArr);
+                    opt.conBox=$(opt.conBox);
+                    opt.conArr=$(opt.conArr);
+                    var liNum=opt.conArr.length;
+                    //初始化li的位置
+                    opt.conArr.each(function(i){
+                        $(this).css("left",opt.w*i+"px");
+                    })
+                    //绑定右边点击事件
+                    opt.btnNext.on("click",function(){
+                        if(opt.n<liNum){
+                            opt.n++;
+                            (opt.n>=liNum)&&(opt.n=0);
+                            updata();
+                        }
+                    })
+                    //绑定左边点击事件
+                    opt.btnPrev.on("click",function(){
+                        opt.n--;
+                        (opt.n<0)&&(opt.n=liNum-1);
+                        updata();
+                    })
+                    
+                    function updata(){
+                        opt.n=window.year_pos
+                        opt.conBox.animate({left:-(opt.w*opt.n)+'px'},300);
+                        opt.dateBox.animate({left:-((90)*opt.n)+'px'},300);
+                        $(opt.dateArr[opt.n]).addClass("year-active").siblings().removeClass("year-active");
+                    }        
+                });
+            }
+
+        
+</script>
+
+<!-- time line js-->
+<script type="text/javascript">
+    $(function(){
+        $.fn.timeLine1=mytestfunction;
+        $("#timeLine1").timeLine1({
+            w:850  //每一个li的宽度
+//            btnPrev:"#btnLeft",      //上一个按钮
+//            btnNext: "#btnRight",  //下一个按钮
+//            dateBox:"#yearList", //日期的ul盒子
+//            dateArr: "#yearList li", //保存每一个日期的数组
+//            conBox:"#cUl",  //保存切换内容的ul盒子
+//            conArr:"#cUl li" //保存每一个内容的数
+        });
+    });
+</script>
 
 </body>
 {% endblock content %}

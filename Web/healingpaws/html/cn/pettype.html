@@ -1,0 +1,19 @@
+{% extends "/cn/base.html" %}
+
+{% block content %}
+<title>图像分类</title>
+
+<body>
+<table style='margin:auto'>
+<tr><td>
+    <img src='/icon/{{rand}}/type.jpg' style='width:300px'>
+    <h1>{{pettype}}</h1>
+    
+    <form method='POST' enctype="multipart/form-data" class='profile-form'>
+        <input type='file' name='image' >
+        <button>计算宠物种类</button>
+    </form>
+</td></tr>
+</table>
+</body>
+{% endblock content %}

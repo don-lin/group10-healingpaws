@@ -1,3 +1,38 @@
+
+<style>
+.loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  z-index:9999999999;
+}
+.loader {
+  display: inline-block;
+  width: 70px;
+  height:70px;
+  position: relative;
+  border: 4px solid grey;
+  border-radius: 40px;
+  animation: loader 2s infinite ;
+}
+@keyframes loader {
+  0% { transform: rotate(0deg);  height: 70px;}
+  25% { transform: rotate(180deg); height: 20px;}
+  50% { transform: rotate(180deg); height: 20px;}
+  75% { transform: rotate(360deg); height: 70px;}
+  100% { transform: rotate(360deg); height: 70px;}
+}
+</style>
+
+    <div class="loader-wrapper">
+      <img class="loader" src="/img/logo.png">
+    </div>
 <!--icon change-->
 <link href="/css/bootstrap.css" rel="stylesheet">
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
@@ -152,7 +187,7 @@
             overflow: hidden;
         }
         #yearList{
-            width: 100%;
+            width: 999999999%;
             list-style: none;
             position: relative;
             /*left: 457px;*/
@@ -477,13 +512,13 @@ header a:hover{
 <header >
 
     <div  >
-    <a href="/introduction" style="float:left" data-toggle="modal"  >Healing Paws</a>
+    <a href="/introduction" style="float:left" data-toggle="modal"  >治疗之爪</a>
     <label style="float:left"></label>
     <label style="float:right">
     <a class='myerror' hidden='hidden' href="javascript:void(0);" data-toggle="modal" data-target="#myModal-error"></a>
     <a class='mysuccess' hidden='hidden' href="javascript:void(0);" data-toggle="modal" data-target="#myModal-success"></a>
     <a class='myhtml-trigger' hidden='hidden' href="javascript:void(0);" data-toggle="modal" data-target="#myModal-innerhtml"></a>
-	{%if not username%}
+	{%if not gun()%}
 	
     <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-login">登录 |</a>
     <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-guest-login"></a>
@@ -491,11 +526,11 @@ header a:hover{
 	
 	{%else%}
 	
-    <a href="/profile" data-toggle="modal"  >{{username}}|</a>
+    <a href="/profile" data-toggle="modal"  >{{gun()}}|</a>
     <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-change-account">升级账户 |</a>
     <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-login">切换账户 |</a>
     <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-reset-password">重置密码 |</a>
-    <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-logout" >注销</a>
+    <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-logout" >登出</a>
 	
 	{%endif%}
     </label>
@@ -510,7 +545,7 @@ header a:hover{
 					<h3 class="title">访客登录</h3>
 					<form method="post" action="/guestlogin">
           <input name="username" value='None' hidden='hidden' autocomplete="current-username">
-          <label>你的用户名将会是None</label>
+          <label>你的用户名将会是 None</label>
 					<p class="description"></p>
 					<button class="subscribe" type="submit">以访客的身份登录</button>
 					
@@ -530,6 +565,8 @@ header a:hover{
 					<form method="post" action="/login">
 					<label>用户名 :</label><input name="username" autocomplete="current-username"><br>
 					<label>密码 :</label><input type="password" autocomplete="current-password" name="password">
+                    
+                    <img style='width:160px;height:160px;'>
 					<p class="description"></p>
 					<button class="subscribe" type="submit">登录</button>
 					
@@ -538,6 +575,16 @@ header a:hover{
 			</div>
 		</div>
 	</div>
+    <script>
+    
+    function refresh_qr(){
+        if(!$('#myModal-login').is(":hidden")){
+            document.querySelector('#myModal-login img').setAttribute('src','/qrcode?data=group10_healingpaws'+Math.random())
+        }
+        
+    }
+    setInterval(refresh_qr, 1000);
+    </script>
 
     	<!-- Modal -->
 	<div class="modal fade" id="myModal-register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
@@ -547,16 +594,34 @@ header a:hover{
 				<div class="modal-body">
 					<h3 class="title">请您注册</h3>
 					<form method="post" action="/register">
-					<label>用户名 :</label><input name="username" autocomplete="current-username"><br>
-					<label>密码 :</label><input type="password" autocomplete="current-password" name="password">
+					<label>名字 :</label><input name="username" autocomplete="current-username"><br>
+					<label>密码 :</label><input oninput='check_match()' class='p0' type="password" autocomplete="current-password" name="password">
+					<br>
+                    <label>密码 :</label><input oninput='check_match()' class='p1' type="password" autocomplete="current-password" name="password">
+					<p style='color:red' class='hint_register'>请您再输一遍密码</p>
 					<p class="description"></p>
-					<button class="subscribe" type="submit">立即注册</button>
-					
+					<button class="subscribe register_button" type="submit" disabled="disabled">注册</button>
 					</form>
 				</div>
             </div>
 		</div>
   </div>
+  
+  <script>
+    function check_match(){
+        t0=document.querySelector('.p0')
+        t1=document.querySelector('.p1')
+        rb=document.querySelector('.register_button')
+        t=document.querySelector('.hint_register')
+        if(t0.value==t1.value){
+            rb.removeAttribute('disabled')
+            t.textContent='密码一样'
+        }else{
+            rb.setAttribute('disabled','disabled')
+            t.textContent='密码不一样'
+        }
+    }
+  </script>
   
   <!-- Modal -->
 	<div class="modal fade" id="myModal-innerhtml" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
@@ -596,13 +661,13 @@ header a:hover{
           <div class="modal-body">
             <h3 class="title">升级账户</h3>
             <form method="post" action="/changea">
-            <input hidden='hidden' name="username" autocomplete="current-username"  value="{{username}}">
-            <button class="subscribe" type="submit" name='newtype' value='2'>员工</button>
+            <input hidden='hidden' name="username" autocomplete="current-username"  value="{{gun()}}">
+            <button class="subscribe" type="submit" name='newtype' value='2'>员工身份</button>
             <p><br></p>
             
-            <button class="subscribe" type="submit" name='newtype' value='1'>医生</button>
+            <button class="subscribe" type="submit" name='newtype' value='1'>医生身份</button>
             <p class="description">&nbsp;</p>
-            <button class="subscribe" type="submit" name='newtype' value='0'>用户</button>
+            <button class="subscribe" type="submit" name='newtype' value='0'>用户身份</button>
             
             </form>
           </div>
@@ -618,10 +683,10 @@ header a:hover{
 				<div class="modal-body">
 					<h3 class="title">重置密码</h3>
 					<form method="post" action="/reset">
-					<input hidden='hidden' name="username" autocomplete="current-username"  value="{{username}}">
-					<label>您的新密码 :</label><input type="password"  autocomplete="current-password" name="password">
-					<p class="description">愿您记住自己的新密码</p>
-					<button class="subscribe" type="submit">立即重置</button>
+					<input hidden='hidden' name="username" autocomplete="current-username"  value="{{gun()}}">
+					<label>新密码 :</label><input type="password"  autocomplete="current-password" name="password">
+					<p class="description">请一定要记住你的新密码</p>
+					<button class="subscribe" type="submit">重置</button>
 					
 					</form>
 				</div>
@@ -636,15 +701,16 @@ header a:hover{
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="modal-body">
 					<div class="icon"> √ </div>
-					<h6 class="title">'{{username}}' 真的要注销嘛o(╥﹏╥)o</h6>
-					<p class="description">亲爱的： {{username}}</p>
+					<h6 class="title">'{{gun()}}' 请你确认是否要注销</h6>
+					<p class="description">你的用户名是 {{gun()}}</p>
 					<br><br>
-					<button class="subscribe" onclick="$.post('/logout','',function(){location.reload()})">给老子注销</button>
+					<button class="subscribe" onclick="$.post('/logout','',function(){location.reload()})">确认注销</button>
 					
 				</div>
 			</div>
 		</div>
 	</div>
+    
     
     	<!-- Modal -->
         <div class="modal fade" id="myModal-cl" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
@@ -653,10 +719,10 @@ header a:hover{
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="modal-body">
 					<div class="icon"> √ </div>
-					<h6 class="title">are you sure to change language</h6>
-					<p class="description">The language will be changed to 中文</p>
+					<h6 class="title">请你确认是否要切换语言</h6>
+					<p class="description">语言将会被切换成 English</p>
 					<br><br>
-					<button class="subscribe" onclick="$.post('/cl','',function(){location.reload()})">Confirm</button>
+					<button class="subscribe" onclick="$.post('/cl','',function(){location.reload()})">确认切换语言</button>
 					
 				</div>
 			</div>
@@ -670,10 +736,10 @@ header a:hover{
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="modal-body">
 					<div class="icon"> ! </div>
-					<h6 class="title">出错了</h6>
-					<p class="description" style="font-size: 20px;color:red;">{{error_info}}</p>
+					<h6 class="title">不能这么做</h6>
+					<p class="description" style="font-size: 20px;color:red;">{{flash_error()}}</p>
 					<br><br>
-					<button class="subscribe" data-dismiss="modal" aria-label="Close">明白</button>
+					<button class="subscribe" data-dismiss="modal" aria-label="Close">我明白</button>
 					
 				</div>
 			</div>
@@ -687,9 +753,9 @@ header a:hover{
           <div class="modal-body">
             <div class="icon"> √ </div>
             <h6 class="title">成功了</h6>
-            <p class="description" style="font-size: 20px;">{{success_info}}</p>
+            <p class="description" style="font-size: 20px;">{{flash_success()}}</p>
             <br><br>
-            <button class="subscribe" data-dismiss="modal" aria-label="Close">谢谢你</button>
+            <button class="subscribe" data-dismiss="modal" aria-label="Close">谢谢</button>
             
           </div>
         </div>
@@ -699,7 +765,8 @@ header a:hover{
 
 	<table class="head-table" align="center" style="margin:auto; color: white;text-align:center; ">
 		<tr>
-			<td>Group 10<a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-cl" > | 英文</a></td>
+			<td>Group 10 <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-cl" > | 切换成英文</a></td>
+            
 		</tr>
     </table>    
 </div>
@@ -717,11 +784,11 @@ header a:hover{
       {%with alluser=get_all_user()%}
 			<li class="sidebar-brand">
 				<a href="/">
-				   回到主页
+				   主页
 				</a>
 			</li>
 			<li>
-				<a href="/introduction"><i class="fa"></i> 主页</a>
+				<a href="/introduction"><i class="fa"></i> 介绍页</a>
       </li>
 			<li>
 				<a href="/doctors"><i class="fa"></i> 医生</a>
@@ -744,7 +811,7 @@ header a:hover{
           </ul>
         </li>
       <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 医生概览 <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 查看医生概况 <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
           <li class="dropdown-header">医生列表</li>
           {%for u in alluser%}
@@ -764,9 +831,9 @@ header a:hover{
           </ul>
         </li>
       <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 开始聊天 <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> 与别人聊天 <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-          <li class="dropdown-header">跟谁聊呢？</li>
+          <li class="dropdown-header">选择用户名</li>
           {%for u in alluser%}
           <li><a onclick="init_chat('{{u.username}}')">{{u.username}}</a></li>
           {%endfor%}
@@ -792,17 +859,17 @@ header a:hover{
 
 
 <div class="special-buttons">
-            <img class="healing-paws-icon" src="/img/logo_rectangle.png" style="width: 200px; height:50px;">
-                <div class="btn" onclick="location.replace('/introduction')"><span class="circle"></span><span class="text">欢迎页</span></div>
+            <img onclick='location.replace("/home")' class="healing-paws-icon" src="/img/logo_rectangle.png" style="width: 200px; height:50px;">
+                <div class="btn" onclick="location.replace('/introduction')"><span class="circle"></span><span class="text">介绍</span></div>
                 <div class="btn" onclick="location.replace('/doctors')"><span class="circle"></span><span class="text">医生</span></div>
                 <div class="btn" onclick="location.replace('/users')"><span class="circle"></span><span class="text">用户</span></div>
-                <div class="btn" onclick="location.replace('/locations')"><span class="circle"></span><span class="text">分院</span></div>
+                <div class="btn" onclick="location.replace('/locations')"><span class="circle"></span><span class="text">地址</span></div>
                 <div class="btn" onclick="location.replace('/appointment')"><span class="circle"></span><span class="text">预约</span></div>
                 <div class="btn" onclick="location.replace('/pets')"><span class="circle"></span><span class="text">宠物</span></div>
-                <div class="btn" onclick="location.replace('/profile')"><span class="circle"></span><span class="text">个人</span></div>
+                <div class="btn" onclick="location.replace('/profile')"><span class="circle"></span><span class="text">资料</span></div>
             
                 <label class="type-ahead" style="float: right;z-index: 2;">
-                        <input type="text" class="type-ahead__input" placeholder="输关键字吧" value="">
+                        <input type="text" class="type-ahead__input" placeholder="输入你想搜的内容吧" value="">
                         <svg class="icon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
                             <path d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z"></path></svg>
                         <ul class="type-ahead__suggestions"></ul>
@@ -822,11 +889,11 @@ header a:hover{
 
         const searchList=[
         `<li class='suggestion' onclick="location.replace('/doctors')">doctors</li>`,
-        `<li class='suggestion' onclick="location.replace('/introduction')">主页</li>`,
-        `<li class='suggestion' onclick="location.replace('/locations')">分院</li>`,
+        `<li class='suggestion' onclick="location.replace('/introduction')">介绍</li>`,
+        `<li class='suggestion' onclick="location.replace('/locations')">地址</li>`,
         `<li class='suggestion' onclick="location.replace('/appointment')">预约</li>`,
         `<li class='suggestion' onclick="location.replace('/pets')">宠物</li>`,
-        `<li class='suggestion' onclick="location.replace('/profile')">个人</li>`,
+        `<li class='suggestion' onclick="location.replace('/profile')">资料</li>`,
 
         
         `<li class='suggestion' onclick="init_hos(0)">北京分院</li>`,
@@ -835,8 +902,8 @@ header a:hover{
         
       {%with alluser=get_all_user()%}
         {%for u in alluser%}
-        `<li class='suggestion' onclick="init_chat('{{u.username}}')">与 {{u.username}} 聊天</li>`,
-        `<li class='suggestion' onclick="init_info('{{u.username}}')">看资料 {{u.username}}</li>`,
+        `<li class='suggestion' onclick="init_chat('{{u.username}}')">跟 {{u.username}} 聊天</li>`,
+        `<li class='suggestion' onclick="init_info('{{u.username}}')">查看 {{u.username}} 的资料</li>`,
         {%endfor%}
       {%endwith%}
         ]
@@ -904,6 +971,7 @@ header a:hover{
                 };
         
                 opt = $.extend({}, defaults, opt);
+                window.year_pos=opt.n
                 return this.each(function() {
                     opt.btnPrev=$(opt.btnPrev);
                     opt.btnNext=$(opt.btnNext);
@@ -932,7 +1000,10 @@ header a:hover{
                     })
         
                     function updata(){
-                        console.log(opt.n)
+                        window.year_pos=opt.n
+                        if(window.custom_update){
+                            window.custom_update();
+                        }
                         opt.conBox.animate({left:-(opt.w*opt.n)+'px'},300);
                         opt.dateBox.animate({left:-((90)*opt.n)+'px'},300);
                         $(opt.dateArr[opt.n]).addClass("year-active").siblings().removeClass("year-active");
@@ -1275,13 +1346,16 @@ header a:hover{
 </script>
 
 
-
-{%if error_info%}
-        <script>
-        document.querySelector('.myerror').click()</script>
-{%endif%}
-
-{%if success_info%}
-        <script>
-        document.querySelector('.mysuccess').click()</script>
-{%endif%}
+<script>
+    $(window).on("load",function(){
+      $(".loader-wrapper").fadeOut("fast");
+      
+      
+    if(document.querySelector('#myModal-error .description').textContent!='None'){
+    document.querySelector('.myerror').click()
+    }
+    if(document.querySelector('#myModal-success .description').textContent!='None'){
+    document.querySelector('.mysuccess').click()
+    }
+    });
+</script>

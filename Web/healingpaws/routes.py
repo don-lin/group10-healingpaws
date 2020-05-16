@@ -1,19 +1,67 @@
-from healingpaws import  app,DatabaseSecretConfig
+from healingpaws import  app,qrcode,DatabaseSecretConfig
 from healingpaws.dbConnector import *
-from flask import render_template,send_from_directory,request,session,redirect
+from flask import render_template,send_from_directory,send_file,request,session,redirect
+from healingpaws.nn import get_type
 import os,random
 
 error_info=None
+success_info=None
+
+app.add_template_global(getAllUser,'get_all_user')
+app.add_template_global(getUserFromId,'get_user')
+app.add_template_global(getPet,'get_pet')
+app.add_template_global(getChat,'getChat')
+
+def gun():
+    return session.get('username')
+
+app.add_template_global(gun,'gun')
+
+def flash_error():
+    global error_info
+    r=error_info
+    error_info=None
+    return r
+
+def flash_success():
+    global success_info
+    r=success_info
+    success_info=None
+    return r
+
+app.add_template_global(flash_success,'flash_success')
+app.add_template_global(flash_error,'flash_error')
+
+def getkind(petid):
+    path=DatabaseSecretConfig.userimgdir+"/pet_icon_"+str(petid)+'.jpg'
+    if not(os.path.exists(path)):
+        return 'unknown'
+    return get_type(path)
+
+app.add_template_global(getkind,'getkind')
+
+def L(html):
+    if session.get('language')==1:
+        return 'cn/'+html
+    return html
 
 def save_file(path,file,name):
     if not file:
-        print("No file detected")
         return
-    print('saving the files')
+    print('saving the files: ',name)
     file_path = os.path.join(path,name)
-    print('FilePath:' + file_path)
     file.save(file_path)
-
+    
+    
+    
+def delete_file(path,name):
+    print('deleting the files: ',name)
+    try:
+        file_path = os.path.join(path,name)
+        os.remove(file_path)
+    except:
+        pass
+    
 def rand():
     return random.random()
 
@@ -26,6 +74,18 @@ def err_login():
 def page_not_found(e):
     return "<a href='/'>Page Not Found</a>",404
 
+@app.route("/")
+@app.route('/home')
+@app.route("/introduction")
+def homepage():
+    print(request.url)
+    
+    return render_template(L('homepage/index.html'))
+
+@app.route('/guestlogin',methods=["GET","POST"])
+def guestlogin():
+    session['username']='None'
+    return redirect("/introduction")
 
 @app.route('/login',methods=["GET","POST"])
 def login():
@@ -33,11 +93,6 @@ def login():
         global error_info
         if checkUserPassword(request.form.get('username'),request.form.get('password')):
             session['username']=request.form.get("username")
-            if checkIfEmployee(request.form.get('username')):
-                session['user_level'] = 'employee'
-                return redirect('/employee_question')
-            else:
-                session['user_level'] = 'customer'
         else:
             error_info='password wrong'
         if not checkUserExist(request.form.get('username')):
@@ -47,93 +102,129 @@ def login():
 @app.route('/reset',methods=["GET","POST"])
 def reset_password():
     if(request.method=="POST"):
+        print(request.form)
+        success_message('password has been reset')
         updateUserPassword(request.form.get('username'),request.form.get('password'))
     return redirect("/introduction")
 
+@app.route('/check_type',methods=["GET","POST"])
+def send_type():
+    if request.method=='POST':
+        save_file(DatabaseSecretConfig.userimgdir,request.files.get('image'),'type.jpg')
+        save_file(DatabaseSecretConfig.basedir,request.files.get('image'),'type.jpg')
+    type= get_type(DatabaseSecretConfig.userimgdir+"/"+'type.jpg')
+    return render_template(L('pettype.html'),pettype=type,rand=rand())
 @app.route('/logout',methods=["GET","POST"])
 def logout():
+    success_message(session.get('username')+' log out success')
     session.pop('username')
-    if session.get('user_level') is not None:
-        session.pop('user_level')
     return 'log out success'
 
 
+@app.route('/cl',methods=["GET","POST"])
+def change_language():
+    if session.get('language')==1:
+        session['language']=0
+    else:
+        session['language']=1
+    success_message('change language success, current language is '+['english','chinese'][session.get('language')])
+    return 'change language success'
+
+def count_pet_appointment(petid):
+    return len(getPetAppointment(petid))
+app.add_template_global(count_pet_appointment,'count_pet_appointment')
+
+def count_doc_appointment(docid):
+    return len(getDoctorAppointment(docid))
+app.add_template_global(count_doc_appointment,'count_doc_appointment')
+
+def deal_appointment_request(form):
+    print(form)
+    if(form.get("submit")=='add'):
+        if not form.get('pet_id'):
+            global error_info
+            error_info='you must select a pet'
+            return;
+        addAppointment(form.get('pet_id'),form.get('doctor_id'),form.get('date'),form.get('emergency_level'),form.get('hospital'),form.get('status'))
+    if(form.get("delete_appointment")):
+        deleteAppointment(form.get("delete_appointment"))
+    if(form.get("update_appointment")):
+        updateAppointment(form.get("update_appointment"),form.get('pet_id'),form.get('doctor_id'),form.get('date'),form.get('emergency_level'),form.get('hospital'),form.get('status'))
+
+@app.route('/appointment/date/<date>',methods=['GET','POST'])
+def appointment_date_page(date):
+    if not session.get('username'):
+        return err_login()
+    deal_appointment_request(request.form)
+
+    return render_template(L('appointments.html'),
+    apppointments=getDateAppointment(date),pets=getUserPets(session.get('username')),allpets=getAllPets(),
+    user=getUser(session.get("username")),doctors=getAllDoctor(),rand=rand())
+
+@app.route('/appointment/pet/<petid>',methods=['GET','POST'])
+def appointment_pet_page(petid):
+    if not session.get('username'):
+        return err_login()
+    deal_appointment_request(request.form)
+
+    return render_template(L('appointments.html'),
+    apppointments=getPetAppointment(petid),pets=getUserPets(session.get('username')),allpets=getAllPets(),
+    user=getUser(session.get("username")),doctors=getAllDoctor(),rand=rand())
+
+@app.route('/appointment/pure/doc/<docname>',methods=['GET','POST'])
+def appointment_pure_doctor_page(docname):
+
+    return render_template(L('doc-appointment.html'),
+    apppointments=getDoctorAppointment(getUser(docname).id),doctors=getAllDoctor(),rand=rand())
+
+@app.route('/appointment/pure/date/<date>',methods=['GET','POST'])
+def appointment_pure_date_page(date):
+
+    return render_template(L('doc-appointment.html'),
+    apppointments=getDateAppointment(date),doctors=getAllDoctor(),rand=rand())
+
+@app.route('/appointment/pure/hospital/<hos>',methods=['GET','POST'])
+def appointment_pure_hospital_page(hos):
+
+    return render_template(L('doc-appointment.html'),
+    apppointments=getHospitalAppointment(hos),doctors=getAllDoctor(),rand=rand())
+
+@app.route('/appointment/doctor/<docid>',methods=['GET','POST'])
+def appointment_doctor_page(docid):
+    if not session.get('username'):
+        return err_login()
+    deal_appointment_request(request.form)
+
+    return render_template(L('appointments.html'),
+    apppointments=getDoctorAppointment(docid),pets=getUserPets(session.get('username')),allpets=getAllPets(),
+    user=getUser(session.get("username")),doctors=getAllDoctor(),rand=rand())
+
 @app.route('/appointment',methods=['GET','POST'])
 def appointment_page():
+
     if not session.get('username'):
         return err_login()
+    deal_appointment_request(request.form)
 
-    if(request.form.get("submit")=='add'):
-        addAppointment(request.form['pet_id'],request.form['doctor_id'],request.form['date'],request.form['emergency'],request.form['description'])
-    if(request.form.get("delete_appointment")):
-        deleteAppointment(request.form.get("delete_appointment"))
-    if(request.form.get("update_appointment")):
-        updateAppointment(request.form.get("update_appointment"),request.form['pet_id'],request.form['doctor_id'],request.form['date'])
-    user_in_db = getUser(session.get('username'))
-    doctors = getAllDoctors()
-    pets = getUserPets(user_in_db.username)
-    # 加入选择列表里
-    pets_list = [[p.id, p.petsname] for p in pets]
-    doctors_list = [[d.id, d.doctorname] for d in doctors]
+    return render_template(L('appointments.html'),
+    apppointments=getUserAppointment(session.get('username')),pets=getUserPets(session.get('username')),allpets=getAllPets(),
+    user=getUser(session.get("username")),doctors=getAllDoctor(),rand=rand())
 
-    appointments_in_db = getUserAppointment(session.get('username'))
-    appointment_list = []
-    for a in appointments_in_db:
-        # 自定义数组来规定传到前端的数据
-        appointment = []
-        pet_name = get_pet_by_id(a.pet).petsname
-        doctor_name = get_doctor_by_id(a.doctor).doctorname
-        date = a.date
-        appointment.append(pet_name)
-        appointment.append(doctor_name)
-        appointment.append(date)
-        appointment.append(a.id)
-        appointment_list.append(appointment)
-    print(appointment_list)
+def success_message(success_hint):
+    global success_info
+    success_info=success_hint
 
-    a = getUserAppointment(session.get('username'))
-    return render_template('appointments.html',username=session.get("username"),apppointments=appointment_list, pets_list=pets_list, doctors_list=doctors_list)
+@app.route("/changea",methods=["GET","POST"])
+def upgrade_account():
+    if(request.method=="POST"):
+        nt=int(request.form.get('newtype'))
+        success_message('your new account type is '+['user','doctor','employee'][nt])
+        updateUserAccount(request.form.get('username'),nt)
+    return redirect("/introduction")
 
-@app.route('/employee_appointment',methods=['GET','POST'])
-def employee_appointment_page():
-    if not session.get('username'):
-        return err_login()
-    print(session.get('username'))
-    # if (request.form.get("submit") == 'add'):
-    #     addAppointment(request.form['pet_id'], request.form['doctor_id'], request.form['date'],
-    #                    request.form['emergency'], request.form['description'])
-    if (request.form.get("delete_appointment")):
-        deleteAppointment(request.form.get("delete_appointment"))
-    if (request.form.get("update_appointment")):
-        print('正在更新Appointment')
-        updateAppointment_e(request.form.get("update_appointment"), doctorid=request.form['doctor_id'],
-                          date=request.form['date'],time_slot=request.form['time_slot'],status=request.form['status'])
-
-    #构建的appointment_list根据appointment的id顺序
-    appointments_in_db = getAllAppointment()
-    #构建一个list传输数据到前端
-    appointments_list = []
-    for a_in_db in appointments_in_db:
-        a = []
-        a_id = a_in_db.id
-        pet_id = a_in_db.pet
-        user_id = get_pet_by_id(pet_id).owner
-        user_name = getUserFromId(user_id).username
-        pet_name = get_pet_by_id(pet_id).petsname
-        doc_id = a_in_db.doctor
-        doc_name = get_doctor_by_id(doc_id).doctorname
-        date = a_in_db.date
-        time_slot = a_in_db.time_slot
-        status = a_in_db.status
-        des = a_in_db.description
-        a = [a_id, user_id, user_name, pet_id, pet_name, doc_id, doc_name, date, time_slot, status, des]
-        appointments_list.append(a)
-
-    doctors = getAllDoctors()
-    doctors_list = [[d.id, d.doctorname] for d in doctors]
-    print(appointments_list)
-    return render_template('employee_appointments.html', appointments=appointments_list, doctors_list=doctors_list, username=session.get("username"))
-
+@app.route("/info/<username>",methods=["GET","POST"])
+def user_info(username):
+    return render_template(L("info.html"),user=getUser(username))
 
 @app.route("/profile",methods=["GET","POST"])
 def profile_page():
@@ -142,57 +233,45 @@ def profile_page():
 
     if request.method=='POST':
         print(request.form)
-        save_file(DatabaseSecretConfig.userimgdir,request.files.get('icon'), session.get('username')+'.jpg')
-        updateUserBirthday(request.form.get('username'),request.form.get('date'))
-        updateUserEmail(request.form.get('username'),request.form.get('mail'))
-        updateUserGender(request.form.get('username'),request.form.get('gender')=='male')
+        uname=session.get('username')
+        print(uname)
+        save_file(DatabaseSecretConfig.userimgdir,request.files.get('icon'),uname+'.jpg')
+        updateUserBirthday(uname,request.form.get('date'))
+        updateUserEmail(uname,request.form.get('mail'))
+        updateUserGender(uname,request.form.get('gender')=='male')
+        print(request.form.get('gender'))
         
     username=session.get('username')
-    return render_template("profile.html",rand=rand(),user=username,appointments=getUserAppointment(username),pets=getUserPets(username),username=username)
+    return render_template(L("profile.html"),rand=rand(),user=getUser(username),appointments=getUserAppointment(username),pets=getUserPets(username),username=username)
 @app.route("/pets",methods=["GET","POST"])
 def pets_page():
     if not session.get('username'):
         return err_login()
+
     if(request.form.get("submit")=='add'):
-        #获取新pet的id
-        new_pet_id = addPet(request.form['pet_name'],session.get('username'),4,request.form['pet_birthday'])
-        dir_name = 'pet_' + '' + str(new_pet_id) + '.jpg'
-        save_file(DatabaseSecretConfig.petimgdir, request.files.get('icon'), dir_name)
+        p=addPet(request.form.get('pet_name'),session.get('username'),int(request.form.get('pet_health')),request.form.get('pet_birthday'))
+        print(request.files.get('pet_icon'))    
+        save_file(DatabaseSecretConfig.userimgdir,request.files.get('pet_icon'),"pet_icon_"+str(p.id)+'.jpg')
     if(request.form.get("delete_pet")):
         deletePet(request.form.get("delete_pet"))
+        delete_file(DatabaseSecretConfig.userimgdir,"pet_icon_"+request.form.get("delete_pet")+'.jpg')
     if(request.form.get("update_pet")):
-        updatePet(request.form.get("update_pet"),request.form['pet_name'],int(request.form['pet_health']),request.form['pet_birthday'])
-        pet_id = request.form.get("update_pet")
-        print("更新pet id为" + str(pet_id))
-        dir_name = 'pet_' + '' + str(pet_id) + '.jpg'
-        save_file(DatabaseSecretConfig.petimgdir, request.files.get('icon'), dir_name)
+        updatePet(request.form.get("update_pet"),request.form.get('pet_name'),int(request.form.get('pet_health')),request.form.get('pet_birthday'))
+        save_file(DatabaseSecretConfig.userimgdir,request.files.get('pet_icon'),"pet_icon_"+request.form.get("update_pet")+'.jpg')
 
-    return render_template("pets.html",username=session.get("username"),pets=getUserPets(session.get('username')))
+    return render_template(L("pets.html"),pets=getUserPets(session.get('username')),rand=rand())
 
-@app.route("/employee_pets",methods=["GET","POST"])
-def employee_pets_page():
-    if not session.get('username'):
-        return err_login()
-    if (request.form.get("update_pet")):
-        updatePet_e(request.form.get("update_pet"), int(request.form['pet_health']))
-
-    return render_template("employee_pets.html",pets=getAllPets(), username = session.get('username'))
-
-@app.route("/")
-@app.route("/introduction")
+#@app.route("/introduction")
 def introduction_page():
-    global error_info
-    a=error_info
-    error_info=None
-    print(session.get('user_level'))
-    if session.get('user_level') is not None:
-        if session['user_level'] == 'employee':
-            return redirect('/employee_questions_list')
-    return render_template("introduction.html",username=session.get("username"),error_info=a)
+    return render_template(L("introduction.html"))
 
+    
 @app.route("/doctors")
 def doctors_page():
-    return render_template("doctors.html",username=session.get("username"),users=getAllUser(),rand=rand())
+    return render_template(L("doctors.html"),users=getAllDoctor(),rand=rand())
+@app.route("/users")
+def users_page():
+    return render_template(L("users.html"),users=getAllUser(),rand=rand())
 
 @app.route("/register",methods=["GET","POST"])
 def register():
@@ -205,33 +284,83 @@ def register():
             error_info='user name exist'
             return redirect("/introduction")
         addUser(username,password)
+        success_message(username+" register success, the account already logged in")
         session['username']=request.form.get("username")
     return redirect("/introduction")
 
 @app.route("/locations")
 def location_page():
-    return render_template("locations.html",username=session.get("username"))
+    return render_template(L("locations.html"))
+
+@app.route("/getchat/<fromuser>/<touser>",methods=["GET","POST"])
+def get_chat(fromuser,touser):
+    chats=getChat(fromuser,touser)
+    result=""
+    for c in chats:
+        result+=c.prepare_send("donlin_send_key")+"donlin_split_key"
+    return result
+    
+@app.route("/chat1/<touser>")
+def chat_page1(touser):
+    return render_template(L("chat1.html"),chatto=touser)
+
+def deal_chat(fromuser,touser,form):
+    if(form.get("content")):
+        if(form.get("updateid")):
+            updateChat(int(form.get("updateid")),form.get("content"))
+        else:
+            chat(fromuser,touser,form.get("content"))
+    if(form.get("delid")):
+        deleteChat(int(form.get("delid")))
+
+@app.route("/chat/<touser>",methods=["GET","POST"])
+def chat_page(touser):
+    if(request.method=="POST"):
+        #print(request.form)
+        fromuser=session.get('username')
+        fromuser = 'None' if fromuser is None else fromuser
+        deal_chat(fromuser,touser,request.form)
+        return get_chat(fromuser,touser)
+    return render_template(L("chat.html"),chatto=touser)
+
+@app.route("/comment/<touser>",methods=["GET","POST"])
+def comment_user(touser):
+    if(request.method=="POST"):
+        fromuser='commentor'
+    deal_chat(fromuser,touser,request.form) 
+    return redirect('/doctors')
 
 
 @app.route("/manage")
 def manager_page():
-    return render_template("manager.html",users=getAllUser())
+    return render_template(L("manager.html"),users=getAllUser())
 
 
-@app.route("/android/doctors",methods=["POST"])
+@app.route("/android/doctors",methods=["GET","POST"])
 def send_android_doctors():
-    doc_list=getAllDoctors()
+    doc_list=getAllDoctor()
     result=""
     for d in doc_list:
         result+=d.formatCode("ccddll")+"dlcc"
     return result
 
+@app.route("/android/pets",methods=["GET","POST"])
+def send_android_pets():
+    pet_list=getAllPets()
+    result=""
+    for p in pet_list:
+        result+=p.formatCode("ccddll")+"dlcc"
+    return result
+
 @app.route("/cover")
 def cover_route():
-	return render_template("cover.html",username=session.get("username"))
+	return render_template(L("cover.html"))
+
+
 
 @app.route("/admin",methods=["GET","POST"])
 def pet_page():
+    print(request.form)
     if(request.form.get("submit")=='1'):
         addPet(request.form['pet_name'],session.get('username'),int(request.form['pet_health']),request.form['pet_birthday'])
     if(request.form.get("submit")=='2'):
@@ -244,103 +373,40 @@ def pet_page():
         updateDoctor(request.form.get("update_doctor"),request.form['doctor_name'],int(request.form['age']),request.form['doctor_telphone'],request.form['doctor_introduction'])
     if(request.form.get("update_pet")):
         updatePet(request.form.get("update_pet"),request.form['pet_name'],int(request.form['pet_health']),request.form['pet_birthday'])
-    return render_template("admin.html", pet_list=getAllPets(),doctor_list=getAllDoctors())
+    return render_template(L("admin.html"), pet_list=getAllPets(),doctor_list=getAllDoctor())
 
-@app.route("/employee_questions_list",methods=["GET","POST"])
-def employee_questions_list():
-    if not session.get('username'):
-        return err_login()
-    questions_in_db = getAllQuestions()
-    #传到前端的数据
-    questions = []
-    for q_in_db in questions_in_db:
-        user_in_db = getUserFromId(q_in_db.user)
-        #检测是否是customer
-        if user_in_db.user_level == 0:
-            qid = q_in_db.id
-            username = user_in_db.username
-            last_reply = get_last_reply(qid)
-            reply_content = last_reply.content
-            q = []
-            print("用户id是" + str(user_in_db.id))
-            print("qid是" + str(qid))
-            q.append(qid)
-            q.append(username)
-            q.append(reply_content)
-            questions.append(q)
-    print(questions)
-    return render_template("employee_questions_list.html",questions=questions)
-
-@app.route("/employee_question/<int:id>",methods=["GET","POST"])
-def employee_question(id):
-    if not session.get('username'):
-        return err_login()
-
-    print("User Name"+session.get('username'))
-
-    if request.method == 'POST':
-        if request.values.get('type') == 'e_reply':
-            content = request.values.get('content')
-            #数据库刷新
-            ##为什么是3？？？？？？这个地方为什么不打印 草尼玛
-            addReply(user_id=getUser(session.get('username')).id, content=content, q_id=id)
-            return content
-    #数据库读取
-    #目前只读为id为1的
-    q_id = id
-    replies_in_db = get_replies_by_question(q_id=q_id)
-    replies = []
-    for r_in_db in replies_in_db:
-        r = []
-        r.append(q_id)
-        r.append(getUserFromId(r_in_db.user).username)
-        r.append(r_in_db.content)
-        replies.append(r)
-    return render_template("employee_question.html", replies = replies, username = session.get('username'), qid=id)
-
-@app.route("/customer_question",methods=["GET","POST"])
-def customer_question():
-    if not session.get('username'):
-        return err_login()
-
-    print("User Name"+session.get('username'))
-
-    if request.method == 'POST':
-        if request.values.get('type') == 'reply':
-            content = request.values.get('content')
-            #数据库刷新
-            addReply(user_id=getUser(session.get('username')).id, content=content, q_id=get_question_by_user(user=getUser(session.get('username')).id).id)
-            return content
-    #数据库读取
-    #目前只读为id为1的
-    q_id = get_question_by_user(user=getUser(session.get('username')).id).id
-    print("qid = " + str(q_id))
-    replies_in_db = get_replies_by_question(q_id=q_id)
-    print(replies_in_db)
-    replies = []
-    for r_in_db in replies_in_db:
-        r = []
-        r.append(q_id)
-        r.append(getUserFromId(r_in_db.user).username)
-        r.append(r_in_db.content)
-        replies.append(r)
-    return render_template("customer_question.html", replies = replies, username = session.get('username'))
 
 @app.route('/css/<filename>')
 def get_css(filename):
     return send_from_directory(DatabaseSecretConfig.cssdir,filename)
+@app.route('/homepage/<filename>')
+def get_home(filename):
+    return send_from_directory(DatabaseSecretConfig.homedir,filename)
+@app.route('/fonts/<filename>')
+def get_home_fonts(filename):
+    return send_from_directory(DatabaseSecretConfig.homedir,filename)
 @app.route('/img/<filename>')
 def get_img(filename):
     return send_from_directory(DatabaseSecretConfig.imgdir,filename)
-
-@app.route('/img/<filename>')
-def get_pet_img(filename):
-    return send_from_directory(DatabaseSecretConfig.petimgdir,filename)
-
+    
+    
 @app.route('/icon/<rand>/<filename>')
-def get_icon(rand,filename):
+def get_rand_icon(rand,filename):
+    if not(os.path.exists((DatabaseSecretConfig.userimgdir+"/"+filename))):
+        return get_img('t2.png')
     return send_from_directory(DatabaseSecretConfig.userimgdir,filename)
+@app.route('/icon/<filename>')
+def get_icon(filename):
+    return get_rand_icon(0,filename)
 
 @app.route('/js/<filename>')
 def get_js(filename):
     return send_from_directory(DatabaseSecretConfig.jsdir,filename)
+    
+@app.route("/qrcode", methods=["GET"])
+def get_qrcode():
+    # please get /qrcode?data=<qrcode_data>
+    data = request.args.get("data", "")
+    return send_file(qrcode(data, mode="raw"), mimetype="image/png")
+
+

@@ -47,6 +47,7 @@ to {transform: rotateY(0deg);}
             <td>医院</td>
             <td>状态</td>
 			<td>日期</td>
+			<td>时间</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -69,6 +70,11 @@ to {transform: rotateY(0deg);}
                 <td>{{['北京','上海','广州'][a.hospital]}}</td>
                 <td>{{["未确认","已确认","手术队列","手术完成","等待释放"][a.status]}}</td>
 			<td>{{a.date}}</td>
+            
+            <td>
+            {%if a.date%}
+            {{a.time+9}}:00-{{a.time+10}}:00
+            {%endif%}</td>
 		</tr>
 		{%endwith%}
 	{%endfor%}

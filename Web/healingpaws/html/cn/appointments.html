@@ -1,7 +1,7 @@
-{% extends "cn/base.html" %}
+{% extends "/cn/base.html" %}
 
 {% block content %}
-<title>宠物的预约</title>
+<title>Appointments</title>
 
 <style>
     table
@@ -40,21 +40,21 @@ to {transform: rotateY(0deg);}
     }
 </style>
 
-<table class="table" id='appointment-table' style="width:500px;margin:auto; text-align:center;">
+<table class="table" id='appointment-table' style="width:80%; margin:auto; text-align:center;">
 	<div class="special-buttons">
-					   <div class="btn" data-toggle="modal" data-target="#myModal-add-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">添加</span></div>
-					   <div class="btn" onclick="location.replace('/appointment')"><span class="circle" style="z-index: 0;"></span><span class="text">我的</span></div>
-					   <div class="btn" data-toggle="modal" data-target="#myModal-check-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">选择日期</span></div>
+					   <div class="btn" data-toggle="modal" data-target="#myModal-add-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">添加预约</span></div>
+					   <div class="btn" onclick="location.replace('/appointment')"><span class="circle" style="z-index: 0;"></span><span class="text">我的预约</span></div>
+					   <div class="btn" data-toggle="modal" data-target="#myModal-check-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">查看日期</span></div>
 					</div>
 				
 		<div class="special-buttons">
 				<div class="btn" onclick="sorta('.priority',true)"><span class="circle"></span><span class="text">优先级 升序</span></div>
 				<div class="btn" onclick="sorta('.docname')"><span class="circle"></span><span class="text">医生 升序</span></div>
-				<div class="btn" onclick="sorta('.priority')"><span class="circle"></span><span class="text">紧急度 升序</span></div>
+				<div class="btn" onclick="sorta('.emergency')"><span class="circle"></span><span class="text">紧急度 升序</span></div>
 				<div class="btn" onclick="sorta('.date')"><span class="circle"></span><span class="text">日期 升序</span></div>
 				<div class="btn" onclick="sorta('.health')"><span class="circle"></span><span class="text">健康 升序</span></div>
 				<div class="btn" onclick="sorta('.petid',true)"><span class="circle"></span><span class="text">宠物 升序</span></div>
-				<div class="btn" onclick="sorta('.appid',true)"><span class="circle"></span><span class="text">编号 升序</span></div>
+				<div class="btn" onclick="sorta('.appid',true)"><span class="circle"></span><span class="text">序号 升序</span></div>
 				<div class="btn" onclick="sorta('.hospital')"><span class="circle"></span><span class="text">医院 升序</span></div>
 				<div class="btn" onclick="sorta('.status')"><span class="circle"></span><span class="text">状态 升序</span></div>
 				</div>
@@ -63,29 +63,30 @@ to {transform: rotateY(0deg);}
 				<div class="special-buttons">
 						<div class="btn" onclick="sortd('.priority',true)"><span class="circle"></span><span class="text">优先级 降序</span></div>
 						<div class="btn" onclick="sortd('.docname')"><span class="circle"></span><span class="text">医生 降序</span></div>
-						<div class="btn" onclick="sortd('.priority')"><span class="circle"></span><span class="text">紧急度 降序</span></div>
+						<div class="btn" onclick="sortd('.emergency')"><span class="circle"></span><span class="text">紧急度 降序</span></div>
 						<div class="btn" onclick="sortd('.date')"><span class="circle"></span><span class="text">日期 降序</span></div>
-						<div class="btn" onclick="sortd('.health')"><span class="circle"></span><span class="text">健康度 降序</span></div>
+						<div class="btn" onclick="sortd('.health')"><span class="circle"></span><span class="text">健康 降序</span></div>
 						<div class="btn" onclick="sortd('.petid',true)"><span class="circle"></span><span class="text">宠物 降序</span></div>
-						<div class="btn" onclick="sortd('.appid',true)"><span class="circle"></span><span class="text">编号 降序</span></div>
+						<div class="btn" onclick="sortd('.appid',true)"><span class="circle"></span><span class="text">序号 降序</span></div>
 						<div class="btn" onclick="sortd('.hospital')"><span class="circle"></span><span class="text">医院 降序</span></div>
 						<div class="btn" onclick="sortd('.status')"><span class="circle"></span><span class="text">状态 降序</span></div>
 						</div>
 	
 	<thead>
 		<tr>
-			<td>编号</td>
-			<td>宠物</td>
+			<td>序号</td>
+			<td>宠物编号</td>
 			<td>名字</td>
 			<td>照片</td>
 			<td>医生</td>
 			<td>图标</td>
-            <td>紧急度</td>
-            <td>健康</td>
+            <td>紧急程度</td>
+            <td>健康状况</td>
             <td>优先级</td>
             <td>医院</td>
             <td>状态</td>
 			<td>日期</td>
+			<td>时间</td>
 			<td>删除</td>
 			<td>管理</td>
 		</tr>
@@ -102,17 +103,22 @@ to {transform: rotateY(0deg);}
 			<td ><img src='/icon/{{rand}}/pet_icon_{{a.pet}}.jpg' 
 				onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px"></td>
 			{%with doc=get_user(a.doctor)%}
-			<td><a onclick="init_doc('{{doc.username}}')" href="javascript:void(0);" class="docname">{{doc.username}}</a></td>
+			<td><a onclick="init_doc('{{doc.username}}')" href="javasript:void(0);" class="docname">{{doc.username}}</a></td>
 			<td><img src="/icon/{{rand}}/{{doc.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
 			{%endwith%}
 			<td style="color:{{['red','pink','black'][a.priority]}}" class="emergency">{{['紧急','重要','普通'][a.priority]}}</td>
-            <td style="color:{{['red','black','green'][p.health]}}" class="health">{{['糟糕','未知','完美'][p.health]}}</td>
+            <td style="color:{{['red','black','green'][p.health]}}" class="health">{{['不好','未知','完美'][p.health]}}</td>
 			<td class="priority">{{a.priority*3+p.health}}</td>
 			<td class="hospital">{{['北京','上海','广州'][a.hospital]}}</td>
-			<td class="status">{{["未确认","已确认","手术队列","手术完成","等待释放"][a.status]}}</td>
+			<td class="status">{{["未确认","已确认","手术队列中","手术已完成","准备释放"][a.status]}}</td>
 
-			<td><a onclick="init_date('{{a.date}}')" href="javascript:void(0);" class="date">{{a.date}}</a></td>
-
+			<td><a onclick="init_date('{{a.date}}')" href="javasript:void(0);" class="date">{{a.date}}</a></td>
+			<td>
+            {%if a.date%}
+            <a onclick="init_date('{{a.date}}')" href="javascript:void(0);" class="date">{{a.time+9}}:00-{{a.time+10}}:00</a>
+            {%endif%}
+            </td>
+            
 			<script>
 				    function init_date(date){
 						init_page('/appointment/pure/date/'+date,900);
@@ -126,9 +132,9 @@ to {transform: rotateY(0deg);}
 					   <div class="btn" onclick="prepareManage({{a.id}},{{a.pet}},'{{a.doctor}}','{{a.date}}',{{a.priority}},{{a.hospital}},{{a.status}})" data-toggle="modal" data-target="#myModal-manage-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">管理</span></div> </div></td>
 			{%else%}
 			<td> <div class="special-buttons">
-                       <div class="btn" ><span class="circle" style="z-index: 0;"></span><span class="text">不是你的宠物</span></div> </div></td>
+                       <div class="btn" ><span class="circle" style="z-index: 0;"></span><span class="text">这不是你的宠物</span></div> </div></td>
 			<td> <div class="special-buttons">
-					   <div class="btn" ><span class="circle" style="z-index: 0;"></span><span class="text">不是你的宠物</span></div> </div></td>
+					   <div class="btn" ><span class="circle" style="z-index: 0;"></span><span class="text">这不是你的宠物</span></div> </div></td>
 			{%endif%}
 
 		</tr>
@@ -220,11 +226,11 @@ to {transform: rotateY(0deg);}
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 			<div class="modal-body">
 				<div class="icon"> ! </div>
-				<h3 class="title">要删这个预约么?</h3>
+				<h3 class="title">是否删除这条预约?</h3>
 				<form method="POST">
 				
-				<p class="description">宠物名字是空的</p>
-				<button name='delete_appointment' class="subscribe">给我删</button>
+				<p class="降序cription">宠物名字是空的</p>
+				<button name='delete_appointment' class="subscribe">删掉</button>
 				
 				</form>
 			</div>
@@ -283,18 +289,18 @@ to {transform: rotateY(0deg);}
 								<option value="2"  >广州</option>
 						</select>
 	
-						<br><label>Status</label>
+						<br><label>状态</label>
 						<select name='status'>
 								<option value="0"  >未确认</option>
 								<option value="1"  >已确认</option>
 								<option value="2"  >手术队列</option>
 								<option value="3"  >手术完成</option>
-								<option value="4"  selected='selected'>等待释放</option>
+								<option value="4"  selected='selected'>准备释放</option>
 						</select>
 						
 						<br><label>日期</label>
 						<input name="date" type="date" />
-					<p class="description"></p>
+					<p class="降序cription"></p>
 						<button name="update_appointment" value="" class="subscribe">保存</button>
 					
 					</form>
@@ -361,7 +367,7 @@ function prepareManage(id,pet,doc,appdate,priority,hospital,status){
 		<div class="modal-content">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 			<div class="modal-body">
-				<h3 class="title">新建预约</h3>
+				<h3 class="title">新预约</h3>
 				<form  enctype="multipart/form-data" style="text-align: center;" method="POST" >
 					<label>宠物名字</label>
 					<select name='pet_id'>
@@ -376,7 +382,7 @@ function prepareManage(id,pet,doc,appdate,priority,hospital,status){
 								<option value="{{d.id}}"  >{{d.username}}</option>
 							{%endfor%}
 					</select>
-					<br><label>紧急度</label>
+					<br><label>等级</label>
 					<select name='emergency_level'>
 							<option value="0"  >紧急</option>
 							<option value="1"  >重要</option>
@@ -390,7 +396,7 @@ function prepareManage(id,pet,doc,appdate,priority,hospital,status){
 							<option value="2"  >广州</option>
 					</select>
 
-					<br><label>Status</label>
+					<br><label>状态</label>
 					<select name='status'>
 							<option value="0"  >未确认</option>
 					</select>
@@ -417,7 +423,7 @@ function prepareManage(id,pet,doc,appdate,priority,hospital,status){
 					<h3 class="title">选择日期</h3>
 						<h5>日期</h5><input class="check-date" type="date" />
 					<p class="description"></p>
-						<button onclick="location.replace('/appointment/date/'+document.querySelector('.check-date').value)" class="subscribe">看看</button>
+						<button onclick="location.replace('/appointment/date/'+document.querySelector('.check-date').value)" class="subscribe">Go</button>
 					
 				</div>
 			</div>

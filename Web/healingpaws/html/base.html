@@ -1,6 +1,42 @@
 
-<!--icon change-->
+<style>
+.loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  z-index:9999999999;
+}
+.loader {
+  display: inline-block;
+  width: 70px;
+  height:70px;
+  position: relative;
+  border: 4px solid grey;
+  border-radius: 40px;
+  animation: loader 2s infinite ;
+}
+@keyframes loader {
+  0% { transform: rotate(0deg);  height: 70px;}
+  25% { transform: rotate(180deg); height: 20px;}
+  50% { transform: rotate(180deg); height: 20px;}
+  75% { transform: rotate(360deg); height: 70px;}
+  100% { transform: rotate(360deg); height: 70px;}
+}
+</style>
 
+    <div class="loader-wrapper">
+      <img class="loader" src="/img/logo.png">
+    </div>
+<!--icon change-->
+<link href="/css/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+<link rel="icon" type="image/png" sizes="144x144" href="/img/logo.png"/>
 
 <style>
 .healing-paws-icon:hover{
@@ -17,7 +53,7 @@
     background-color: #555;
     font-size: 18px;
     font-weight: 600;
-    text-transform: capitalize;
+    /*text-transform: capitalize;*/
     padding: 10px 15px;
     border: none;
     outline: none;
@@ -109,7 +145,7 @@
     color: #3B393F;
     font-family: 'Archivo Black', sans-serif;
     font-size: 50px;
-    text-transform: capitalize;
+    /*text-transform: capitalize;*/
     margin: 0 0 5px 0;
 }
 .modal-box .modal-dialog .modal-content .modal-body .description{
@@ -123,7 +159,7 @@
     font-size: 18px;
     padding: 8px 40px;
     font-weight: 500;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     margin: 0 auto;
     border: 3px solid #262628;
     box-shadow: -5px 5px 1px rgba(0,0,0,0.3);
@@ -151,7 +187,7 @@
             overflow: hidden;
         }
         #yearList{
-            width: 100%;
+            width: 999999999%;
             list-style: none;
             position: relative;
             /*left: 457px;*/
@@ -414,7 +450,7 @@
           position: absolute;
           left: 1rem;
           z-index: -1;
-          transition: 0.25s;
+          transition: 0.5s;
         }
         .special-buttons .btn .text {
           position: relative;
@@ -425,8 +461,8 @@
           color: white;
         }
         .special-buttons .btn:hover .circle {
-          -webkit-transform: scale(25);
-                  transform: scale(25);
+          -webkit-transform: scale(40);
+                  transform: scale(40);
         }
         .special-buttons .btn:hover .text {
           left: -0.5rem;
@@ -480,20 +516,44 @@ header a:hover{
     <label style="float:left"></label>
     <label style="float:right">
     <a class='myerror' hidden='hidden' href="javascript:void(0);" data-toggle="modal" data-target="#myModal-error"></a>
-	{%if not username%}
+    <a class='mysuccess' hidden='hidden' href="javascript:void(0);" data-toggle="modal" data-target="#myModal-success"></a>
+    <a class='myhtml-trigger' hidden='hidden' href="javascript:void(0);" data-toggle="modal" data-target="#myModal-innerhtml"></a>
+	{%if not gun()%}
 	
     <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-login">log in |</a>
+    <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-guest-login"></a>
     <a  href="javascript:void(0);" data-toggle="modal" data-target="#myModal-register" >register</a>
 	
 	{%else%}
 	
-    <a href="/profile" data-toggle="modal"  >{{username}}|</a>
+    <a href="/profile" data-toggle="modal"  >{{gun()}}|</a>
+    <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-change-account">upgrade account |</a>
+    <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-login">switch account |</a>
     <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-reset-password">reset password |</a>
     <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-logout" >log out</a>
 	
 	{%endif%}
     </label>
     <div class="modal-box">
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal-guest-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<h3 class="title">Guest Log In</h3>
+					<form method="post" action="/guestlogin">
+          <input name="username" value='None' hidden='hidden' autocomplete="current-username">
+          <label>Your user name will be None</label>
+					<p class="description"></p>
+					<button class="subscribe" type="submit">log in as guest</button>
+					
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Modal -->
 	<div class="modal fade" id="myModal-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
@@ -503,8 +563,10 @@ header a:hover{
 				<div class="modal-body">
 					<h3 class="title">Please Log In</h3>
 					<form method="post" action="/login">
-					<label>username :</label><input name="username"><br>
-					<label>password :</label><input type="password" name="password">
+					<label>username :</label><input name="username" autocomplete="current-username"><br>
+					<label>password :</label><input type="password" autocomplete="current-password" name="password">
+                    
+                    <img style='width:160px;height:160px;'>
 					<p class="description"></p>
 					<button class="subscribe" type="submit">log in</button>
 					
@@ -513,8 +575,17 @@ header a:hover{
 			</div>
 		</div>
 	</div>
+    <script>
+    
+    function refresh_qr(){
+        if(!$('#myModal-login').is(":hidden")){
+            document.querySelector('#myModal-login img').setAttribute('src','/qrcode?data=group10_healingpaws'+Math.random())
+        }
+        
+    }
+    setInterval(refresh_qr, 1000);
+    </script>
 
-    	<!-- Modal -->
 	<div class="modal fade" id="myModal-register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -522,29 +593,98 @@ header a:hover{
 				<div class="modal-body">
 					<h3 class="title">Please Register</h3>
 					<form method="post" action="/register">
-					<label>username :</label><input name="username"><br>
-					<label>password :</label><input type="password" name="password">
+					<label>username :</label><input name="username" autocomplete="current-username"><br>
+					<label>password :</label><input oninput='check_match()' class='p0' type="password" autocomplete="current-password" name="password">
+					<br>
+                    <label>password :</label><input oninput='check_match()' class='p1' type="password" autocomplete="current-password" name="password">
+					<p style='color:red' class='hint_register'>Please input your password again</p>
 					<p class="description"></p>
-					<button class="subscribe" type="submit">register</button>
-					
+					<button class="subscribe register_button" type="submit" disabled="disabled">Registers</button>
 					</form>
 				</div>
             </div>
 		</div>
-	</div>
+  </div>
+  
+  <script>
+    function check_match(){
+        t0=document.querySelector('.p0')
+        t1=document.querySelector('.p1')
+        rb=document.querySelector('.register_button')
+        t=document.querySelector('.hint_register')
+        if(t0.value==t1.value){
+            rb.removeAttribute('disabled')
+            t.textContent='password match'
+        }else{
+            rb.setAttribute('disabled','disabled')
+            t.textContent='password mismatch'
+        }
+    }
+  </script>
+  
+  <!-- Modal -->
+	<div class="modal fade" id="myModal-innerhtml" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document" >
+      <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button> -->
+            <div class="myinnerhtml" style="background-color:white;"></div>
+      </div>
+  </div>
+  
+  <script>
+    function set_ih_width(width){
+      $('.modal-dialog:has(.myinnerhtml)').attr('style','width:'+width+'px;')
+    }
+    function init_page(url,width){
+      set_ih_width(width);
+      $('.myinnerhtml').load(url);
+      document.querySelector('.myhtml-trigger').click()
+    }
+    function init_chat(towhom){
+      init_page('/chat/'+towhom,400);
+    }
+    function init_info(whom){
+      init_page('/info/'+whom,270);
+    }
+    function init_doc(whom){
+      init_page('/appointment/pure/doc/'+whom,900);
+    }
+    function init_hos(num){
+      init_page('/appointment/pure/hospital/'+num,900);
+    }
+  </script>
 
+  <div class="modal fade" id="myModal-change-account" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <div class="modal-body">
+            <h3 class="title">Upgrade Account</h3>
+            <form method="post" action="/changea">
+            <input hidden='hidden' name="username" autocomplete="current-username"  value="{{gun()}}">
+            <button class="subscribe" type="submit" name='newtype' value='2'>Employee</button>
+            <p><br></p>
+            
+            <button class="subscribe" type="submit" name='newtype' value='1'>Doctor</button>
+            <p class="description">&nbsp;</p>
+            <button class="subscribe" type="submit" name='newtype' value='0'>User</button>
+            
+            </form>
+          </div>
+              </div>
+      </div>
+    </div>
     
     	<!-- Modal -->
 	<div class="modal fade" id="myModal-reset-password" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
-		<div class="modal-dialog" role="document">
+		<div class="modal-dialog" role="document">  
 			<div class="modal-content">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="modal-body">
-					<h3 class="title">Reset Password</h3>
+					<h3 class="title">reset password</h3>
 					<form method="post" action="/reset">
-					<input hidden='hidden' name="username" value="{{username}}">
-					<label>new password :</label><input type="password" name="password">
-					<p class="description">Please remember your new password</p>
+					<input hidden='hidden' name="username" autocomplete="current-username"  value="{{gun()}}">
+					<label>new password :</label><input type="password"  autocomplete="current-password" name="password">
+					<p class="description">please remember your new password</p>
 					<button class="subscribe" type="submit">reset</button>
 					
 					</form>
@@ -560,10 +700,28 @@ header a:hover{
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="modal-body">
 					<div class="icon"> √ </div>
-					<h6 class="title">'{{username}}' Are you sure to Log Out</h6>
-					<p class="description">Your User name is {{username}}</p>
+					<h6 class="title">'{{gun()}}' are you sure to log out</h6>
+					<p class="description">Your User name is {{gun()}}</p>
 					<br><br>
 					<button class="subscribe" onclick="$.post('/logout','',function(){location.reload()})">Confirm</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    
+    	<!-- Modal -->
+        <div class="modal fade" id="myModal-cl" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<div class="icon"> √ </div>
+					<h6 class="title">are you sure to change language</h6>
+					<p class="description">The language will be changed to 中文</p>
+					<br><br>
+					<button class="subscribe" onclick="$.post('/cl','',function(){location.reload()})">Confirm</button>
 					
 				</div>
 			</div>
@@ -578,19 +736,37 @@ header a:hover{
 				<div class="modal-body">
 					<div class="icon"> ! </div>
 					<h6 class="title">Error</h6>
-					<p class="description" style="font-size: 20px;color:red;">{{error_info}}</p>
+					<p class="description" style="font-size: 20px;color:red;">{{flash_error()}}</p>
 					<br><br>
 					<button class="subscribe" data-dismiss="modal" aria-label="Close">Confirm</button>
 					
 				</div>
 			</div>
 		</div>
-	</div>
+  </div>
+  
+  
+  <div class="modal fade" id="myModal-success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <div class="modal-body">
+            <div class="icon"> √ </div>
+            <h6 class="title">Success</h6>
+            <p class="description" style="font-size: 20px;">{{flash_success()}}</p>
+            <br><br>
+            <button class="subscribe" data-dismiss="modal" aria-label="Close">Thanks</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
 
 	<table class="head-table" align="center" style="margin:auto; color: white;text-align:center; ">
 		<tr>
-			<td>Group 10</td>
+			<td>Group 10 <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-cl" > | chinese</a></td>
+            
 		</tr>
     </table>    
 </div>
@@ -605,43 +781,65 @@ header a:hover{
 	<!-- Sidebar -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
 		<ul class="nav sidebar-nav">
+      {%with alluser=get_all_user()%}
 			<li class="sidebar-brand">
-				<a href="/doctors">
-				   Users List
+				<a href="/">
+				   Home Page
 				</a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-fw fa-home"></i> Home</a>
-			</li>
+				<a href="/introduction"><i class="fa"></i> Home</a>
+      </li>
 			<li>
-				<a href="#"><i class="fa fa-fw fa-folder"></i> Page one</a>
-			</li>
+				<a href="/doctors"><i class="fa"></i> Doctors</a>
+      </li>
 			<li>
-				<a href="#"><i class="fa fa-fw fa-file-o"></i> Second page</a>
-			</li>
+				<a href="/appointment"><i class="fa"></i> Appointment</a>
+      </li>
 			<li>
-				<a href="#"><i class="fa fa-fw fa-cog"></i> Third page</a>
-			</li>
-			<li class="dropdown">
-			  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Dropdown <span class="caret"></span></a>
-			  <ul class="dropdown-menu" role="menu">
-				<li class="dropdown-header">Dropdown heading</li>
-				<li><a href="#">Action</a></li>
-				<li><a href="#">Another action</a></li>
-				<li><a href="#">Something else here</a></li>
-				<li><a href="#">Separated link</a></li>
-				<li><a href="#">One more separated link</a></li>
-			  </ul>
-			</li>
-			<li>
-				<a href="#"><i class="fa fa-fw fa-bank"></i> Page four</a>
-			</li>
-			<li>
-				<a href="#"><i class="fa fa-fw fa-dropbox"></i> Page 5</a>
-			</li>
-			<li>
-				<a href="#"><i class="fa fa-fw fa-twitter"></i> Last page</a>
-			</li>
+				<a href="/pets"><i class="fa"></i> Pets</a>
+      </li>
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Chat With Employee <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+          <li class="dropdown-header">Employee List</li>
+          {%for u in alluser%}
+          {%if u.user_level==2%}
+          <li><a onclick="init_chat('{{u.username}}')">{{u.username}}</a></li>
+          {%endif%}
+          {%endfor%}
+          </ul>
+        </li>
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Doctor Overview <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+          <li class="dropdown-header">Doctors List</li>
+          {%for u in alluser%}
+          {%if u.user_level==1%}
+          <li><a onclick="init_doc('{{u.username}}')">{{u.username}}</a></li>
+          {%endif%}
+          {%endfor%}
+          </ul>
+        </li>
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> User Profile <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+          <li class="dropdown-header">Users List</li>
+          {%for u in alluser%}
+          <li><a onclick="init_info('{{u.username}}')">{{u.username}}</a></li>
+          {%endfor%}
+          </ul>
+        </li>
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Chat With <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+          <li class="dropdown-header">Chat With</li>
+          {%for u in alluser%}
+          <li><a onclick="init_chat('{{u.username}}')">{{u.username}}</a></li>
+          {%endfor%}
+          </ul>
+        </li>
+      {%endwith%}
 		</ul>
 	</nav>
 	<!-- /#sidebar-wrapper -->
@@ -661,10 +859,11 @@ header a:hover{
 
 
 <div class="special-buttons">
-            <img class="healing-paws-icon" src="/img/logoBIGnew.jpg" style="width: 200px; height:50px;">
+            <img onclick='location.replace("/home")' class="healing-paws-icon" src="/img/logo_rectangle.png" style="width: 200px; height:50px;">
                 <div class="btn" onclick="location.replace('/introduction')"><span class="circle"></span><span class="text">Introduction</span></div>
                 <div class="btn" onclick="location.replace('/doctors')"><span class="circle"></span><span class="text">Doctors</span></div>
-                <div class="btn" onclick="location.replace('/customer_question')"><span class="circle"></span><span class="text">Question</span></div>
+                <div class="btn" onclick="location.replace('/users')"><span class="circle"></span><span class="text">Users</span></div>
+                <div class="btn" onclick="location.replace('/locations')"><span class="circle"></span><span class="text">Locations</span></div>
                 <div class="btn" onclick="location.replace('/appointment')"><span class="circle"></span><span class="text">Appointment</span></div>
                 <div class="btn" onclick="location.replace('/pets')"><span class="circle"></span><span class="text">Pets</span></div>
                 <div class="btn" onclick="location.replace('/profile')"><span class="circle"></span><span class="text">Profiles</span></div>
@@ -687,6 +886,37 @@ header a:hover{
         const suggestions = document.querySelector('.type-ahead__suggestions')
         const input = document.querySelector('.type-ahead__input');
         
+
+        const searchList=[
+        `<li class='suggestion' onclick="location.replace('/doctors')">doctors</li>`,
+        `<li class='suggestion' onclick="location.replace('/introduction')">introduction</li>`,
+        `<li class='suggestion' onclick="location.replace('/locations')">locations</li>`,
+        `<li class='suggestion' onclick="location.replace('/appointment')">appointments</li>`,
+        `<li class='suggestion' onclick="location.replace('/pets')">pets</li>`,
+        `<li class='suggestion' onclick="location.replace('/profile')">profile</li>`,
+
+        
+        `<li class='suggestion' onclick="init_hos(0)">bei jing hospital</li>`,
+        `<li class='suggestion' onclick="init_hos(1)">shang hai hospital</li>`,
+        `<li class='suggestion' onclick="init_hos(2)">guang zhou hospital</li>`,
+        
+      {%with alluser=get_all_user()%}
+        {%for u in alluser%}
+        `<li class='suggestion' onclick="init_chat('{{u.username}}')">chat with {{u.username}}</li>`,
+        `<li class='suggestion' onclick="init_info('{{u.username}}')">get profile {{u.username}}</li>`,
+        {%endfor%}
+      {%endwith%}
+        ]
+
+        function search(str){
+          var result="";
+          for(var i=0;i<searchList.length;i++){
+            if(searchList[i].search(str)>=0)
+              result+=searchList[i];
+          }
+          return result;
+        }
+
         
         suggestions.addEventListener('click', (e) => {
             if(e.target.classList.contains('match')) {
@@ -705,12 +935,10 @@ header a:hover{
                 return suggestions.classList.add('hidden')
             } else {
                 suggestions.classList.remove('hidden')
-                const suggestionItems = `
+                result=search(text)
+                suggestionItems = `
                     <li class="suggestion"><span class="match">${text}</span></li>
-                    <li class="suggestion">${highLightMatch('doctor1',text)}</li>
-                    <li class="suggestion">${highLightMatch('hostpital1',text)}</li>
-                    <li class="suggestion">${highLightMatch('ok',text)}</li>
-                `;
+                `+result;
                 suggestions.innerHTML = suggestionItems;
             };
         });
@@ -743,6 +971,7 @@ header a:hover{
                 };
         
                 opt = $.extend({}, defaults, opt);
+                window.year_pos=opt.n
                 return this.each(function() {
                     opt.btnPrev=$(opt.btnPrev);
                     opt.btnNext=$(opt.btnNext);
@@ -772,6 +1001,10 @@ header a:hover{
         
                     function updata(){
                         console.log(opt.n)
+                        window.year_pos=opt.n
+                        if(window.custom_update){
+                            window.custom_update();
+                        }
                         opt.conBox.animate({left:-(opt.w*opt.n)+'px'},300);
                         opt.dateBox.animate({left:-((90)*opt.n)+'px'},300);
                         $(opt.dateArr[opt.n]).addClass("year-active").siblings().removeClass("year-active");
@@ -1114,9 +1347,16 @@ header a:hover{
 </script>
 
 
-
-{%if error_info%}
-        <script>
-        console.log('haha')
-        document.querySelector('.myerror').click()</script>
-{%endif%}
+<script>
+    $(window).on("load",function(){
+      $(".loader-wrapper").fadeOut("fast");
+      
+      
+    if(document.querySelector('#myModal-error .description').textContent!='None'){
+    document.querySelector('.myerror').click()
+    }
+    if(document.querySelector('#myModal-success .description').textContent!='None'){
+    document.querySelector('.mysuccess').click()
+    }
+    });
+</script>

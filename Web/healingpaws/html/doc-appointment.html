@@ -47,6 +47,7 @@ to {transform: rotateY(0deg);}
             <td>Hospital</td>
             <td>Status</td>
 			<td>Date</td>
+			<td>Time</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -69,6 +70,10 @@ to {transform: rotateY(0deg);}
                 <td>{{['Bei Jing','Shang Hai','Guang Zhou'][a.hospital]}}</td>
                 <td>{{["Not Confirmed","Confirmed","Surgery Queue","Surgery Completed","Ready For Release"][a.status]}}</td>
 			<td>{{a.date}}</td>
+            <td>
+            {%if a.date%}
+            {{a.time+9}}:00-{{a.time+10}}:00
+            {%endif%}</td>
 		</tr>
 		{%endwith%}
 	{%endfor%}

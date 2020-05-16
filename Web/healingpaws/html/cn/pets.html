@@ -1,4 +1,4 @@
-{% extends "cn/base.html" %}
+{% extends "/cn/base.html" %}
 
 {% block content %}
 <title>Pets</title>
@@ -43,17 +43,24 @@ to {transform: rotateY(0deg);}
 
 <table class="table" style="width:500px;margin:auto; text-align:center;">
 	<div class="special-buttons">
-                       <div class="btn" data-toggle="modal" data-target="#myModal-add-pet"><span class="circle" style="z-index: 0;"></span><span class="text">Add Pet</span></div> </div>
+                       <div class="btn" data-toggle="modal" data-target="#myModal-add-pet"><span class="circle" style="z-index: 0;"></span><span class="text">添加新的宠物</span></div>
+
+    	<div class="special-buttons">
+                       <div class="btn" onclick='location.replace("/check_type")'><span class="circle" style="z-index: 0;"></span><span class="text">查看宠物类型</span></div> </div>
+
+                       </div>
+
 	<thead>
 		<tr>
 			<td>编号</td>
-			<td>名字</td>
-			<td>照片</td>
-			<td>生日</td>
-			<td>健康</td>
-			<td>预约</td>
-			<td>删除</td>
-			<td>管理</td>
+			<td>名字&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>照片&nbsp;&nbsp;</td>
+            <td>种类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>生日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>健康&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>预约&nbsp;&nbsp;&nbsp;</td>
+			<td>删除&nbsp;&nbsp;</td>
+			<td>管理&nbsp;&nbsp;</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -65,10 +72,11 @@ to {transform: rotateY(0deg);}
 			<td>{{p.petsname}}</td>
 			<td><img src='/icon/{{rand}}/pet_icon_{{p.id}}.jpg' 
 				onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px"></td>
+            <td>{{getkind(p.id)}}</td>
 			<td>{{p.birthDay}}</td>
-			<td style="color:{{['red','black','green'][p.health]}}">{{['糟糕','未知','完美'][p.health]}}</td>
+			<td style="color:{{['red','black','green'][p.health]}}">{{['不好','未知','完美'][p.health]}}</td>
 			<td> <div class="special-buttons">
-					<div class="btn"  onclick="location.replace('/appointment/pet/{{p.id}}')" ><span class="circle" style="z-index: 0;"></span><span class="text">总共: {{count_pet_appointment(p.id)}}</span></div> </div></td>
+					<div class="btn"  onclick="location.replace('/appointment/pet/{{p.id}}')" ><span class="circle" style="z-index: 0;"></span><span class="text">total: {{count_pet_appointment(p.id)}}</span></div> </div></td>
 			<td> <div class="special-buttons">
                        <div class="btn" onclick="prepareDelete('{{p.id}}','{{p.petsname}}')" data-toggle="modal" data-target="#myModal-delete-pet"><span class="circle" style="z-index: 0;"></span><span class="text">删除</span></div> </div></td>
 			<td> <div class="special-buttons">
@@ -86,10 +94,10 @@ to {transform: rotateY(0deg);}
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="modal-body">
 					<div class="icon"> ! </div>
-					<h3 class="title">真的要删这个宠物嘛?</h3>
+					<h3 class="title">是否需要删除?</h3>
 					<form method="POST">
 					
-					<p class="description">宠物名字是空</p>
+					<p class="description">宠物名字是 null</p>
 					<button name='delete_pet' class="subscribe">删吧</button>
 					
 					</form>
@@ -110,17 +118,17 @@ to {transform: rotateY(0deg);}
 				<div class="modal-body">
 					<h3 class="title">管理宠物</h3>
 					<form  enctype="multipart/form-data" style="text-align: center;" method="POST" >
-						<h5>名字</h5><input name="pet_name"/><br>
+						<h5>宠物名字</h5><input name="pet_name"/><br>
 						<h5>照片</h5><input type="file" name="pet_icon" style="margin-left:70px;" />
 						<h5>生日</h5><input name="pet_birthday" type="date" /><br>
-						<h5>健康</h5>
+						<h5>健康状态</h5>
                     <select name='pet_health'>
-						<option value="0" >糟糕</option>
+						<option value="0" >不好</option>
 						<option value="1" >未知</option>
 						<option value="2" >完美</option>
 					</select>
 					<p class="description"></p>
-						<button name="update_pet" value="" class="subscribe">保存</button>
+						<button name="update_pet" value="" class="subscribe">保存更改</button>
 					
 					</form>
 				</div>
@@ -132,7 +140,7 @@ to {transform: rotateY(0deg);}
 <script>
 	function prepareDelete(id,name){
 		document.querySelector('#myModal-delete-pet .subscribe').setAttribute('value',id);
-		document.querySelector('#myModal-delete-pet .description').textContent='宠物名字是 '+name;
+		document.querySelector('#myModal-delete-pet .description').textContent='pet name is '+name;
 	}
 	function prepareManage(id,name,birth,healthy){
 		inputs=document.querySelectorAll('#myModal-manage-pet input')
@@ -154,15 +162,15 @@ to {transform: rotateY(0deg);}
 			<div class="modal-content">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="modal-body">
-					<h3 class="title">新建宠物</h3>
+					<h3 class="title">新宠物</h3>
 					<form  enctype="multipart/form-data" style="text-align: center;" method="POST" >
-						<h5>名字</h5><input name="pet_name"/><br>
+						<h5>宠物名字</h5><input name="pet_name"/><br>
 						<h5>照片</h5><input type="file" name="pet_icon" style="margin-left:70px;" />
 						<h5>生日</h5><input name="pet_birthday" type="date" /><br>
-						<h5>健康</h5>
+						<h5>健康状态</h5>
                     <select name='pet_health'>
 						<option value="1" selected="selected">未知</option>
-						<option value="0" >糟糕</option>
+						<option value="0" >不好</option>
 						<option value="2" >完美</option>
 					</select>
 					<p class="description"></p>

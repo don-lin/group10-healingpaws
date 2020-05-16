@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<title>Appointments</title>
 
 <style>
     table
@@ -39,41 +40,183 @@ to {transform: rotateY(0deg);}
     }
 </style>
 
-<table class="table" style="width:500px;margin:auto; text-align:center;">
-	<caption><div class="special-buttons">
-                       <div class="btn" data-toggle="modal" data-target="#myModal-add-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">Add</span></div> </div></caption>
+<table class="table" id='appointment-table' style="width:80vw;margin:auto; text-align:center;">
+	<div class="special-buttons">
+					   <div class="btn" data-toggle="modal" data-target="#myModal-add-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">Add</span></div>
+					   <div class="btn" onclick="location.replace('/appointment')"><span class="circle" style="z-index: 0;"></span><span class="text">My</span></div>
+					   <div class="btn" data-toggle="modal" data-target="#myModal-check-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">Check Date</span></div>
+					</div>
+				
+		<div class="special-buttons">
+				<div class="btn" onclick="sorta('.priority',true)"><span class="circle"></span><span class="text">Priority Asc</span></div>
+				<div class="btn" onclick="sorta('.docname')"><span class="circle"></span><span class="text">Dcotor Asc</span></div>
+				<div class="btn" onclick="sorta('.emergency')"><span class="circle"></span><span class="text">Level Asc</span></div>
+				<div class="btn" onclick="sorta('.date')"><span class="circle"></span><span class="text">Date Asc</span></div>
+				<div class="btn" onclick="sorta('.health')"><span class="circle"></span><span class="text">Healthy Asc</span></div>
+				<div class="btn" onclick="sorta('.petid',true)"><span class="circle"></span><span class="text">Pet Asc</span></div>
+				<div class="btn" onclick="sorta('.appid',true)"><span class="circle"></span><span class="text">ID Asc</span></div>
+				<div class="btn" onclick="sorta('.hospital')"><span class="circle"></span><span class="text">Hospital Asc</span></div>
+				<div class="btn" onclick="sorta('.status')"><span class="circle"></span><span class="text">Status Asc</span></div>
+				</div>
+				
+
+				<div class="special-buttons">
+						<div class="btn" onclick="sortd('.priority',true)"><span class="circle"></span><span class="text">Priority Des</span></div>
+						<div class="btn" onclick="sortd('.docname')"><span class="circle"></span><span class="text">Dcotor Des</span></div>
+						<div class="btn" onclick="sortd('.emergency')"><span class="circle"></span><span class="text">Level Des</span></div>
+						<div class="btn" onclick="sortd('.date')"><span class="circle"></span><span class="text">Date Des</span></div>
+						<div class="btn" onclick="sortd('.health')"><span class="circle"></span><span class="text">Healthy Des</span></div>
+						<div class="btn" onclick="sortd('.petid',true)"><span class="circle"></span><span class="text">Pet Des</span></div>
+						<div class="btn" onclick="sortd('.appid',true)"><span class="circle"></span><span class="text">ID Des</span></div>
+						<div class="btn" onclick="sortd('.hospital')"><span class="circle"></span><span class="text">Hospital Des</span></div>
+						<div class="btn" onclick="sortd('.status')"><span class="circle"></span><span class="text">Status Des</span></div>
+						</div>
+	
 	<thead>
 		<tr>
-			<td>Pet</td>
+			<td>ID</td>
+			<td>Petid</td>
+			<td>Name</td>
 			<td>Photo</td>
 			<td>Doctor</td>
+			<td>Icon</td>
+            <td>Emergency</td>
+            <td>Healthy</td>
+            <td>Priority</td>
+            <td>Hospital</td>
+            <td>Status</td>
 			<td>Date</td>
+			<td>Time</td>
 			<td>Delete</td>
 			<td>Manage</td>
 		</tr>
 	</thead>
 	<tbody>
 	{# active success warning danger #}
+
 	{%for a in apppointments%}
-		<tr class="active">
-			<td>{{a[0]}}</td>
-			{% if a[0] == 'dog'%}
-			<td><img src="/pet-img" onerror="onerror=null;src='/img/dog.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
-			{%elif a[0] =='cat'%}
-			<td><img src="/pet-img" onerror="onerror=null;src='/img/cat.jpg'" width="50px" height="50px" style="border-radius:10px;"></td>
+	{%with p=get_pet(a.pet)%}
+		<tr id="appointment-row" class="{{['danger','active','success'][a.priority]}}">
+			<td class="appid">{{a.id}}</td>
+			<td class="petid">{{a.pet}}</td>
+			<td class="petname">{{p.petsname}}</td>
+			<td ><img src='/icon/{{rand}}/pet_icon_{{a.pet}}.jpg' 
+				onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px"></td>
+			{%with doc=get_user(a.doctor)%}
+			<td><a onclick="init_doc('{{doc.username}}')" href="javascript:void(0);" class="docname">{{doc.username}}</a></td>
+			<td><img src="/icon/{{rand}}/{{doc.username}}.jpg" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
+			{%endwith%}
+			<td style="color:{{['red','pink','black'][a.priority]}}" class="emergency">{{['Emergency','Important','Normal'][a.priority]}}</td>
+            <td style="color:{{['red','black','green'][p.health]}}" class="health">{{['bad','unknown','perfect'][p.health]}}</td>
+			<td class="priority">{{a.priority*3+p.health}}</td>
+			<td class="hospital">{{['Bei Jing','Shang Hai','Guang Zhou'][a.hospital]}}</td>
+			<td class="status">{{["Not Confirmed","Confirmed","Surgery Queue","Surgery Completed","Ready For Release"][a.status]}}</td>
+
+			<td><a onclick="init_date('{{a.date}}')" href="javascript:void(0);" class="date">{{a.date}}</a></td>
+
+			<td>
+            {%if a.date%}
+            <a onclick="init_date('{{a.date}}')" href="javascript:void(0);" class="date">{{a.time+9}}:00-{{a.time+10}}:00</a>
+            {%endif%}
+            </td>
+			<script>
+				    function init_date(date){
+						init_page('/appointment/pure/date/'+date,900);
+					  }
+			</script>
+
+			{%if p.owner == user.id or user.user_level!=0%}
+			<td> <div class="special-buttons">
+                       <div class="btn" onclick="prepareDelete({{a.id}})" data-toggle="modal" data-target="#myModal-delete-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">Delete</span></div> </div></td>
+			<td> <div class="special-buttons">
+					   <div class="btn" onclick="prepareManage({{a.id}},{{a.pet}},'{{a.doctor}}','{{a.date}}',{{a.priority}},{{a.hospital}},{{a.status}})" data-toggle="modal" data-target="#myModal-manage-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">Manage</span></div> </div></td>
 			{%else%}
-			<td><img src="/pet-img" onerror="onerror=null;src='/img/t2.png'" width="50px" height="50px" style="border-radius:10px;"></td>
+			<td> <div class="special-buttons">
+                       <div class="btn" ><span class="circle" style="z-index: 0;"></span><span class="text">Not Your Pet</span></div> </div></td>
+			<td> <div class="special-buttons">
+					   <div class="btn" ><span class="circle" style="z-index: 0;"></span><span class="text">Not Your Pet</span></div> </div></td>
 			{%endif%}
-			<td>{{a[1]}}</td>
-			<td>{{a[2]}}</td>
-			<td> <div class="special-buttons">
-                       <div class="btn" onclick="prepareDelete({{a[3]}})" data-toggle="modal" data-target="#myModal-delete-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">Delete</span></div> </div></td>
-			<td> <div class="special-buttons">
-                       <div class="btn" onclick="prepareManage({{a.id}},{{a.pet}},{{a.doctor}},'{{a.date}}')" data-toggle="modal" data-target="#myModal-manage-appointment"><span class="circle" style="z-index: 0;"></span><span class="text">Manage</span></div> </div></td>
+
 		</tr>
+	{%endwith%}
 	{%endfor%}
 	</tbody>
 </table>
+
+<script>
+
+	function compare(a,b,sorttype){
+		window.b=b
+		numa=a.querySelector(sorttype).textContent
+		numb=b.querySelector(sorttype).textContent
+
+		if(window.isnum){
+			numa=parseInt(numa)
+			numb=parseInt(numb)
+		}
+		if(window.st){
+			return numa < numb;
+		}else{
+			return numa > numb;
+		}
+	}
+	function to_array(arr){
+		result=[]
+		for(var i=0;i<arr.length;i++){
+			result.push(arr[i])
+		}
+		return result
+	}
+
+	function sorta(sorttype,isnum=false){
+		window.st=false
+		window.isnum=isnum
+		attach_all(sort_appointment(sorttype))
+	}
+
+	function sortd(sorttype,isnum=false){
+		window.st=true
+		window.isnum=isnum
+		attach_all(sort_appointment(sorttype))
+	}
+		
+		
+	function sort_appointment(sorttype){
+		allrows=document.querySelectorAll('#appointment-row')
+		console.log(allrows)
+		allrows=to_array(allrows)
+		console.log(allrows)
+		sorted=false;
+		while(!sorted){
+		sorted=true;
+			for (var i=0;i<allrows.length-1;i++){
+				if(compare(allrows[i],allrows[i+1],sorttype)){
+					temp=allrows[i]
+					allrows[i]=allrows[i+1]
+					allrows[i+1]=temp   
+					console.log('exchange')
+					sorted=false
+				}
+			}
+		}
+		console.log(allrows)
+		return allrows;
+	}
+
+	function detach_all(arr){
+		table=document.querySelector('#appointment-table')
+		for(var v of arr){
+			v.remove()
+		}
+	}
+	function attach_all(arr){
+		table=document.querySelector('#appointment-table tbody')
+		for(var v of arr){
+			table.appendChild(v)
+		}
+	}
+
+</script>
 
 <div class="modal-box">
 	<!-- Modal -->
@@ -88,6 +231,7 @@ to {transform: rotateY(0deg);}
 				
 				<p class="description">pet name is null</p>
 				<button name='delete_appointment' class="subscribe">Delete</button>
+				
 				</form>
 			</div>
 		</div>
@@ -95,19 +239,67 @@ to {transform: rotateY(0deg);}
 </div>
 </div>
 
+<style>
+	#myModal-manage-appointment label,#myModal-add-appointment label{
+		width:80px;
+		text-align: right;
+	}
+	#myModal-manage-appointment input,select,option{
+		width:180px;
+	}
+	#myModal-add-appointment input,select,option{
+		width:180px;
+	}
+</style>
 
 <div class="modal-box">
+	
 		<!-- Modal -->
 	<div class="modal fade" id="myModal-manage-appointment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<div class="modal-body">
-					<h3 class="title">new pet</h3>
+					<h3 class="title">manage appointment</h3>
 					<form  enctype="multipart/form-data" style="text-align: center;" method="POST" >
-						<h5>petid</h5><input name="pet_id"/><br>
-						<h5>docid</h5><input name="doctor_id"/><br>
-						<h5>date</h5><input name="date" type="date" />
+						<label>petname</label>
+						<select name='pet_id'>
+								{%for p in pets%}
+									<option value="{{p.id}}"  >{{p.petsname}}</option>
+								{%endfor%}
+						</select>
+
+						<br><label>doctor</label>
+						<select name='doctor_id'>
+								{%for d in doctors%}
+									<option value="{{d.id}}"  >{{d.username}}</option>
+								{%endfor%}
+						</select>
+						<br><label>Level</label>
+						<select name='emergency_level'>
+								<option value="0"  >Emergency</option>
+								<option value="1"  >Important</option>
+								<option value="2"  selected='selected'>Normal</option>
+						</select>
+						
+						<br><label>Hospital</label>
+						<select name='hospital'>
+								<option value="0"  selected='selected'>Bei Jing</option>
+								<option value="1"  >Shang Hai</option>
+								<option value="2"  >Guang Zhou</option>
+						</select>
+	
+						<br><label>Status</label>
+						<select name='status'>
+								<option value="0"  >Not Confirmed</option>
+								<option value="1"  >Confirmed</option>
+								<option value="2"  >Surgery Queue</option>
+								<option value="3"  >Surgery Completed</option>
+								<option value="4"  selected='selected'>Ready For Release</option>
+						</select>
+						
+						<br><label>date</label>
+						<input name="date" type="date" />
 					<p class="description"></p>
 						<button name="update_appointment" value="" class="subscribe">Save</button>
 					
@@ -119,18 +311,51 @@ to {transform: rotateY(0deg);}
 </div>
 
 <script>
+		function a0(num){
+			if(num<10)
+				return "0"+num;
+			return num;
+		}
+
+		function getT(){
+			d=new Date();
+			return 1900+d.getYear()+"-"+a0(1+d.getMonth())+"-"+a0(d.getDate());
+		}
+
 function prepareDelete(id){
 	document.querySelector('#myModal-delete-appointment .subscribe').setAttribute('value',id);
 	document.querySelector('#myModal-delete-appointment .description').textContent='appointment id is '+id;
 }
-function prepareManage(id,pet,doc,appdate){
+
+function selectID(options,id){
+	for(var i=0;i<options.length;i++){
+		if(options[i].getAttribute('value')==id)
+			options[i].setAttribute('selected','selected')
+		else
+			options[i].removeAttribute('selected')
+	}
+}
+
+function prepareManage(id,pet,doc,appdate,priority,hospital,status){
+	console.log("haha")
+	document.querySelector('#myModal-manage-appointment .subscribe').setAttribute('value',id);
 	inputs=document.querySelectorAll('#myModal-manage-appointment input')
-	inputs[0].setAttribute('value',pet)
-	inputs[1].setAttribute('value',doc)
-	console.log(appdate)
-	inputs[2].setAttribute('value',appdate)
+	//inputs[0].setAttribute('value',pet)
+	selectID(document.querySelectorAll('#myModal-manage-appointment select[name="pet_id"] option'),pet)
+
+	selectID(document.querySelectorAll('#myModal-manage-appointment select[name="doctor_id"] option'),doc)
+	selectID(document.querySelectorAll('#myModal-manage-appointment select[name="emergency_level"] option'),priority)
+	selectID(document.querySelectorAll('#myModal-manage-appointment select[name="hospital"] option'),hospital)
+	selectID(document.querySelectorAll('#myModal-manage-appointment select[name="status"] option'),status)
+
+	inputs=document.querySelectorAll('#myModal-manage-appointment input')
+
+	document.querySelector('#myModal-manage-appointment input[name="date"]').setAttribute('value',appdate);
+
+
 	document.querySelector('#myModal-manage-appointment .description').textContent='appointment id is '+id;
-	document.querySelector('#myModal-manage-appointment .subscribe').setAttribute('value',id)
+	console.log(document.querySelector('#myModal-manage-appointment .subscribe'));
+
 }
 </script>
 
@@ -142,33 +367,43 @@ function prepareManage(id,pet,doc,appdate){
 		<div class="modal-content">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 			<div class="modal-body">
-				<h3 class="title">New Appointment</h3>
+				<h3 class="title">new appointment</h3>
 				<form  enctype="multipart/form-data" style="text-align: center;" method="POST" >
-					<h5>Select your pet</h5>
+					<label>petname</label>
 					<select name='pet_id'>
-                            {% if pets_list %}
-							{% for p in pets_list %}
-							<option value='{{ p[0] }}'>{{ p[1] }}</option>
-							{% endfor %}
-							{% endif %}
-                    </select>
-					<h5>Select doctor</h5>
-					<select name="doctor_id">
-						{% if doctors_list %}
-						{% for d in doctors_list %}
-						<option value="{{d[0]}}">{{d[1]}}</option>
-						{% endfor %}
-						{% endif %}
+							{%for p in pets%}
+								<option value="{{p.id}}"  >{{p.petsname}}</option>
+							{%endfor%}
 					</select>
-					<br>
-					<h5>date</h5><input name="date" type="date" />
-					<h5>Emergency</h5>
-					 <select name='emergency'>
-                            <option value="0" selected="selected">Normal</option>
-                            <option value="1" >Urgent</option>
-                    </select>
-					<h5>Description</h5><input name="description" value="Empty"/><br>
-					<p class="description"></p>
+
+					<br><label>doctor</label>
+					<select name='doctor_id'>
+							{%for d in doctors%}
+								<option value="{{d.id}}"  >{{d.username}}</option>
+							{%endfor%}
+					</select>
+					<br><label>Level</label>
+					<select name='emergency_level'>
+							<option value="0"  >Emergency</option>
+							<option value="1"  >Important</option>
+							<option value="2"  selected='selected'>Normal</option>
+					</select>
+					
+					<br><label>Hospital</label>
+					<select name='hospital'>
+							<option value="0"  selected='selected'>Bei Jing</option>
+							<option value="1"  >Shang Hai</option>
+							<option value="2"  >Guang Zhou</option>
+					</select>
+
+					<br><label>Status</label>
+					<select name='status'>
+							<option value="0"  >Not Confirmed</option>
+					</select>
+					
+					<br><label>date</label>
+					<input name="date" type="date" />
+				<p class="description"></p>
 					<button name="submit" value="add" class="subscribe">Add</button>
 				
 				</form>
@@ -177,6 +412,24 @@ function prepareManage(id,pet,doc,appdate){
 	</div>
 </div>
 </div>
+
+<div class="modal-box">
+		<!-- Modal -->
+	<div class="modal fade" id="myModal-check-appointment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<div class="modal-body">
+					<h3 class="title">Select Date</h3>
+						<h5>date</h5><input class="check-date" type="date" />
+					<p class="description"></p>
+						<button onclick="location.replace('/appointment/date/'+document.querySelector('.check-date').value)" class="subscribe">Go</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 
 </body>
 {% endblock content %}

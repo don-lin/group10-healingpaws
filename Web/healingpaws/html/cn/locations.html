@@ -1,4 +1,4 @@
-{% extends "cn/base.html" %}
+{% extends "/cn/base.html" %}
 
 {% block content %}
 <title>Locations</title>
@@ -7,6 +7,12 @@
     html,body{margin:0;padding:0;}
     .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
     .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+
+#cList img{
+    width:300px;
+    height:190px;
+}
+
 </style>
 <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
 
@@ -23,14 +29,14 @@
                         <div style="width: 850px;margin: 0 auto; overflow: hidden">
                                 <ul id="cUl" style="left: 0px;">
                                         <li style="left: 0px;">
-                                            <span class="li-tit">全部医院</span>
+                                            <span class="li-tit">概览</span>
                                             <div class="container-li">
                                                 <div class="c-li-left">
-                                                    <img src="/img/t2.png" alt="">
+                                                    <img src="/img/overall_map.png" alt="">
                                                 </div>
                                                 <div class="c-li-right">
-                                                    <p>我们这里有三家医院 </p><p>
-                                                    </p><p>content 1 </p>
+                                                    <p>我们一共有三家医院 </p><p>
+                                                    </p><p>分别位于 北京 成都 上海</p>
                                                 </div>
                                             </div>
                                         </li>
@@ -38,43 +44,43 @@
                                             <span class="li-tit">北京</span>
                                             <div class="container-li">
                                                 <div class="c-li-left">
-                                                    <img src="/img/t2.png" alt="">
+                                                    <img src="/img/bj.jpg" alt="">
                                                 </div>
                                                 <div class="c-li-right">
-                                                    <p>北京分院</p><p>
-                                                    </p><p>content 2</p>
+                                                    <p>北京医院</p><p>
+                                                    </p><p>北京医院位于中国的首都</p>
                                                     <div class="special-buttons">
-                                                            <div class="btn" onclick="init_hos(0)"><span class="circle" style="z-index: 0;"></span><span class="text">预约情况</span></div>
+                                                            <div class="btn" onclick="init_hos(0)"><span class="circle" style="z-index: 0;"></span><span class="text">查看这个医院的预约</span></div>
                                                         </div>
                                                 </div>
                                             </div>
                                         </li>
                                         <li style="left: 1700px;">
-                                            <span class="li-tit">上海</span>
+                                            <span class="li-tit">上海医院</span>
                                             <div class="container-li">
                                                 <div class="c-li-left">
-                                                    <img src="/img/t2.png" alt="">
+                                                    <img src="/img/sh.jpg" alt="">
                                                 </div>
                                                 <div class="c-li-right">
-                                                    <p>上海分院</p><p>
-                                                    </p><p>content 3</p>
+                                                    <p>上海医院</p><p>
+                                                    </p><p>上海是一座国际化的大都市</p>
                                                     <div class="special-buttons">
-                                                            <div class="btn" onclick="init_hos(1)"><span class="circle" style="z-index: 0;"></span><span class="text">预约情况</span></div>
+                                                            <div class="btn" onclick="init_hos(1)"><span class="circle" style="z-index: 0;"></span><span class="text">查看这个医院的预约</span></div>
                                                         </div>
                                                 </div>
                                             </div>
                                         </li>
                                         <li style="left: 2550px;">
-                                            <span class="li-tit">广州</span>
+                                            <span class="li-tit">成都医院</span>
                                             <div class="container-li">
                                                 <div class="c-li-left">
-                                                    <img src="/img/t2.png" alt="">
+                                                    <img src="/img/cd.jpg" alt="">
                                                 </div>
                                                 <div class="c-li-right">
-                                                    <p>广州分院</p><p>
-                                                    </p><p>content 3</p>
+                                                    <p>成都医院</p><p>
+                                                    </p><p>天府之国，成都</p>
                                                     <div class="special-buttons">
-                                                            <div class="btn" onclick="init_hos(2)"><span class="circle" style="z-index: 0;"></span><span class="text">预约情况</span></div>
+                                                            <div class="btn" onclick="init_hos(2)"><span class="circle" style="z-index: 0;"></span><span class="text">查看这个医院的预约</span></div>
                                                         </div>
                                                 </div>
                                             </div>
@@ -85,10 +91,10 @@
                         <a id="btnRight" href='javascript:void(0);count_add();'>&gt;</a>
                     </div>
                     <ul id="yearList" style="left: 0px;">
-                        <li class="year-active">Overview<i class="year-dot"></i></li>
-                        <li >Hospital Bei Jing<i class="year-dot"></i></li>
-                        <li >Hospital Shang Hai<i class="year-dot"></i></li>
-                        <li >Hospital Guang Zhou<i class="year-dot"></i></li>
+                        <li class="year-active">概览<i class="year-dot"></i></li>
+                        <li >北京医院<i class="year-dot"></i></li>
+                        <li >上海医院<i class="year-dot"></i></li>
+                        <li >成都医院<i class="year-dot"></i></li>
                     </ul>
                     <div class="dotted-line"></div>
                 </div>

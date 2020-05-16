@@ -1,60 +1,98 @@
 {% extends "base.html" %}
 
 {% block content %}
+<title>Locations</title>
+
+<style type="text/css">
+    html,body{margin:0;padding:0;}
+    .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+    .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+
+#cList img{
+    width:300px;
+    height:190px;
+}
+
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+
+
 
 <body>
-            <br>
-
             <div id="timeLine">
 
+                    <div style="width:1000px;height:550px;border:#ccc solid 1px; " id="dituContent"></div>
+                    <br>
                 
                     <div id="cList">
-                        <a id="btnLeft" href='javascript:void(0)'>&lt;</a>
+                        <a id="btnLeft" href='javascript:void(0);count_minu();'>&lt;</a>
                         <div style="width: 850px;margin: 0 auto; overflow: hidden">
                                 <ul id="cUl" style="left: 0px;">
                                         <li style="left: 0px;">
-                                            <span class="li-tit">1</span>
+                                            <span class="li-tit">Overview</span>
                                             <div class="container-li">
                                                 <div class="c-li-left">
-                                                    <img src="/img/t2.png" alt="">
+                                                    <img src="/img/overall_map.png" alt="">
                                                 </div>
                                                 <div class="c-li-right">
-                                                    <p>title 1 </p><p>
-                                                    </p><p>content 1 </p>
+                                                    <p>We have three hospitals </p><p>
+                                                    </p><p>They are locate on Beijing, Shanghai and Chengdu</p>
                                                 </div>
                                             </div>
                                         </li>
                                         <li style="left: 850px;">
-                                            <span class="li-tit">2</span>
+                                            <span class="li-tit">Beijing</span>
                                             <div class="container-li">
                                                 <div class="c-li-left">
-                                                    <img src="/img/t2.png" alt="">
+                                                    <img src="/img/bj.jpg" alt="">
                                                 </div>
                                                 <div class="c-li-right">
-                                                    <p>title 2</p><p>
-                                                    </p><p>content 2</p>
+                                                    <p>Beijing Hospital</p><p>
+                                                    </p><p>Beijing is the capital city of China</p>
+                                                    <div class="special-buttons">
+                                                            <div class="btn" onclick="init_hos(0)"><span class="circle" style="z-index: 0;"></span><span class="text">Appointments</span></div>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </li>
                                         <li style="left: 1700px;">
-                                            <span class="li-tit">3</span>
+                                            <span class="li-tit">Shanghai</span>
                                             <div class="container-li">
                                                 <div class="c-li-left">
-                                                    <img src="/img/t2.png" alt="">
+                                                    <img src="/img/sh.jpg" alt="">
                                                 </div>
                                                 <div class="c-li-right">
-                                                    <p>title 3</p><p>
-                                                    </p><p>content 3</p>
+                                                    <p>Shanghai Hospital</p><p>
+                                                    </p><p>Shanghai is an international city</p>
+                                                    <div class="special-buttons">
+                                                            <div class="btn" onclick="init_hos(1)"><span class="circle" style="z-index: 0;"></span><span class="text">Appointments</span></div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li style="left: 2550px;">
+                                            <span class="li-tit">Guangzhou</span>
+                                            <div class="container-li">
+                                                <div class="c-li-left">
+                                                    <img src="/img/cd.jpg" alt="">
+                                                </div>
+                                                <div class="c-li-right">
+                                                    <p>Guangzhou Hospital</p><p>
+                                                    </p><p>Guangzhou have a well developed economy</p>
+                                                    <div class="special-buttons">
+                                                            <div class="btn" onclick="init_hos(2)"><span class="circle" style="z-index: 0;"></span><span class="text">Appointments</span></div>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </li>
                                     </ul>
                         </div>
                 
-                        <a id="btnRight" href='javascript:void(0)'>&gt;</a>
+                        <a id="btnRight" href='javascript:void(0);count_add();'>&gt;</a>
                     </div>
-                                        <ul id="yearList" style="left: 0px;">
-                        <li class="year-active">Hospital Bei Jing<i class="year-dot"></i></li>
+                    <ul id="yearList" style="left: 0px;">
+                        <li class="year-active">Overview<i class="year-dot"></i></li>
+                        <li >Hospital Bei Jing<i class="year-dot"></i></li>
                         <li >Hospital Shang Hai<i class="year-dot"></i></li>
                         <li >Hospital Guang Zhou<i class="year-dot"></i></li>
                     </ul>
@@ -63,4 +101,144 @@
                 
 
 </body>
+
+<script type="text/javascript">
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+        addMarker();//向地图中添加marker
+    }
+
+    function zoom_init(){
+        var point = new BMap.Point(106.300218,40.735678);
+        window.map.centerAndZoom(point,4);
+    }
+    function zoom_bj(){
+        var point = new BMap.Point(116.487524,39.881888);
+        window.map.centerAndZoom(point,10);
+    }
+    function zoom_sh(){
+        var point = new BMap.Point(121.479551,31.238155);
+        window.map.centerAndZoom(point,10);
+    }
+    function zoom_gz(){
+        var point = new BMap.Point(113.262948,23.153816);
+        window.map.centerAndZoom(point,10);
+    }
+
+    function display_map(){
+        switch (window.loc){
+            case 0:zoom_init();break;
+            case 1:zoom_bj();break;
+            case 2:zoom_sh();break;
+            case 3:zoom_gz();break;
+        }
+    }
+
+    function count_add(){
+        window.loc=(window.loc+1)%4;
+        display_map()
+    }
+
+    function count_minu(){
+        window.loc=(window.loc-1);
+        if(window.loc==-1)
+            window.loc=3;
+        display_map()
+    }
+    
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent");
+        var point = new BMap.Point(106.300218,40.735678);
+        map.centerAndZoom(point,4);
+        window.map = map;
+        window.loc=0;
+    }
+    
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    
+    //地图控件添加函数：
+    function addMapControl(){
+        //向地图中添加缩放控件
+	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+	map.addControl(ctrl_nav);
+        //向地图中添加缩略图控件
+	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+	map.addControl(ctrl_ove);
+        //向地图中添加比例尺控件
+	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+	map.addControl(ctrl_sca);
+    }
+    
+    //标注点数组
+    var markerArr = [{title:"hospital-beijing",content:"hospital in beijing",point:"116.487524|39.881888",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+		 ,{title:"hospital-shanghai",content:"hospital in shanghai",point:"121.479551|31.238155",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+		 ,{title:"hospital-guangzhou",content:"hospital in guangzhou",point:"113.262948|23.153816",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+		 ];
+    //创建marker
+    function addMarker(){
+        for(var i=0;i<markerArr.length;i++){
+            var json = markerArr[i];
+            var p0 = json.point.split("|")[0];
+            var p1 = json.point.split("|")[1];
+            var point = new BMap.Point(p0,p1);
+			var iconImg = createIcon(json.icon);
+            var marker = new BMap.Marker(point,{icon:iconImg});
+			var iw = createInfoWindow(i);
+			var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+			marker.setLabel(label);
+            map.addOverlay(marker);
+            label.setStyle({
+                        borderColor:"#808080",
+                        color:"#333",
+                        cursor:"pointer"
+            });
+			
+			(function(){
+				var index = i;
+				var _iw = createInfoWindow(i);
+				var _marker = marker;
+				_marker.addEventListener("click",function(){
+				    this.openInfoWindow(_iw);
+			    });
+			    _iw.addEventListener("open",function(){
+				    _marker.getLabel().hide();
+			    })
+			    _iw.addEventListener("close",function(){
+				    _marker.getLabel().show();
+			    })
+				label.addEventListener("click",function(){
+				    _marker.openInfoWindow(_iw);
+			    })
+				if(!!json.isOpen){
+					label.hide();
+					_marker.openInfoWindow(_iw);
+				}
+			})()
+        }
+    }
+    //创建InfoWindow
+    function createInfoWindow(i){
+        var json = markerArr[i];
+        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+        return iw;
+    }
+    //创建一个Icon
+    function createIcon(json){
+        var icon = new BMap.Icon("/img/hosicon.jpg", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+        return icon;
+    }
+    
+    initMap();//创建和初始化地图
+</script>
+
 {% endblock content %}

@@ -29,7 +29,7 @@
     </div>
     
     <style>
-            .input-box button:hover{
+        .input-box button:hover{
             background: rgb(33, 237, 244);
             transition: 0.5s;
 
@@ -59,11 +59,19 @@
 
     
                 <script>
-                function send_chat(){
+                function send_chat(id=-1){
+                
+                
                     a=document.querySelector('.chat-input')
                     content=a.value
                     a.value=""
-                    $.post("/chat/"+window.chatto,{content:content},function(result){
+                    var c;
+                    if(id<0){
+                        c={content:content};
+                    }else{
+                        c={content:content,updateid:id};
+                    }
+                    $.post("/chat/"+window.chatto,c,function(result){
                         console.log(result)
                   });
                 }
@@ -79,7 +87,7 @@
                 }
                 window.lastlength=-1;
                 function display_arr(arr){
-                    //console.log(arr)
+                    console.log(arr)
                     var chatbox=document.querySelector('.chat-box')
                     chatbox.innerHTML='';
                     for(var i=0;i<arr.length;i++){
@@ -100,14 +108,21 @@
 
                     return `
                     	<div class="tips">
-                            <span>${message[3]}</span>
+                            <span onclick="delete_chat(${message[0]})"><a href="javascript:void(0);">delete</a></span><span>${message[3]}</span><span onclick="send_chat(${message[0]})"><a href="javascript:void(0);">modify</a></span>
                         </div>
                         <div class="c${a} cmsg">
+                            
                             <img class="headIcon" ondragstart="return false;"  src="/icon/0/${message[1]}.jpg" />
                             <span class="name">${message[1]}</span>
                             <span class="content">${message[4]}</span>
                         </div>
                     `
+                }
+                
+                function delete_chat(id){
+                    $.post("/chat/"+window.chatto,{delid:id},function(result){
+                        console.log(result)
+                  });
                 }
 
                 function refresh_chat(){
@@ -121,7 +136,7 @@
                         rh.textContent="last refresh : "+new Date().toLocaleTimeString();
                   });
                 }
-            window.username='{{username}}'
+            window.username='{{gun()}}'
             window.chatto='{{chatto}}'
             setInterval(refresh_chat, 1000);
             </script>
