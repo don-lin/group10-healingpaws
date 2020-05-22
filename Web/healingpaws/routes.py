@@ -11,7 +11,7 @@ app.add_template_global(getAllUser,'get_all_user')
 app.add_template_global(getUserFromId,'get_user')
 app.add_template_global(getPet,'get_pet')
 app.add_template_global(getChat,'getChat')
-#aaadsdssdssdsd
+#aaadsdssdssdsdsds
 def gun():
     return session.get('username')
 
