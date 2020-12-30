@@ -10,13 +10,13 @@
 | Wang Xinzhu  |17205965|17372130 |
 | Li Ziqi      |16206779|16372121 |
 
-🏔️ **Live demo:** http://0cdl.com:5000 <br>
+🏔️ **Live demo:** http://0cdl.com:2 <br>
 📘 **Paper:** https://www.overleaf.com/project/5e4daefcffd3ce0001a2c904 <br>
-🎥 **Video:** http://0cdl.com:5000 <br>
+🎥 **Video:** http://0cdl.com:2 <br>
 💻 **Server Code:** https://github.com/don-lin/group10-healingpaws/tree/master/Web <br>
 📱 **Android Code:** https://github.com/don-lin/group10-healingpaws/tree/master/Android <br>
-📺 **Slides:** http://0cdl.com:5000 <br>
-🎤 **Recording:** http://0cdl.com:5000 <br><br>
+📺 **Slides:** http://0cdl.com:2 <br>
+🎤 **Recording:** http://0cdl.com:2 <br><br>
 
 
 ### Description
